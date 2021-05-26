@@ -1,0 +1,13 @@
+@import 'styles/base';
+
+.input {
+  background: transparent;
+  font-size: 1rem;
+  display: inline-block;
+  outline: none;
+  border: none;
+  color: white;
+  border-bottom: $input-border-width solid white;
+  padding: 0.5rem 0;
+  border-radius: 0;
+}

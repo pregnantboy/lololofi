@@ -1,15 +1,29 @@
+@import './base';
+
+html,
 body {
+  background-color: black;
+  font-size: 16px;
   margin: 0;
-  font-family: 'VT323', 'Helvetica Neue';
-  font-display: block;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  border: 0;
+  color: white;
 }
 
 *,
 *:before,
 *:after {
+  font-family: 'Press Start 2P', 'Helvetica Neue';
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+h3 {
+  font-size: 1.1rem;
 }

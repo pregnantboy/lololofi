@@ -1,0 +1,22 @@
+.form {
+  max-width: 600px;
+
+  .timeInput {
+    max-width: 5rem;
+    text-align: center;
+  }
+
+  .textInput {
+    width: 100%;
+  }
+
+  h2 {
+    margin-top: 5rem;
+  }
+  input {
+    margin-top: 0rem;
+  }
+  button {
+    margin-top: 3rem;
+  }
+}

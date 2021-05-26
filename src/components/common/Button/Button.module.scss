@@ -1,0 +1,62 @@
+@import 'styles/base';
+
+@mixin buttonBase($base-color, $focus-color) {
+  padding: 1rem 2rem;
+  margin: $border-width;
+  min-width: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: $base-color;
+  color: invert($base-color);
+  border: 0;
+  outline: 0;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 1rem;
+  // box-shadow: inset (-$shadow-width) (-$shadow-width) 0px 0px $focus-color;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-sizing: content-box;
+  }
+
+  &:before {
+    top: -$border-width;
+    left: 0;
+    border-top: $border-width white solid;
+    border-bottom: $border-width white solid;
+  }
+
+  &:after {
+    left: -$border-width;
+    top: 0;
+    border-left: $border-width white solid;
+    border-right: $border-width white solid;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: invert($base-color);
+    color: $base-color;
+    box-shadow: inset (-$shadow-width * 1.5) (-$shadow-width * 1.5) 0px 0px
+      $focus-color;
+  }
+
+  &:active {
+    box-shadow: inset $shadow-width $shadow-width 0px 0px $focus-color;
+  }
+}
+
+.invertButton {
+  @include buttonBase(darken(white, 10%), lighten(black, 30%));
+}
+
+.button {
+  @include buttonBase(black, darken(white, 10%));
+}
