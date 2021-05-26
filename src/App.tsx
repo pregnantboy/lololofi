@@ -9,7 +9,7 @@ function App() {
           <div className={styles.pokeballButton}></div>
         </div>
       </header>
-      <p className={styles.text}>I own this haha</p>
+      <p className={styles.text}>this is mine</p>
     </div>
   )
 }
