@@ -1,7 +1,7 @@
 @import 'styles/base';
 
 @mixin buttonBase($base-color, $focus-color) {
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
   margin: $border-width;
   min-width: 10rem;
   display: flex;
@@ -14,8 +14,8 @@
   outline: 0;
   border-radius: 0;
   cursor: pointer;
-  font-size: 1rem;
-  // box-shadow: inset (-$shadow-width) (-$shadow-width) 0px 0px $focus-color;
+  font-size: 2rem;
+  transition: ease-out 0.1s padding, ease-out 0.1s box-shadow;
 
   &:before,
   &:after {
@@ -40,16 +40,19 @@
     border-right: $border-width white solid;
   }
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: invert($base-color);
     color: $base-color;
     box-shadow: inset (-$shadow-width * 1.5) (-$shadow-width * 1.5) 0px 0px
       $focus-color;
+    padding: calc(0.5rem - #{$shadow-width}) calc(2rem + #{$shadow-width})
+      calc(0.5rem + #{$shadow-width}) calc(2rem - #{$shadow-width});
   }
 
   &:active {
     box-shadow: inset $shadow-width $shadow-width 0px 0px $focus-color;
+    padding: calc(0.5rem + #{$shadow-width}) calc(2rem - #{$shadow-width})
+      calc(0.5rem - #{$shadow-width}) calc(2rem + #{$shadow-width});
   }
 }
 

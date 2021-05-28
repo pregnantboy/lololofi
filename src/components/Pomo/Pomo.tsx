@@ -1,14 +1,17 @@
-import { useContext } from 'react'
-import { Form } from './Form'
-import { PomoContext } from 'contexts/Pomo.context'
+import {useContext} from 'react'
+
+import {PomoContext} from 'contexts/Pomo.context'
+
+import {Form} from './Form'
+import {Timer} from './Timer'
 
 const Pomo = () => {
-  const { state } = useContext(PomoContext)
+  const {state} = useContext(PomoContext)
   switch (state) {
     case 'READY':
       return <Form />
     case 'STARTED':
-      return <div>timer</div>
+      return <Timer />
     case 'PAUSED':
       return <div>paused</div>
     case 'COMPLETED':
@@ -18,4 +21,4 @@ const Pomo = () => {
   }
 }
 
-export { Pomo }
+export {Pomo}

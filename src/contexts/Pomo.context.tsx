@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, Dispatch } from 'react'
+import React, { createContext, Dispatch, useReducer } from 'react'
 
 type PomoState = 'READY' | 'STARTED' | 'PAUSED' | 'COMPLETED'
 
@@ -22,7 +22,7 @@ interface PomoContextProps extends PomoContextState {
 const defaultState: PomoContextState = {
   task: '',
   minutes: 25,
-  remainingSecs: 0,
+  remainingSecs: 25 * 60,
   state: 'READY',
 }
 
@@ -37,14 +37,27 @@ const reducer = (
       return defaultState
     case 'STARTED': {
       const { task, minutes } = action.payload
-      return { state: action.type, task, minutes, remainingSecs: minutes & 60 }
+      return {
+        state: action.type,
+        task,
+        minutes,
+        remainingSecs: minutes * 60,
+      }
     }
     case 'PAUSED': {
       const { remainingSecs } = action.payload
-      return { ...prevState, state: action.type, remainingSecs }
+      return {
+        ...prevState,
+        state: action.type,
+        remainingSecs,
+      }
     }
     case 'COMPLETED': {
-      return { ...prevState, state: action.type, remainingSecs: 0 }
+      return {
+        ...prevState,
+        state: action.type,
+        remainingSecs: 0,
+      }
     }
   }
 }
@@ -57,7 +70,12 @@ export const PomoContextProvider = ({
   const [state, dispatch] = useReducer(reducer, defaultState)
 
   return (
-    <PomoContext.Provider value={{ ...state, dispatch }}>
+    <PomoContext.Provider
+      value={{
+        ...state,
+        dispatch,
+      }}
+    >
       {children}
     </PomoContext.Provider>
   )

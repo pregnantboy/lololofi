@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from 'react'
+import {ComponentPropsWithoutRef} from 'react'
 import cx from 'classnames'
 
 import styles from './Button.module.scss'
@@ -8,7 +8,9 @@ interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
 }
 
 const Button = (props: ButtonProps) => {
-  const { children, invert, className, ...otherProps } = props
+  const {
+    children, invert, className, ...otherProps 
+  } = props
   return (
     <button
       {...otherProps}
@@ -18,4 +20,4 @@ const Button = (props: ButtonProps) => {
     </button>
   )
 }
-export { Button }
+export {Button}

@@ -1,6 +1,6 @@
-import { useState, ChangeEvent, useContext } from 'react'
-import { Button, TextInput } from 'components/common'
+import { ChangeEvent, useContext, useState } from 'react'
 
+import { Button, TextInput } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
 
 import styles from './Form.module.scss'
@@ -14,12 +14,18 @@ const Form = () => {
   const onFormSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (minutes > 0 && minutes <= 99 && task.length > 0) {
-      dispatch({ type: 'STARTED', payload: { task, minutes } })
+      dispatch({
+        type: 'STARTED',
+        payload: {
+          task,
+          minutes,
+        },
+      })
     }
   }
 
   const onMinutesChange = (newVal: string) => {
-    let parsedNum = +newVal
+    const parsedNum = +newVal
     if (parsedNum >= 0 && parsedNum <= 99) {
       setMinutes(parsedNum)
     }
@@ -34,7 +40,7 @@ const Form = () => {
         value={task}
         onValueChange={setTask}
       ></TextInput>
-      <h2>For how long</h2>
+      <h2>For how long?</h2>
       <TextInput
         className={styles.timeInput}
         value={minutes}

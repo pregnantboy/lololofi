@@ -1,5 +1,5 @@
-import { Pomo } from 'components/Pomo'
-import { PomoContextProvider } from 'contexts/Pomo.context'
+import {Pomo} from 'components/Pomo'
+import {PomoContextProvider} from 'contexts/Pomo.context'
 
 import styles from './App.module.scss'
 
