@@ -9,4 +9,16 @@
   max-width: $max-site-width;
   margin: auto;
   padding: 4rem;
+
+  .pomo {
+    width: 50%;
+  }
+
+  .player {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 10rem;
+  }
 }

@@ -39,6 +39,7 @@ const Form = () => {
         autoFocus={true}
         value={task}
         onValueChange={setTask}
+        maxLength={42}
       ></TextInput>
       <h2>For how long?</h2>
       <TextInput

@@ -50,6 +50,8 @@
           ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
           // Other relative imports. Put same-folder imports and `.` last.
           ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          // Asset imports
+          ["^(assets)(/.*|$)"],
           // Style imports.
           ["^.+\\.s?css$"]
         ]

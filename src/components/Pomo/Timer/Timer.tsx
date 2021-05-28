@@ -7,8 +7,7 @@ import { useCountdown } from 'hooks'
 import styles from './Timer.module.scss'
 
 export const Timer = () => {
-  const { remainingSecs } = useContext(PomoContext)
-
+  const { remainingSecs, task } = useContext(PomoContext)
   const { seconds, paused, togglePause } = useCountdown(remainingSecs)
 
   const formattedTime = () => {
@@ -21,7 +20,8 @@ export const Timer = () => {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
+      <h2>{task}</h2>
       <p className={styles.timer}>{formattedTime()}</p>
       <div className={styles.buttonRow}>
         <Button onClick={togglePause}>{paused ? 'Resume' : 'Pause'}</Button>

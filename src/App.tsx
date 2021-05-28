@@ -1,5 +1,6 @@
-import {Pomo} from 'components/Pomo'
-import {PomoContextProvider} from 'contexts/Pomo.context'
+import { Player } from 'components/Player'
+import { Pomo } from 'components/Pomo'
+import { PomoContextProvider } from 'contexts/Pomo.context'
 
 import styles from './App.module.scss'
 
@@ -8,8 +9,13 @@ function App() {
     <div className={styles.container}>
       <div className={styles.inner}>
         <PomoContextProvider>
-          <Pomo />
+          <div className={styles.pomo}>
+            <Pomo />
+          </div>
         </PomoContextProvider>
+        <div className={styles.player}>
+          <Player />
+        </div>
       </div>
     </div>
   )
