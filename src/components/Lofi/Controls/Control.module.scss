@@ -1,22 +1,53 @@
 $btn-indent: 2px;
 $btn-size: 3rem;
 
-.controlBtn {
-  height: $btn-size;
-  width: $btn-size;
-  cursor: pointer;
-  transition: ease-out 0.1s transform;
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  .controlBtn {
+    height: $btn-size;
+    width: $btn-size;
+    cursor: pointer;
+    transition: ease-out 0.1s transform;
 
-  &:hover {
-    transform: translate(-$btn-indent, -$btn-indent);
+    &:hover {
+      transform: translate(-$btn-indent, -$btn-indent);
+    }
+
+    &:active {
+      transform: translate($btn-indent, $btn-indent);
+    }
   }
 
-  &:active {
-    transform: translate($btn-indent, $btn-indent);
+  .play,
+  .pause {
+    margin: 0 1rem;
   }
 }
 
-.play,
-.pause {
-  margin: 0 1rem;
+.trackName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 1rem 2rem;
+
+  .musicIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  .marquee {
+    width: 100%;
+    max-width: 500px;
+    white-space: nowrap;
+    span {
+      font-size: 1.3rem;
+      line-height: 1.3rem;
+    }
+  }
 }

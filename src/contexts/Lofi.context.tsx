@@ -1,9 +1,12 @@
 import React, { createContext, Dispatch, useReducer } from 'react'
 
+import tracklist from 'assets/data/tracklist.json'
+
 interface LofiContextState {
   isPlaying: boolean
   trackUrl: string
   trackName: string
+  trackIndex: number
 }
 
 export type LofiAction =
@@ -18,9 +21,9 @@ interface PomoContextProps extends LofiContextState {
 
 const defaultState: LofiContextState = {
   isPlaying: false,
-  trackUrl: 'https://www.youtube.com/watch?v=P8j-_MOSrec',
-  trackName:
-    'STUDIO GHIBLI MUSIC 24/7 ~ Relaxing Music for Sleep & Study スタジオジブリ音楽',
+  trackUrl: tracklist[0].url,
+  trackName: tracklist[0].title,
+  trackIndex: 0,
 }
 
 export const LofiContext = createContext({} as PomoContextProps)
@@ -34,10 +37,27 @@ const reducer = (
       return { ...prevState, isPlaying: true }
     case 'PAUSE':
       return { ...prevState, isPlaying: false }
-    case 'NEXT':
-      return { ...prevState }
-    case 'PREV':
-      return { ...prevState }
+    case 'NEXT': {
+      const newTrackIndex = prevState.trackIndex++ % tracklist.length
+      return {
+        ...prevState,
+        trackIndex: newTrackIndex,
+        trackName: tracklist[newTrackIndex].title,
+        trackUrl: tracklist[newTrackIndex].url,
+      }
+    }
+    case 'PREV': {
+      let newTrackIndex = prevState.trackIndex--
+      if (newTrackIndex < 0) {
+        newTrackIndex = tracklist.length - 1
+      }
+      return {
+        ...prevState,
+        trackIndex: newTrackIndex,
+        trackName: tracklist[newTrackIndex].title,
+        trackUrl: tracklist[newTrackIndex].url,
+      }
+    }
   }
 }
 
