@@ -41,7 +41,9 @@ export const Controls = () => {
           onClick={changeState('NEXT')}
         />
       </div>
-      <div className={styles.trackName}></div>
+      <div className={styles.trackName}>
+        <p></p>
+      </div>
     </div>
   )
 }
