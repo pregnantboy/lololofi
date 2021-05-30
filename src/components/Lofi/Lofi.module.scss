@@ -1,4 +1,48 @@
+@import 'styles/base';
 .wrapper {
+  width: 100%;
   max-width: 100%;
   overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  @include mobile {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.center {
+  width: 100%;
+  flex: 0 1 400px;
+  @include mobile {
+    flex-basis: 0;
+  }
+}
+
+.left {
+  width: 100%;
+  flex: 0 2 200px;
+  @include mobile {
+    flex-basis: 0;
+  }
+}
+
+.right {
+  width: 100%;
+  flex: 0 1 200px;
+  min-width: 180px;
+  @include mobile {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 80px;
+    min-width: 100%;
+  }
 }

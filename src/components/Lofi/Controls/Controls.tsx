@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import Marquee from 'react-double-marquee'
 import cx from 'classnames'
 
@@ -16,8 +16,23 @@ export const Controls = () => {
   const { dispatch, isPlaying, trackName, trackUrl } = useContext(LofiContext)
 
   const changeState = useCallback(
-    (type: LofiAction['type']) => () => dispatch({ type }),
+    (type: Exclude<LofiAction['type'], 'VOLUME'>) => () => dispatch({ type }),
     [dispatch]
+  )
+
+  const trackMarquee = useMemo(
+    () => (
+      <div className={styles.marquee}>
+        <Marquee
+          direction="left"
+          scrollWhen="always"
+          speed={isPlaying ? 0.03 : 0}
+        >
+          <span>{trackName}</span>
+        </Marquee>
+      </div>
+    ),
+    [isPlaying, trackName]
   )
 
   return (
@@ -44,16 +59,11 @@ export const Controls = () => {
         />
       </div>
       <div className={styles.trackName}>
-        <Music className={styles.musicIcon} />
-        <div className={styles.marquee}>
-          <Marquee
-            direction="left"
-            scrollWhen="always"
-            speed={isPlaying ? 0.03 : 0}
-          >
-            <span>{trackName}</span>
-          </Marquee>
-        </div>
+        <Music
+          className={styles.musicIcon}
+          onClick={() => window.open(trackUrl)}
+        />
+        {trackMarquee}
       </div>
     </div>
   )

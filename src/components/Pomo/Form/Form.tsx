@@ -14,12 +14,18 @@ const Form = () => {
   const onFormSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (minutes > 0 && minutes <= 99 && task.length > 0) {
-      dispatch({
-        type: 'STARTED',
-        payload: {
-          task,
-          minutes,
-        },
+      Notification.requestPermission().then((result) => {
+        if (result === 'granted') {
+          dispatch({
+            type: 'STARTED',
+            payload: {
+              task,
+              minutes,
+            },
+          })
+        } else {
+          alert('Please allow notifications')
+        }
       })
     }
   }

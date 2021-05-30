@@ -1,6 +1,11 @@
 $btn-indent: 2px;
 $btn-size: 3rem;
 
+.container {
+  width: 100%;
+  max-width: 100%;
+}
+
 .buttonRow {
   display: flex;
   justify-content: center;
@@ -39,15 +44,30 @@ $btn-size: 3rem;
     width: 1.5rem;
     margin-right: 1rem;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: ease-out 0.1s transform;
+
+    &:hover {
+      transform: translate(-$btn-indent, -$btn-indent);
+    }
+
+    &:active {
+      transform: translate($btn-indent, $btn-indent);
+    }
   }
 
   .marquee {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     white-space: nowrap;
     span {
       font-size: 1.3rem;
       line-height: 1.3rem;
     }
   }
+}
+
+.volumeControl {
+  width: 300px;
+  max-width: 100%;
 }

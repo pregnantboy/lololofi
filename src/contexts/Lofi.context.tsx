@@ -7,6 +7,8 @@ interface LofiContextState {
   trackUrl: string
   trackName: string
   trackIndex: number
+  volume: number
+  isMuted: boolean
 }
 
 export type LofiAction =
@@ -14,6 +16,8 @@ export type LofiAction =
   | { type: 'NEXT' }
   | { type: 'PREV' }
   | { type: 'PLAY' }
+  | { type: 'TOGGLE_MUTE' }
+  | { type: 'VOLUME'; value: number }
 
 interface PomoContextProps extends LofiContextState {
   dispatch: Dispatch<LofiAction>
@@ -24,6 +28,8 @@ const defaultState: LofiContextState = {
   trackUrl: tracklist[0].url,
   trackName: tracklist[0].title,
   trackIndex: 0,
+  volume: 0.8,
+  isMuted: false,
 }
 
 export const LofiContext = createContext({} as PomoContextProps)
@@ -58,6 +64,10 @@ const reducer = (
         trackUrl: tracklist[newTrackIndex].url,
       }
     }
+    case 'VOLUME':
+      return { ...prevState, volume: action.value }
+    case 'TOGGLE_MUTE':
+      return { ...prevState, isMuted: !prevState.isMuted }
   }
 }
 

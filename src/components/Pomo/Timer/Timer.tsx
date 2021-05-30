@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 
 import { Button } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
@@ -19,9 +19,22 @@ export const Timer = () => {
     return `${min}:${sec}`
   }
 
-  const onStop = () => {
+  const onStop = useCallback(() => {
+    if (!paused) {
+      togglePause()
+    }
     dispatch({ type: 'READY' })
-  }
+  }, [paused, dispatch, togglePause])
+
+  useEffect(() => {
+    if (seconds < 58) {
+      onStop()
+      new Notification('lololo.fi', {
+        body: 'Time for a break ' + seconds,
+        // icon: img,
+      })
+    }
+  }, [onStop, seconds])
 
   return (
     <div className={styles.container}>
