@@ -1,0 +1,22 @@
+$btn-indent: 2px;
+$btn-size: 3rem;
+
+.controlBtn {
+  height: $btn-size;
+  width: $btn-size;
+  cursor: pointer;
+  transition: ease-out 0.1s transform;
+
+  &:hover {
+    transform: translate(-$btn-indent, -$btn-indent);
+  }
+
+  &:active {
+    transform: translate($btn-indent, $btn-indent);
+  }
+}
+
+.play,
+.pause {
+  margin: 0 1rem;
+}

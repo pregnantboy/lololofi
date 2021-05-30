@@ -1,5 +1,6 @@
-import { Player } from 'components/Player'
+import { Lofi } from 'components/Lofi'
 import { Pomo } from 'components/Pomo'
+import { LofiContextProvider } from 'contexts/Lofi.context'
 import { PomoContextProvider } from 'contexts/Pomo.context'
 
 import styles from './App.module.scss'
@@ -8,13 +9,15 @@ function App() {
   return (
     <div className={styles.container}>
       <div className={styles.inner}>
-        <PomoContextProvider>
-          <div className={styles.pomo}>
+        <div className={styles.pomo}>
+          <PomoContextProvider>
             <Pomo />
-          </div>
-        </PomoContextProvider>
-        <div className={styles.player}>
-          <Player />
+          </PomoContextProvider>
+        </div>
+        <div className={styles.lofi}>
+          <LofiContextProvider>
+            <Lofi />
+          </LofiContextProvider>
         </div>
       </div>
     </div>

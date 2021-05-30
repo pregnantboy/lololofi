@@ -16,6 +16,7 @@
   cursor: pointer;
   font-size: 2rem;
   transition: ease-out 0.1s padding, ease-out 0.1s box-shadow;
+  user-select: none;
 
   &:before,
   &:after {
