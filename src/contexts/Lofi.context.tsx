@@ -44,7 +44,7 @@ const reducer = (
     case 'PAUSE':
       return { ...prevState, isPlaying: false }
     case 'NEXT': {
-      const newTrackIndex = prevState.trackIndex++ % tracklist.length
+      const newTrackIndex = (prevState.trackIndex + 1) % tracklist.length
       return {
         ...prevState,
         trackIndex: newTrackIndex,
@@ -53,7 +53,7 @@ const reducer = (
       }
     }
     case 'PREV': {
-      let newTrackIndex = prevState.trackIndex--
+      let newTrackIndex = prevState.trackIndex - 1
       if (newTrackIndex < 0) {
         newTrackIndex = tracklist.length - 1
       }

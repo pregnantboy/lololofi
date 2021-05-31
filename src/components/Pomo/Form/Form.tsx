@@ -39,7 +39,7 @@ const Form = () => {
 
   return (
     <form className={styles.form} onSubmit={onFormSubmit}>
-      <h2>What do you want to focus on?</h2>
+      <h3>What do you want to focus on?</h3>
       <TextInput
         className={styles.textInput}
         autoFocus={true}
@@ -47,7 +47,7 @@ const Form = () => {
         onValueChange={setTask}
         maxLength={42}
       ></TextInput>
-      <h2>For how long?</h2>
+      <h3>For how long?</h3>
       <TextInput
         className={styles.timeInput}
         value={minutes}

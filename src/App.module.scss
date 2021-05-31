@@ -9,6 +9,7 @@
 
 .background {
   max-width: calc(#{$max-site-width} + 10rem);
+  padding: 0 calc(1rem + 3vw);
   margin: auto;
   width: 100%;
   background-position: center;
@@ -21,10 +22,9 @@
 }
 
 .pomo {
-  max-width: $max-site-width;
+  max-width: calc(#{$max-site-width} - 10rem);
   width: 100%;
   margin: auto;
-  padding-left: 3rem;
 }
 
 .lofi {

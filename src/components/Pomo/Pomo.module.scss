@@ -1,3 +1,10 @@
+@import 'styles/base';
+
 .container {
-  max-width: 470px;
+  max-width: 450px;
+  width: fit-content;
+
+  @include mobile {
+    margin: auto;
+  }
 }
