@@ -9,6 +9,7 @@ interface LofiContextState {
   trackIndex: number
   volume: number
   isMuted: boolean
+  isBuffering: boolean
 }
 
 export type LofiAction =
@@ -18,6 +19,8 @@ export type LofiAction =
   | { type: 'PLAY' }
   | { type: 'TOGGLE_MUTE' }
   | { type: 'VOLUME'; value: number }
+  | { type: 'BUFFER_START' }
+  | { type: 'BUFFER_END' }
 
 interface PomoContextProps extends LofiContextState {
   dispatch: Dispatch<LofiAction>
@@ -30,6 +33,7 @@ const defaultState: LofiContextState = {
   trackIndex: 0,
   volume: 0.8,
   isMuted: false,
+  isBuffering: false,
 }
 
 export const LofiContext = createContext({} as PomoContextProps)
@@ -40,9 +44,15 @@ const reducer = (
 ): LofiContextState => {
   switch (action.type) {
     case 'PLAY':
-      return { ...prevState, isPlaying: true }
+      return {
+        ...prevState,
+        isPlaying: true,
+      }
     case 'PAUSE':
-      return { ...prevState, isPlaying: false }
+      return {
+        ...prevState,
+        isPlaying: false,
+      }
     case 'NEXT': {
       const newTrackIndex = (prevState.trackIndex + 1) % tracklist.length
       return {
@@ -65,9 +75,25 @@ const reducer = (
       }
     }
     case 'VOLUME':
-      return { ...prevState, volume: action.value }
+      return {
+        ...prevState,
+        volume: action.value,
+      }
     case 'TOGGLE_MUTE':
-      return { ...prevState, isMuted: !prevState.isMuted }
+      return {
+        ...prevState,
+        isMuted: !prevState.isMuted,
+      }
+    case 'BUFFER_START':
+      return {
+        ...prevState,
+        isBuffering: true,
+      }
+    case 'BUFFER_END':
+      return {
+        ...prevState,
+        isBuffering: false,
+      }
   }
 }
 

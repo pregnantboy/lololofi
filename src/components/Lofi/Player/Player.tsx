@@ -4,7 +4,8 @@ import ReactPlayer from 'react-player/youtube'
 import { LofiContext } from 'contexts/Lofi.context'
 
 export const Player = () => {
-  const { trackUrl, isPlaying, volume, isMuted } = useContext(LofiContext)
+  const { trackUrl, isPlaying, volume, isMuted, dispatch } =
+    useContext(LofiContext)
   return (
     <ReactPlayer
       url={trackUrl}
@@ -14,6 +15,8 @@ export const Player = () => {
       playing={isPlaying}
       volume={volume}
       muted={isMuted}
+      onBuffer={() => dispatch({ type: 'BUFFER_START' })}
+      onBufferEnd={() => dispatch({ type: 'BUFFER_END' })}
     />
   )
 }

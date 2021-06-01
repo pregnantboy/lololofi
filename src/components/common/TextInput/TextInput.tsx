@@ -1,4 +1,4 @@
-import {ChangeEvent,ComponentPropsWithoutRef} from 'react'
+import { ChangeEvent, ComponentPropsWithoutRef } from 'react'
 import cx from 'classnames'
 
 import styles from './TextInput.module.scss'
@@ -8,9 +8,7 @@ interface InputProps extends ComponentPropsWithoutRef<'input'> {
 }
 
 const TextInput = (props: InputProps) => {
-  const {
-    className, onValueChange, ...otherProps 
-  } = props
+  const { className, onValueChange, ...otherProps } = props
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     onValueChange(e.target.value)
@@ -27,4 +25,4 @@ const TextInput = (props: InputProps) => {
   )
 }
 
-export {TextInput}
+export { TextInput }

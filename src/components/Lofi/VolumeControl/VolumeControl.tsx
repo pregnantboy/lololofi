@@ -13,7 +13,10 @@ export const VolumeControl = () => {
   const onVolumeChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const newVal = +event.target.value / 100
-      dispatch({ type: 'VOLUME', value: newVal })
+      dispatch({
+        type: 'VOLUME',
+        value: newVal,
+      })
     },
     [dispatch]
   )

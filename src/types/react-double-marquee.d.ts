@@ -6,7 +6,7 @@ declare module 'react-double-marquee' {
     childMargin: number
     children: React.ReactNode
     scrollWhen: 'overflow' | 'always'
-    [otherProps: string]: any
+    // [otherProps: string]: any
   }
   export default function Marquee(props: Partial<MarqueeProps>): Component
 }

@@ -24,7 +24,7 @@ const Form = () => {
             },
           })
         } else {
-          alert('Please allow notifications')
+          window.alert('Please allow notifications')
         }
       })
     }

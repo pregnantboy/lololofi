@@ -27,5 +27,9 @@ export function useCountdown(initialSeconds: number) {
     setPaused((p) => !p)
   }, [paused])
 
-  return { seconds, paused, togglePause }
+  return {
+    seconds,
+    paused,
+    togglePause,
+  }
 }
