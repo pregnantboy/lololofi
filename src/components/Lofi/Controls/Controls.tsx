@@ -4,6 +4,7 @@ import cx from 'classnames'
 
 import { LofiAction, LofiContext } from 'contexts/Lofi.context'
 
+import { ReactComponent as Buffering } from 'assets/img/loading.svg'
 import { ReactComponent as Music } from 'assets/img/music.svg'
 import { ReactComponent as Next } from 'assets/img/next.svg'
 import { ReactComponent as Pause } from 'assets/img/pause_button.svg'
@@ -13,7 +14,8 @@ import { ReactComponent as Prev } from 'assets/img/previous.svg'
 import styles from './Control.module.scss'
 
 export const Controls = () => {
-  const { dispatch, isPlaying, trackName, trackUrl } = useContext(LofiContext)
+  const { dispatch, isPlaying, trackName, trackUrl, isBuffering } =
+    useContext(LofiContext)
 
   const changeState = useCallback(
     (type: Exclude<LofiAction['type'], 'VOLUME'>) => () => dispatch({ type }),
@@ -26,13 +28,13 @@ export const Controls = () => {
         <Marquee
           direction="left"
           scrollWhen="always"
-          speed={isPlaying ? 0.03 : 0}
+          speed={isPlaying && !isBuffering ? 0.03 : 0}
         >
           <span>{trackName}</span>
         </Marquee>
       </div>
     ),
-    [isPlaying, trackName]
+    [isPlaying, trackName, isBuffering]
   )
 
   return (
@@ -59,10 +61,14 @@ export const Controls = () => {
         />
       </div>
       <div className={styles.trackName}>
-        <Music
-          className={styles.musicIcon}
-          onClick={() => window.open(trackUrl)}
-        />
+        {isBuffering ? (
+          <Buffering className={styles.bufferingIcon} />
+        ) : (
+          <Music
+            className={styles.musicIcon}
+            onClick={() => window.open(trackUrl)}
+          />
+        )}
         {trackMarquee}
       </div>
     </div>

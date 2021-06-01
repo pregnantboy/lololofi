@@ -39,6 +39,14 @@ $btn-size: 3rem;
   overflow: hidden;
   padding: 1rem 2rem;
 
+  .bufferingIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    animation: spin 5s infinite linear;
+  }
+
   .musicIcon {
     height: 1.5rem;
     width: 1.5rem;
@@ -70,4 +78,13 @@ $btn-size: 3rem;
 .volumeControl {
   width: 300px;
   max-width: 100%;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -1,3 +1,4 @@
+import { BottomRightButtons } from './BottomRightButtons'
 import { Controls } from './Controls'
 import { Player } from './Player'
 import { VolumeControl } from './VolumeControl'
@@ -14,6 +15,7 @@ export const Lofi = () => {
         </div>
         <div className={styles.right}>
           <VolumeControl />
+          <BottomRightButtons />
         </div>
       </div>
       <Player />

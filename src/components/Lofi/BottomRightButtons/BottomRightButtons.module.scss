@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1.5rem 1rem;
+}
+.fullscreenBtn {
+  cursor: pointer;
+  height: 1.5rem;
+  width: 1.5rem;
+}
