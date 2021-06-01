@@ -1,4 +1,6 @@
-import React, { createContext, Dispatch, useReducer } from 'react'
+import React, { createContext, Dispatch, useEffect, useReducer } from 'react'
+
+import { usePlayerPrefs } from 'hooks'
 
 import tracklist from 'assets/data/tracklist.json'
 
@@ -38,6 +40,18 @@ const defaultState: LofiContextState = {
 
 export const LofiContext = createContext({} as PomoContextProps)
 
+const getTrack = (
+  trackIndex?: number
+): Pick<LofiContextState, 'trackIndex' | 'trackUrl' | 'trackName'> => {
+  const parsedTrackIndex =
+    trackIndex != null && trackIndex < tracklist.length ? trackIndex : 0
+  return {
+    trackIndex: parsedTrackIndex,
+    trackName: tracklist[parsedTrackIndex].title,
+    trackUrl: tracklist[parsedTrackIndex].url,
+  }
+}
+
 const reducer = (
   prevState: LofiContextState,
   action: LofiAction
@@ -57,9 +71,7 @@ const reducer = (
       const newTrackIndex = (prevState.trackIndex + 1) % tracklist.length
       return {
         ...prevState,
-        trackIndex: newTrackIndex,
-        trackName: tracklist[newTrackIndex].title,
-        trackUrl: tracklist[newTrackIndex].url,
+        ...getTrack(newTrackIndex),
       }
     }
     case 'PREV': {
@@ -69,9 +81,7 @@ const reducer = (
       }
       return {
         ...prevState,
-        trackIndex: newTrackIndex,
-        trackName: tracklist[newTrackIndex].title,
-        trackUrl: tracklist[newTrackIndex].url,
+        ...getTrack(newTrackIndex),
       }
     }
     case 'VOLUME':
@@ -102,7 +112,21 @@ export const LofiContextProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const [state, dispatch] = useReducer(reducer, defaultState)
+  const { prefs, setPrefs } = usePlayerPrefs()
+
+  const mergedDefaultState: LofiContextState = {
+    ...defaultState,
+    ...prefs,
+    ...getTrack(prefs?.trackIndex),
+  }
+
+  const [state, dispatch] = useReducer(reducer, mergedDefaultState)
+
+  const { trackIndex, volume } = state
+
+  useEffect(() => {
+    setPrefs({ trackIndex, volume })
+  }, [trackIndex, volume, setPrefs])
 
   return (
     <LofiContext.Provider
