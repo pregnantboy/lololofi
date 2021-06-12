@@ -2,6 +2,7 @@ import { ChangeEvent, useContext, useState } from 'react'
 
 import { Button, TextInput } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
+import { useNotification } from 'hooks'
 
 import styles from './Form.module.scss'
 
@@ -10,9 +11,12 @@ const Form = () => {
 
   const [task, setTask] = useState('')
   const [minutes, setMinutes] = useState(25)
+  const { displayNotification } = useNotification()
 
   const onFormSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
+    displayNotification()
+    // displayNotification()
     if (minutes > 0 && minutes <= 99 && task.length > 0) {
       Notification.requestPermission().then((result) => {
         if (result === 'granted') {
