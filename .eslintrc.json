@@ -18,7 +18,13 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier", "simple-import-sort"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort",
+    "react-hooks"
+  ],
   "rules": {
     "indent": [
       "error",
@@ -32,6 +38,7 @@
     "semi": ["error", "never"],
     "comma-dangle": ["error", "only-multiline"],
     "react/react-in-jsx-scope": "off",
+    "prefer-arrow-callback": "error",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "simple-import-sort/imports": [
       "error",

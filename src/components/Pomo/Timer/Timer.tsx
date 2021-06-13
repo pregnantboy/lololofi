@@ -3,13 +3,14 @@ import { useBeforeUnload } from 'react-use'
 
 import { Button } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
-import { useCountdown } from 'hooks'
+import { useCountdown, useNotification } from 'hooks'
 
 import styles from './Timer.module.scss'
 
 export const Timer = () => {
   const { remainingSecs, task, dispatch } = useContext(PomoContext)
   const { seconds, paused, togglePause } = useCountdown(remainingSecs)
+  const { displayNotification } = useNotification()
   useBeforeUnload(true, 'Do you want to quit?')
 
   const formattedTime = () => {
@@ -31,12 +32,12 @@ export const Timer = () => {
   useEffect(() => {
     if (seconds === 0) {
       onStop()
-      new Notification('lololo.fi', {
+      displayNotification({
+        title: 'lololo.fi',
         body: 'Time for a break!',
-        icon: process.env.PUBLIC_URL + '/logo96.png',
       })
     }
-  }, [onStop, seconds])
+  }, [displayNotification, onStop, seconds])
 
   return (
     <div className={styles.container}>
