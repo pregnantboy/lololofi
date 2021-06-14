@@ -14,6 +14,8 @@ type PomoAction =
   | { type: 'STARTED'; payload: Pick<PomoContextState, 'task' | 'minutes'> }
   | { type: 'PAUSED'; payload: Pick<PomoContextState, 'remainingSecs'> }
   | { type: 'COMPLETED' }
+  | { type: 'EXTEND' }
+  | { type: 'BREAK', payload: Pick<PomoContextState, 'minutes'> }
 
 interface PomoContextProps extends PomoContextState {
   dispatch: Dispatch<PomoAction>
@@ -58,6 +60,16 @@ const reducer = (
         state: action.type,
         remainingSecs: 0,
       }
+    }
+    case 'EXTEND': {
+      return {
+        ...prevState,
+        state: 'STARTED',
+        remainingSecs: 25 * 60
+      }
+    },
+    case 'BREAK': {
+
     }
   }
 }

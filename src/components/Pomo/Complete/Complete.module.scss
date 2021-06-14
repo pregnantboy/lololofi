@@ -1,0 +1,16 @@
+.subtitle {
+  font-size: 7rem;
+  margin: 3rem 0;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+
+  button {
+    margin: 0 1rem 3rem;
+  }
+}
