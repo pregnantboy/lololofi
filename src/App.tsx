@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { Lofi } from 'components/Lofi'
 import { Pomo } from 'components/Pomo'
 import { AppContextProvider } from 'contexts/App.context'
