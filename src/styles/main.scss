@@ -10,6 +10,16 @@ body {
   border: 0;
   color: white;
   overflow-x: hidden;
+
+  // tablets
+  @include tablet {
+    font-size: 14px;
+  }
+
+  // phones
+  @include mobile {
+    font-size: 12px;
+  }
 }
 
 *,

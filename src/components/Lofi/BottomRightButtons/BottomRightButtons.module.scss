@@ -1,8 +1,14 @@
+@import 'styles/base';
+
 .container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 1.5rem 1rem;
+
+  @include tablet {
+    padding: 0;
+  }
 }
 .fullscreenBtn {
   cursor: pointer;
