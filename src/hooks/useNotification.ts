@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react'
 
-const AUDIO_FILE = process.env.PUBLIC_URL + '/complete5.mp3'
+const PUBLIC_URL = import.meta.env.PUBLIC_URL
+const AUDIO_FILE = PUBLIC_URL + '/complete5.mp3'
 const sound = new Audio(AUDIO_FILE)
 
 export const useNotification = () => {
@@ -22,7 +23,7 @@ export const useNotification = () => {
     if (navigator.serviceWorker) {
       // Display the UI to let the user toggle notifications
       navigator.serviceWorker
-        .register(process.env.PUBLIC_URL + '/service-worker.js')
+        .register(PUBLIC_URL + '/service-worker.js')
         .then((reg) => {
           console.log(`Service Worker Registered! ${reg}`)
         })
@@ -48,7 +49,7 @@ export const useNotification = () => {
     sound.play()
     const options = {
       body,
-      icon: process.env.PUBLIC_URL + '/logo96.png',
+      icon: PUBLIC_URL + '/logo96.png',
       vibrate: [100, 50, 100],
       // silent: false,
     }

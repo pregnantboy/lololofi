@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.3.1",
-    "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-double-marquee": "^1.1.0",
@@ -13,10 +12,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "dev": "npm start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "vite --host",
+    "serve": "vite preview",
+    "build": "tsc && vite build",
     "lint": "eslint . --fix"
   },
   "browserslist": {
@@ -37,12 +35,17 @@
     "@types/react-dom": "^17.0.5",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
+    "@vitejs/plugin-react": "^3.1.0",
     "eslint": "^7.27.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "prettier": "^2.3.0",
-    "react-scripts": "^5.0.1",
-    "typescript": "^4.6.3"
+    "sass": "^1.58.0",
+    "typescript": "^4.6.3",
+    "vite": "^4.1.1",
+    "vite-plugin-style-tsconfig-paths": "^1.0.1",
+    "vite-plugin-svgr": "^2.4.0",
+    "vite-tsconfig-paths": "^4.0.5"
   }
 }
