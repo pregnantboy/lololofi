@@ -11,23 +11,24 @@ import styles from './App.module.scss'
 function App() {
   return (
     <AppContextProvider>
-      <div className={styles.container}>
-        <div
-          className={styles.background}
-          style={{ backgroundImage: `url(${background})` }}
-        >
-          <div className={styles.pomo}>
-            <PomoContextProvider>
-              <Pomo />
-            </PomoContextProvider>
+      <PomoContextProvider>
+        <LofiContextProvider>
+          <div className={styles.container}>
+            <div className={styles.background}>
+              <div
+                className={styles.backgroundImg}
+                style={{ backgroundImage: `url(${background})` }}
+              />
+              <div className={styles.pomo}>
+                <Pomo />
+              </div>
+            </div>
+            <div className={styles.lofi}>
+              <Lofi />
+            </div>
           </div>
-        </div>
-        <div className={styles.lofi}>
-          <LofiContextProvider>
-            <Lofi />
-          </LofiContextProvider>
-        </div>
-      </div>
+        </LofiContextProvider>
+      </PomoContextProvider>
     </AppContextProvider>
   )
 }

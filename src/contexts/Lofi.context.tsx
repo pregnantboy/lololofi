@@ -1,6 +1,14 @@
-import React, { createContext, Dispatch, useEffect, useReducer } from 'react'
+import React, {
+  createContext,
+  Dispatch,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react'
 
 import { usePlayerPrefs } from 'hooks'
+
+import { PomoContext } from './Pomo.context'
 
 import tracklist from 'assets/data/tracklist.json'
 
@@ -127,6 +135,14 @@ export const LofiContextProvider = ({
   useEffect(() => {
     setPrefs({ trackIndex, volume })
   }, [trackIndex, volume, setPrefs])
+
+  const { state: pomoState } = useContext(PomoContext)
+
+  useEffect(() => {
+    if (pomoState === 'READY') {
+      dispatch({ type: 'PAUSE' })
+    }
+  }, [pomoState])
 
   return (
     <LofiContext.Provider

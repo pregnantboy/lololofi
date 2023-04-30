@@ -15,7 +15,7 @@ const Form = () => {
 
   const onFormSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (minutes > 0 && minutes <= 99 && task.length > 0) {
+    if (minutes > 0 && minutes <= 99) {
       requestPermission()
       dispatch({
         type: 'STARTED',

@@ -12,17 +12,31 @@
   padding: 0 calc(1rem + 3vw);
   margin: auto;
   width: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex: 1;
+  position: relative;
+}
+
+.backgroundImg {
+  height: 100%;
+  position: absolute;
+  filter: blur(0px);
+  z-index: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .pomo {
   max-width: calc(#{$max-site-width} - 10rem);
+  z-index: 1;
   width: 100%;
   margin: auto;
 }
