@@ -18,7 +18,7 @@ const Form = () => {
     if (minutes > 0 && minutes <= 99) {
       requestPermission()
       dispatch({
-        type: 'STARTED',
+        type: 'STARTING',
         payload: {
           task,
           minutes,

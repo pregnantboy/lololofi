@@ -1,6 +1,6 @@
 import React, { createContext, Dispatch, useReducer } from 'react'
 
-type PomoState = 'READY' | 'STARTED' | 'PAUSED' | 'COMPLETED'
+type PomoState = 'READY' | 'STARTING' | 'STARTED' | 'COMPLETED'
 
 interface PomoContextState {
   task: string
@@ -11,8 +11,8 @@ interface PomoContextState {
 
 type PomoAction =
   | { type: 'READY' }
-  | { type: 'STARTED'; payload: Pick<PomoContextState, 'task' | 'minutes'> }
-  | { type: 'PAUSED'; payload: Pick<PomoContextState, 'remainingSecs'> }
+  | { type: 'STARTING'; payload: Pick<PomoContextState, 'task' | 'minutes'> }
+  | { type: 'STARTED' }
   | { type: 'COMPLETED' }
 
 interface PomoContextProps extends PomoContextState {
@@ -35,7 +35,7 @@ const reducer = (
   switch (action.type) {
     case 'READY':
       return defaultState
-    case 'STARTED': {
+    case 'STARTING': {
       const { task, minutes } = action.payload
       return {
         state: action.type,
@@ -44,12 +44,10 @@ const reducer = (
         remainingSecs: minutes * 60,
       }
     }
-    case 'PAUSED': {
-      const { remainingSecs } = action.payload
+    case 'STARTED': {
       return {
         ...prevState,
         state: action.type,
-        remainingSecs,
       }
     }
     case 'COMPLETED': {

@@ -20,20 +20,6 @@
   position: relative;
 }
 
-.backgroundImg {
-  height: 100%;
-  position: absolute;
-  filter: blur(0px);
-  z-index: 0;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .pomo {
   max-width: calc(#{$max-site-width} - 10rem);
   z-index: 1;
