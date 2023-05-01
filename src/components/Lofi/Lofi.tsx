@@ -1,3 +1,5 @@
+import { isIos, isIphone } from 'utils/userAgent'
+
 import { BottomRightButtons } from './BottomRightButtons'
 import { Controls } from './Controls'
 import { Player } from './Player'
@@ -16,10 +18,12 @@ export const Lofi = () => {
         <div className={styles.center}>
           <Controls />
         </div>
-        <div className={styles.right}>
-          <VolumeControl />
-          <BottomRightButtons />
-        </div>
+        {!isIphone && (
+          <div className={styles.right}>
+            {!isIos && <VolumeControl />}
+            <BottomRightButtons />
+          </div>
+        )}
       </div>
       <Player />
     </div>
