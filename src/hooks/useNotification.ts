@@ -8,9 +8,7 @@ export const useNotification = () => {
   sound.volume = 0.5
 
   function requestPermission() {
-    Notification.requestPermission((status) => {
-      console.log('Notification permission status:', status)
-    })
+    Notification.requestPermission()
   }
 
   function displayNotification({
