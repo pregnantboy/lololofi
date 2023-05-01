@@ -51,7 +51,14 @@ const Form = () => {
         onValueChange={onMinutesChange}
       ></TextInput>
       <span>mins</span>
-      <Button>Start</Button>
+      <Button
+        ga={{
+          category: 'Session',
+          action: 'startSession',
+        }}
+      >
+        Start
+      </Button>
     </form>
   )
 }

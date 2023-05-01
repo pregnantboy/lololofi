@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import ReactGA from 'react-ga4'
 
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 import './styles/main.scss'
 
-console.log('here')
+ReactGA.initialize('G-0R72LHG5L9')
 
 ReactDOM.render(
   <React.StrictMode>

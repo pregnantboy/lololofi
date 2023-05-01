@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect } from 'react'
+import ReactGA from 'react-ga4'
 import { useBeforeUnload } from 'react-use'
 
 import { Button } from 'components/common'
@@ -32,6 +33,10 @@ export const Timer = () => {
   useEffect(() => {
     if (seconds === 0) {
       onStop()
+      ReactGA.event({
+        category: 'Session',
+        action: 'completeSession',
+      })
       displayNotification({
         title: 'lololo.fi',
         body: 'Time for a break!',
@@ -44,8 +49,23 @@ export const Timer = () => {
       <h2>{task}</h2>
       <p className={styles.timer}>{formattedTime()}</p>
       <div className={styles.buttonRow}>
-        <Button onClick={togglePause}>{paused ? 'Resume' : 'Pause'}</Button>
-        <Button invert onClick={onStop}>
+        <Button
+          ga={{
+            category: 'Session',
+            action: 'pauseSession',
+          }}
+          onClick={togglePause}
+        >
+          {paused ? 'Resume' : 'Pause'}
+        </Button>
+        <Button
+          invert
+          ga={{
+            category: 'Session',
+            action: 'stopSession',
+          }}
+          onClick={onStop}
+        >
           Stop
         </Button>
       </div>
