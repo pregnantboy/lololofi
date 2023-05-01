@@ -16,13 +16,12 @@ const Pomo = () => {
   const component = useMemo(() => {
     switch (state) {
       case 'READY':
+      case 'COMPLETED':
         return <Form />
       case 'STARTING':
         return <Breathe />
       case 'STARTED':
         return <Timer />
-      case 'COMPLETED':
-        return <div>good job</div>
       default:
         return null
     }

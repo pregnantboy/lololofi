@@ -24,10 +24,10 @@ export const Breathe = () => {
     timerRef.current = setTimeout(onNext, BREATHE_IN_DURATION)
   }
 
-  function onNext() {
+  function onNext(skip?: boolean) {
     ReactGA.event({
       category: 'Breathe',
-      action: 'completeBreathe',
+      action: skip ? 'skipBreathe' : 'completeBreathe',
     })
     dispatch({
       type: 'STARTED',
@@ -43,13 +43,7 @@ export const Breathe = () => {
         height={350}
         width={350}
       />
-      <Button
-        ga={{
-          category: 'Breathe',
-          action: 'skipBreathe',
-        }}
-        className={styles.skipButton}
-      >
+      <Button className={styles.skipButton} onClick={() => onNext(true)}>
         Skip
       </Button>
     </div>

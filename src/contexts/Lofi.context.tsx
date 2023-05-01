@@ -41,7 +41,7 @@ const defaultState: LofiContextState = {
   trackUrl: tracklist[0].url,
   trackName: tracklist[0].title,
   trackIndex: 0,
-  volume: 0.8,
+  volume: 0.5,
   isMuted: false,
   isBuffering: false,
 }
@@ -139,7 +139,7 @@ export const LofiContextProvider = ({
   const { state: pomoState } = useContext(PomoContext)
 
   useEffect(() => {
-    if (pomoState === 'READY') {
+    if (pomoState === 'COMPLETED') {
       dispatch({ type: 'PAUSE' })
     }
   }, [pomoState])

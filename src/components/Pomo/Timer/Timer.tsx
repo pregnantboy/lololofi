@@ -10,7 +10,7 @@ import styles from './Timer.module.scss'
 
 export const Timer = () => {
   const { remainingSecs, task, dispatch } = useContext(PomoContext)
-  const { seconds, paused, togglePause } = useCountdown(remainingSecs)
+  const { seconds, paused, togglePause, stop } = useCountdown(remainingSecs)
   const { displayNotification } = useNotification()
   useBeforeUnload(true, 'Do you want to quit?')
 
@@ -23,16 +23,17 @@ export const Timer = () => {
     return `${min}:${sec}`
   }
 
-  const onStop = useCallback(() => {
-    if (!paused) {
-      togglePause()
-    }
-    dispatch({ type: 'READY' })
-  }, [paused, dispatch, togglePause])
+  const onStop = useCallback(
+    (completed?: boolean) => {
+      stop()
+      dispatch({ type: completed ? 'COMPLETED' : 'READY' })
+    },
+    [paused, dispatch, stop]
+  )
 
   useEffect(() => {
     if (seconds === 0) {
-      onStop()
+      onStop(true)
       ReactGA.event({
         category: 'Session',
         action: 'completeSession',
@@ -64,7 +65,7 @@ export const Timer = () => {
             category: 'Session',
             action: 'stopSession',
           }}
-          onClick={onStop}
+          onClick={() => onStop(false)}
         >
           Stop
         </Button>

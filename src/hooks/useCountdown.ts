@@ -27,9 +27,16 @@ export function useCountdown(initialSeconds: number) {
     setPaused((p) => !p)
   }, [paused])
 
+  const stop = useCallback(() => {
+    if (intervalRef?.current) {
+      clearInterval(intervalRef.current)
+    }
+  }, [])
+
   return {
     seconds,
     paused,
     togglePause,
+    stop,
   }
 }
