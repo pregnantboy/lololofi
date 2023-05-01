@@ -8,10 +8,11 @@ import rain from 'assets/img/rain.png'
 import rainInvert from 'assets/img/rain-invert.png'
 import umbrella from 'assets/img/umbrella.png'
 import umbrellaInvert from 'assets/img/umbrella-invert.png'
-import rainBg from 'assets/sounds/rain.mp3'
-import umbrellaBg from 'assets/sounds/umbrella.mp3'
 
 import styles from './Rain.module.scss'
+
+const rainBg = '/sounds/rain.mp3'
+const umbrellaBg = '/sounds/umbrella.mp3'
 
 type RAIN_STATE = 'OFF' | 'RAIN' | 'UMBRELLA'
 const DEFAULT_RAIN_VOLUME = 0.6

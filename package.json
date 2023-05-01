@@ -15,7 +15,7 @@
   "scripts": {
     "start": "vite --host",
     "dev": "npm start",
-    "serve": "vite preview",
+    "serve": "vite preview --host",
     "build": "tsc && vite build",
     "lint": "eslint . --fix"
   },

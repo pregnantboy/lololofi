@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import ReactGA from 'react-ga4'
 
-const AUDIO_FILE = '/complete5.mp3'
+const AUDIO_FILE = '/sounds/complete4.mp3'
 
 export const useNotification = () => {
   const sound = useMemo(() => new Audio(AUDIO_FILE), [])
