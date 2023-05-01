@@ -8,6 +8,9 @@ export const useNotification = () => {
   sound.volume = 0.5
 
   function requestPermission() {
+    if (!('Notification' in window)) {
+      return
+    }
     Notification.requestPermission()
   }
 
@@ -24,6 +27,13 @@ export const useNotification = () => {
       icon: '/logo96.png',
       vibrate: [100, 50, 100],
       // silent: false,
+    }
+    if (!('Notification' in window)) {
+      ReactGA.event({
+        category: 'Notification',
+        action: 'notSupported',
+      })
+      return
     }
     if (Notification.permission === 'granted') {
       try {
