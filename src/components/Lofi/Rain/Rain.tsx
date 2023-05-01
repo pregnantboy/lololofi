@@ -53,27 +53,19 @@ export const Rain = () => {
     }
   }, [state])
 
-  useEffect(() => {
-    switch (rainState) {
-      case 'RAIN':
-        rainAudio.play()
-        umbrellaAudio.pause()
-        break
-      case 'UMBRELLA':
-        rainAudio.pause()
-        umbrellaAudio.play()
-        break
-      default:
-        rainAudio.pause()
-        umbrellaAudio.pause()
-        break
-    }
-  }, [rainState])
-
   function onButtonClick(newState: RAIN_STATE) {
     if (rainState === newState) {
+      rainAudio.pause()
+      umbrellaAudio.pause()
       setRainState('OFF')
     } else {
+      if (newState === 'RAIN') {
+        umbrellaAudio.pause()
+        rainAudio.play()
+      } else if (newState === 'UMBRELLA') {
+        rainAudio.pause()
+        umbrellaAudio.play()
+      }
       setRainState(newState)
     }
   }
