@@ -1,42 +1,43 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export function useCountdown(initialSeconds: number) {
+interface UseCountdownReturn {
+  seconds: number
+  paused: boolean
+  togglePause: () => void
+  stop: () => void
+}
+
+export const useCountdown = (initialSeconds: number): UseCountdownReturn => {
   const [seconds, setSeconds] = useState(initialSeconds)
   const [paused, setPaused] = useState(false)
-
   const intervalRef = useRef<NodeJS.Timeout>()
 
-  const decreaseNum = () => setSeconds((prev) => prev - 1)
+  const decreaseSeconds = useCallback(() => {
+    setSeconds(prev => Math.max(0, prev - 1))
+  }, [])
 
   useEffect(() => {
-    intervalRef.current = setInterval(decreaseNum, 1000)
+    if (!paused) {
+      intervalRef.current = setInterval(decreaseSeconds, 1000)
+    }
 
     return () => {
-      if (intervalRef?.current) {
+      if (intervalRef.current) {
         clearInterval(intervalRef.current)
       }
     }
-  }, [])
+  }, [paused, decreaseSeconds])
 
   const togglePause = useCallback(() => {
-    if (!paused && intervalRef?.current) {
-      clearInterval(intervalRef.current)
-    } else {
-      intervalRef.current = setInterval(decreaseNum, 1000)
-    }
-    setPaused((p) => !p)
-  }, [paused])
-
-  const stop = useCallback(() => {
-    if (intervalRef?.current) {
-      clearInterval(intervalRef.current)
-    }
+    setPaused(prev => !prev)
   }, [])
 
-  return {
-    seconds,
-    paused,
-    togglePause,
-    stop,
-  }
+  const stop = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+    }
+    setPaused(true)
+  }, [])
+
+  return { seconds, paused, togglePause, stop }
 }

@@ -1,37 +1,24 @@
-import React, { createContext, Dispatch, useReducer } from 'react'
+import { createContext, useReducer, type ReactNode, type Dispatch } from 'react'
 
-type PomoState = 'READY' | 'STARTING' | 'STARTED' | 'COMPLETED'
+import { minutesToSeconds } from 'utils'
+import { TIMER_DEFAULTS } from 'constants/index'
 
-interface PomoContextState {
-  task: string
-  minutes: number
-  remainingSecs: number
-  state: PomoState
-}
+import type { PomoAction, PomoContextState } from './types'
 
-type PomoAction =
-  | { type: 'READY' }
-  | { type: 'STARTING'; payload: Pick<PomoContextState, 'task' | 'minutes'> }
-  | { type: 'STARTED' }
-  | { type: 'COMPLETED' }
-
-interface PomoContextProps extends PomoContextState {
+interface PomoContextValue extends PomoContextState {
   dispatch: Dispatch<PomoAction>
 }
 
+export const PomoContext = createContext<PomoContextValue | null>(null)
+
 const defaultState: PomoContextState = {
   task: '',
-  minutes: 25,
-  remainingSecs: 25 * 60,
+  minutes: TIMER_DEFAULTS.DEFAULT_MINUTES,
+  remainingSecs: minutesToSeconds(TIMER_DEFAULTS.DEFAULT_MINUTES),
   state: 'READY',
 }
 
-export const PomoContext = createContext({} as PomoContextProps)
-
-const reducer = (
-  prevState: PomoContextState,
-  action: PomoAction
-): PomoContextState => {
+const pomoReducer = (state: PomoContextState, action: PomoAction): PomoContextState => {
   switch (action.type) {
     case 'READY':
       return defaultState
@@ -41,39 +28,34 @@ const reducer = (
         state: action.type,
         task,
         minutes,
-        remainingSecs: minutes * 60,
+        remainingSecs: minutesToSeconds(minutes),
       }
     }
-    case 'STARTED': {
+    case 'STARTED':
       return {
-        ...prevState,
+        ...state,
         state: action.type,
       }
-    }
-    case 'COMPLETED': {
+    case 'COMPLETED':
       return {
-        ...prevState,
+        ...state,
         state: action.type,
         remainingSecs: 0,
       }
-    }
+    default:
+      return state
   }
 }
 
-export const PomoContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
-  const [state, dispatch] = useReducer(reducer, defaultState)
+interface PomoContextProviderProps {
+  children: ReactNode
+}
+
+export const PomoContextProvider = ({ children }: PomoContextProviderProps) => {
+  const [state, dispatch] = useReducer(pomoReducer, defaultState)
 
   return (
-    <PomoContext.Provider
-      value={{
-        ...state,
-        dispatch,
-      }}
-    >
+    <PomoContext.Provider value={{ ...state, dispatch }}>
       {children}
     </PomoContext.Provider>
   )

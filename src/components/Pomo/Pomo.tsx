@@ -1,7 +1,7 @@
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
 
-import { PomoContext } from 'contexts/Pomo.context'
+import { usePomoContext } from 'hooks'
 
 import { Breathe } from './Breathe'
 import { Form } from './Form'
@@ -10,15 +10,15 @@ import { Timer } from './Timer'
 const Container = styled.div<{ $shouldCenter: boolean }>`
   max-width: 450px;
   width: 100%;
-  margin: ${props => props.$shouldCenter ? 'auto' : '0'};
+  margin: ${({ $shouldCenter }) => $shouldCenter ? 'auto' : '0'};
 
   @media (max-width: 576px) {
     margin: auto;
   }
 `
 
-const Pomo = () => {
-  const { state } = useContext(PomoContext)
+export const Pomo = () => {
+  const { state } = usePomoContext()
   const shouldCenter = state === 'STARTING'
 
   const component = useMemo(() => {
@@ -41,5 +41,3 @@ const Pomo = () => {
     </Container>
   )
 }
-
-export { Pomo }

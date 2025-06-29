@@ -1,17 +1,17 @@
-import { createContext, useRef } from 'react'
+import { createContext, useRef, type ReactNode, type MutableRefObject } from 'react'
 
-interface AppContextState {
-  appRef: React.MutableRefObject<null>
+interface AppContextValue {
+  appRef: MutableRefObject<HTMLDivElement | null>
 }
 
-export const AppContext = createContext({} as AppContextState)
+export const AppContext = createContext<AppContextValue | null>(null)
 
-export const AppContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
-  const appRef = useRef(null)
+interface AppContextProviderProps {
+  children: ReactNode
+}
+
+export const AppContextProvider = ({ children }: AppContextProviderProps) => {
+  const appRef = useRef<HTMLDivElement | null>(null)
 
   return (
     <AppContext.Provider value={{ appRef }}>

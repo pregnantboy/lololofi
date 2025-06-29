@@ -1,8 +1,9 @@
-import { ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, type MouseEvent } from 'react'
 import ReactGA from 'react-ga4'
 import styled from 'styled-components'
 
 import circleUrl from 'assets/img/circle.svg?url'
+import type { GAEvent } from 'types'
 
 const StyledToggleButton = styled.button`
   height: 3rem;
@@ -31,33 +32,36 @@ const StyledToggleButton = styled.button`
   }
 `
 
-interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
+interface ToggleButtonProps extends ComponentPropsWithoutRef<'button'> {
   isActive: boolean
   img: string
   activeImg: string
-  ga?: {
-    category: string
-    action: string
-    label?: string
-  }
+  ga?: GAEvent
 }
 
-export const ToggleButton = (props: ButtonProps) => {
-  const { ga, isActive, img, activeImg, onClick, ...otherProps } = props
-
-  function onTrackedClick(e: React.MouseEvent<HTMLButtonElement>) {
+export const ToggleButton = ({ 
+  ga, 
+  isActive, 
+  img, 
+  activeImg, 
+  onClick, 
+  ...otherProps 
+}: ToggleButtonProps) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (ga) {
       ReactGA.event(ga)
     }
-    onClick?.(e)
+    onClick?.(event)
   }
 
   return (
-    <StyledToggleButton
-      {...otherProps}
-      onClick={onTrackedClick}
-    >
-      <img src={isActive ? activeImg : img} height="100%" width="100%" alt="" />
+    <StyledToggleButton {...otherProps} onClick={handleClick}>
+      <img 
+        src={isActive ? activeImg : img} 
+        height="100%" 
+        width="100%" 
+        alt="" 
+      />
     </StyledToggleButton>
   )
 }

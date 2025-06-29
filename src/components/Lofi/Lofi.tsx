@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { isIos, isIphone } from 'utils/userAgent'
+import { isIos, isIphone } from 'utils'
 
 import { BottomRightButtons } from './BottomRightButtons'
 import { Controls } from './Controls'

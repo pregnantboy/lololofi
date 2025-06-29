@@ -1,9 +1,9 @@
-import { ChangeEvent, useContext, useState } from 'react'
+import { type FormEvent, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { Button, TextInput } from 'components/common'
-import { PomoContext } from 'contexts/Pomo.context'
-import { useNotification } from 'hooks'
+import { usePomoContext, useNotification } from 'hooks'
+import { TIMER_DEFAULTS } from 'constants/index'
 
 const StyledForm = styled.form`
   max-width: 100%;
@@ -25,49 +25,58 @@ const TextInputStyled = styled(TextInput)`
   width: 100%;
 `
 
-const Form = () => {
-  const { dispatch } = useContext(PomoContext)
+const FormTitle = styled.h3`
+  font-size: 2.3rem;
+  font-weight: normal;
+  margin: 0;
+`
 
-  const [task, setTask] = useState('')
-  const [minutes, setMinutes] = useState(25)
+const MinutesLabel = styled.span`
+  font-size: 2rem;
+  margin: 0;
+`
+
+export const Form = () => {
+  const { dispatch } = usePomoContext()
   const { requestPermission } = useNotification()
+  
+  const [task, setTask] = useState('')
+  const [minutes, setMinutes] = useState(TIMER_DEFAULTS.DEFAULT_MINUTES)
 
-  const onFormSubmit = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (minutes > 0 && minutes <= 99) {
+  const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    
+    if (minutes > 0 && minutes <= TIMER_DEFAULTS.MAX_MINUTES) {
       requestPermission()
       dispatch({
         type: 'STARTING',
-        payload: {
-          task,
-          minutes,
-        },
+        payload: { task, minutes },
       })
     }
-  }
+  }, [minutes, task, requestPermission, dispatch])
 
-  const onMinutesChange = (newVal: string) => {
-    const parsedNum = +newVal
-    if (parsedNum >= 0 && parsedNum <= 99) {
-      setMinutes(parsedNum)
+  const handleMinutesChange = useCallback((newValue: string) => {
+    const parsedNumber = Number(newValue)
+    if (parsedNumber >= 0 && parsedNumber <= TIMER_DEFAULTS.MAX_MINUTES) {
+      setMinutes(parsedNumber)
     }
-  }
+  }, [])
 
   return (
-    <StyledForm onSubmit={onFormSubmit}>
-      <h3>What do you want to focus on?</h3>
+    <StyledForm onSubmit={handleSubmit}>
+      <FormTitle>What do you want to focus on?</FormTitle>
       <TextInputStyled
-        autoFocus={true}
+        autoFocus
         value={task}
         onValueChange={setTask}
         maxLength={42}
       />
-      <h3>For how long?</h3>
+      <FormTitle>For how long?</FormTitle>
       <TimeInput
-        value={minutes}
-        onValueChange={onMinutesChange}
+        value={minutes.toString()}
+        onValueChange={handleMinutesChange}
       />
-      <span>mins</span>
+      <MinutesLabel>mins</MinutesLabel>
       <Button
         ga={{
           category: 'Session',
@@ -79,5 +88,3 @@ const Form = () => {
     </StyledForm>
   )
 }
-
-export { Form }

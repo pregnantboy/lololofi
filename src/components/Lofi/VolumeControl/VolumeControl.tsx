@@ -1,7 +1,7 @@
-import { ChangeEvent, useCallback, useContext } from 'react'
+import { type ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components'
 
-import { LofiContext } from 'contexts/Lofi.context'
+import { useLofiContext } from 'hooks'
 
 import { ReactComponent as Mute } from 'assets/img/mute.svg'
 import { ReactComponent as Volume } from 'assets/img/volume.svg'
@@ -11,10 +11,16 @@ const Container = styled.div`
   align-items: center;
 `
 
-const MuteButton = styled.div`
+const MuteButton = styled.button`
   width: 2rem;
   height: 2rem;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const Slider = styled.input`
@@ -43,6 +49,7 @@ const Slider = styled.input`
     height: 1.5rem;
     background: #ffffff;
     cursor: pointer;
+    border: none;
   }
 
   &::-ms-thumb {
@@ -78,31 +85,29 @@ const Slider = styled.input`
 `
 
 export const VolumeControl = () => {
-  const { volume, dispatch, isMuted } = useContext(LofiContext)
+  const { volume, dispatch, isMuted } = useLofiContext()
 
-  const onVolumeChange = useCallback(
+  const handleVolumeChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      const newVal = +event.target.value / 100
-      dispatch({
-        type: 'VOLUME',
-        value: newVal,
-      })
+      const newValue = Number(event.target.value) / 100
+      dispatch({ type: 'VOLUME', value: newValue })
     },
     [dispatch]
   )
-  const onToggleMute = useCallback(() => {
+
+  const handleToggleMute = useCallback(() => {
     dispatch({ type: 'TOGGLE_MUTE' })
   }, [dispatch])
 
   return (
     <Container>
-      <MuteButton onClick={onToggleMute}>
+      <MuteButton onClick={handleToggleMute}>
         {isMuted ? <Mute /> : <Volume />}
       </MuteButton>
       <Slider
         type="range"
         defaultValue={volume * 100}
-        onInput={onVolumeChange}
+        onInput={handleVolumeChange}
       />
     </Container>
   )

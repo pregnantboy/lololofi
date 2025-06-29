@@ -1,8 +1,7 @@
-import { useContext } from 'react'
-import { useFullscreen, useToggle } from 'react-use'
+import { useToggle, useFullscreen } from 'react-use'
 import styled from 'styled-components'
 
-import { AppContext } from 'contexts/App.context'
+import { useAppContext } from 'hooks'
 
 import { ReactComponent as ExitFullscreen } from 'assets/img/exit_fullscreen.svg'
 import { ReactComponent as Fullscreen } from 'assets/img/fullscreen.svg'
@@ -18,14 +17,20 @@ const Container = styled.div`
   }
 `
 
-const FullscreenButton = styled.div`
+const FullscreenButton = styled.button`
   cursor: pointer;
   height: 1.5rem;
   width: 1.5rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export const BottomRightButtons = () => {
-  const { appRef } = useContext(AppContext)
+  const { appRef } = useAppContext()
   const [show, toggle] = useToggle(false)
   const isFullscreen = useFullscreen(appRef, show, {
     onClose: () => toggle(false),

@@ -1,9 +1,10 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import ReactGA from 'react-ga4'
 import styled from 'styled-components'
 
 import { Button } from 'components/common'
-import { PomoContext } from 'contexts/Pomo.context'
+import { usePomoContext } from 'hooks'
+import { TIMER_DEFAULTS } from 'constants/index'
 
 import circleUrl from 'assets/img/circle.svg?url'
 
@@ -32,46 +33,50 @@ const SkipButton = styled(Button)`
   bottom: -1rem;
 `
 
+const BreatheText = styled.h2`
+  margin: 0;
+  font-weight: normal;
+  font-size: 2.5rem;
+`
+
 export const Breathe = () => {
-  const BREATHE_IN_DURATION = 5000
   const timerRef = useRef<NodeJS.Timeout>()
-  const { dispatch } = useContext(PomoContext)
+  const { dispatch } = usePomoContext()
   const [isBreatheOut, setIsBreatheOut] = useState(false)
 
+  const handleNext = useCallback((skip = false) => {
+    ReactGA.event({
+      category: 'Breathe',
+      action: skip ? 'skipBreathe' : 'completeBreathe',
+    })
+    dispatch({ type: 'STARTED' })
+  }, [dispatch])
+
+  const handleBreatheOut = useCallback(() => {
+    setIsBreatheOut(true)
+    timerRef.current = setTimeout(() => handleNext(), TIMER_DEFAULTS.BREATHE_DURATION)
+  }, [handleNext])
+
   useEffect(() => {
-    timerRef.current = setTimeout(onBreatheOut, BREATHE_IN_DURATION)
+    timerRef.current = setTimeout(handleBreatheOut, TIMER_DEFAULTS.BREATHE_DURATION)
+    
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current)
       }
     }
-  }, [])
-
-  function onBreatheOut() {
-    setIsBreatheOut(true)
-    timerRef.current = setTimeout(onNext, BREATHE_IN_DURATION)
-  }
-
-  function onNext(skip?: boolean) {
-    ReactGA.event({
-      category: 'Breathe',
-      action: skip ? 'skipBreathe' : 'completeBreathe',
-    })
-    dispatch({
-      type: 'STARTED',
-    })
-  }
+  }, [handleBreatheOut])
 
   return (
     <Container>
-      <h2>Breathe {isBreatheOut ? 'out' : 'in'}</h2>
+      <BreatheText>Breathe {isBreatheOut ? 'out' : 'in'}</BreatheText>
       <CircleExpand
         src={circleUrl}
         height={350}
         width={350}
         alt="Breathing circle"
       />
-      <SkipButton onClick={() => onNext(true)}>
+      <SkipButton onClick={() => handleNext(true)}>
         Skip
       </SkipButton>
     </Container>

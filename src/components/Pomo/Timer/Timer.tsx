@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import ReactGA from 'react-ga4'
 import { useBeforeUnload } from 'react-use'
 import styled from 'styled-components'
 
 import { Button } from 'components/common'
-import { PomoContext } from 'contexts/Pomo.context'
-import { useCountdown, useNotification } from 'hooks'
+import { usePomoContext, useCountdown, useNotification } from 'hooks'
+import { formatTime } from 'utils'
 
 const Container = styled.div`
   display: flex;
@@ -34,32 +34,46 @@ const ButtonRow = styled.div`
   }
 `
 
+const TaskTitle = styled.h2`
+  margin: 0;
+  font-weight: normal;
+  font-size: 2.5rem;
+`
+
 export const Timer = () => {
-  const { remainingSecs, task, dispatch } = useContext(PomoContext)
+  const { remainingSecs, task, dispatch } = usePomoContext()
   const { seconds, paused, togglePause, stop } = useCountdown(remainingSecs)
   const { displayNotification } = useNotification()
+  
   useBeforeUnload(true, 'Do you want to quit?')
 
-  const formattedTime = () => {
-    const min = Math.floor(seconds / 60)
-    let sec = `${seconds % 60}`
-    if (sec.toString().length < 2) {
-      sec = '0' + sec
-    }
-    return `${min}:${sec}`
-  }
-
-  const onStop = useCallback(
-    (completed?: boolean) => {
+  const handleStop = useCallback(
+    (completed = false) => {
       stop()
       dispatch({ type: completed ? 'COMPLETED' : 'READY' })
     },
     [dispatch, stop]
   )
 
+  const handlePauseToggle = useCallback(() => {
+    ReactGA.event({
+      category: 'Session',
+      action: 'pauseSession',
+    })
+    togglePause()
+  }, [togglePause])
+
+  const handleStopClick = useCallback(() => {
+    ReactGA.event({
+      category: 'Session',
+      action: 'stopSession',
+    })
+    handleStop(false)
+  }, [handleStop])
+
   useEffect(() => {
     if (seconds === 0) {
-      onStop(true)
+      handleStop(true)
       ReactGA.event({
         category: 'Session',
         action: 'completeSession',
@@ -69,30 +83,17 @@ export const Timer = () => {
         body: 'Time for a break!',
       })
     }
-  }, [displayNotification, onStop, seconds])
+  }, [displayNotification, handleStop, seconds])
 
   return (
     <Container>
-      <h2>{task}</h2>
-      <StyledTimerText>{formattedTime()}</StyledTimerText>
+      <TaskTitle>{task}</TaskTitle>
+      <StyledTimerText>{formatTime(seconds)}</StyledTimerText>
       <ButtonRow>
-        <Button
-          ga={{
-            category: 'Session',
-            action: 'pauseSession',
-          }}
-          onClick={togglePause}
-        >
+        <Button onClick={handlePauseToggle}>
           {paused ? 'Resume' : 'Pause'}
         </Button>
-        <Button
-          invert
-          ga={{
-            category: 'Session',
-            action: 'stopSession',
-          }}
-          onClick={() => onStop(false)}
-        >
+        <Button invert onClick={handleStopClick}>
           Stop
         </Button>
       </ButtonRow>

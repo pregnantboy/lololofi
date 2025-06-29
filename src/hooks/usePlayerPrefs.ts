@@ -1,19 +1,16 @@
 import { useLocalStorage } from 'react-use'
 
-interface PlayerPrefs {
-  trackIndex: number
-  volume: number
-}
+import { STORAGE_KEYS, VOLUME_DEFAULTS } from 'constants/index'
+import type { PlayerPrefs } from 'types'
 
-const PLAYER_PREFS_STORAGE_KEY = 'LOLOLOFI_PLAYER_PREFS'
-
-export function usePlayerPrefs() {
-  const [value, setValue] = useLocalStorage<PlayerPrefs>(
-    PLAYER_PREFS_STORAGE_KEY,
-    { trackIndex: 0, volume: 0.5 }
+export const usePlayerPrefs = () => {
+  const [prefs, setPrefs] = useLocalStorage<PlayerPrefs>(
+    STORAGE_KEYS.PLAYER_PREFS,
+    { 
+      trackIndex: 0, 
+      volume: VOLUME_DEFAULTS.PLAYER 
+    }
   )
-  return {
-    prefs: value,
-    setPrefs: setValue,
-  }
+
+  return { prefs, setPrefs }
 }

@@ -1,14 +1,17 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { ToggleButton } from 'components/common'
-import { LofiContext } from 'contexts/Lofi.context'
-import { PomoContext } from 'contexts/Pomo.context'
+import { useLofiContext, usePomoContext } from 'hooks'
+import { AUDIO_FILES, VOLUME_DEFAULTS } from 'constants/index'
+import { createAudioElement, playAudio, pauseAudio } from 'utils'
 
 import rain from 'assets/img/rain.png'
 import rainInvert from 'assets/img/rain-invert.png'
 import umbrella from 'assets/img/umbrella.png'
 import umbrellaInvert from 'assets/img/umbrella-invert.png'
+
+import type { RainState } from 'contexts/types'
 
 const Container = styled.div`
   display: flex;
@@ -22,76 +25,74 @@ const Container = styled.div`
   }
 `
 
-const rainBg = '/sounds/rain.mp3'
-const umbrellaBg = '/sounds/umbrella.mp3'
-
-type RAIN_STATE = 'OFF' | 'RAIN' | 'UMBRELLA'
-const DEFAULT_RAIN_VOLUME = 0.6
-const DEFAULT_UMBRELLA_VOLUME = 1
-
 export const Rain = () => {
-  const [rainState, setRainState] = useState<RAIN_STATE>('OFF')
+  const [rainState, setRainState] = useState<RainState>('OFF')
+  const { state: pomoState } = usePomoContext()
+  const { volume, isMuted } = useLofiContext()
 
-  const { state } = useContext(PomoContext)
-  const { volume, isMuted } = useContext(LofiContext)
-
-  const rainAudio = useMemo(() => {
-    const audio = new Audio(rainBg)
-    audio.volume = DEFAULT_RAIN_VOLUME * (volume ?? 0.5)
-    audio.loop = true
-    return audio
-  }, [volume])
+  const rainAudio = useMemo(() => 
+    createAudioElement(
+      AUDIO_FILES.RAIN, 
+      VOLUME_DEFAULTS.RAIN * (volume ?? 0.5), 
+      true
+    ), 
+    [volume]
+  )
   
-  const umbrellaAudio = useMemo(() => {
-    const audio = new Audio(umbrellaBg)
-    audio.volume = DEFAULT_UMBRELLA_VOLUME * (volume ?? 0.5)
-    audio.loop = true
-    return audio
-  }, [volume])
+  const umbrellaAudio = useMemo(() => 
+    createAudioElement(
+      AUDIO_FILES.UMBRELLA, 
+      VOLUME_DEFAULTS.UMBRELLA * (volume ?? 0.5), 
+      true
+    ), 
+    [volume]
+  )
 
+  // Update audio volumes when volume or mute state changes
   useEffect(() => {
-    if (isMuted) {
-      rainAudio.volume = 0
-      umbrellaAudio.volume = 0
-    } else {
-      rainAudio.volume = DEFAULT_RAIN_VOLUME * volume
-      umbrellaAudio.volume = DEFAULT_UMBRELLA_VOLUME * volume
-    }
+    const newVolume = isMuted ? 0 : volume
+    rainAudio.volume = VOLUME_DEFAULTS.RAIN * newVolume
+    umbrellaAudio.volume = VOLUME_DEFAULTS.UMBRELLA * newVolume
   }, [volume, isMuted, rainAudio, umbrellaAudio])
 
+  // Stop rain when pomodoro completes
   useEffect(() => {
-    if (state === 'COMPLETED') {
+    if (pomoState === 'COMPLETED') {
       setRainState('OFF')
+      pauseAudio(rainAudio)
+      pauseAudio(umbrellaAudio)
     }
-  }, [state])
+  }, [pomoState, rainAudio, umbrellaAudio])
 
-  function onButtonClick(newState: RAIN_STATE) {
+  const handleButtonClick = useCallback(async (newState: RainState) => {
     if (rainState === newState) {
-      rainAudio.pause()
-      umbrellaAudio.pause()
+      // Turn off current state
+      pauseAudio(rainAudio)
+      pauseAudio(umbrellaAudio)
       setRainState('OFF')
     } else {
+      // Switch to new state
       if (newState === 'RAIN') {
-        umbrellaAudio.pause()
-        rainAudio.play()
+        pauseAudio(umbrellaAudio)
+        await playAudio(rainAudio)
       } else if (newState === 'UMBRELLA') {
-        rainAudio.pause()
-        umbrellaAudio.play()
+        pauseAudio(rainAudio)
+        await playAudio(umbrellaAudio)
       }
       setRainState(newState)
     }
-  }
+  }, [rainState, rainAudio, umbrellaAudio])
 
   return (
     <Container>
       <ToggleButton
-        onClick={() => onButtonClick('RAIN')}
+        onClick={() => handleButtonClick('RAIN')}
         isActive={rainState === 'RAIN'}
         img={rain}
         activeImg={rainInvert}
       />
       <ToggleButton
-        onClick={() => onButtonClick('UMBRELLA')}
+        onClick={() => handleButtonClick('UMBRELLA')}
         isActive={rainState === 'UMBRELLA'}
         img={umbrella}
         activeImg={umbrellaInvert}

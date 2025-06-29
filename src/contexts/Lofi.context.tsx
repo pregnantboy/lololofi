@@ -1,40 +1,23 @@
-import React, {
-  createContext,
-  Dispatch,
-  useContext,
-  useEffect,
-  useReducer,
+import { 
+  createContext, 
+  useContext, 
+  useEffect, 
+  useReducer, 
+  type ReactNode, 
+  type Dispatch 
 } from 'react'
 
 import { usePlayerPrefs } from 'hooks'
-
-import { PomoContext } from './Pomo.context'
-
 import tracklist from 'assets/data/tracklist.json'
 
-interface LofiContextState {
-  isPlaying: boolean
-  trackUrl: string
-  trackName: string
-  trackIndex: number
-  volume: number
-  isMuted: boolean
-  isBuffering: boolean
-}
+import { PomoContext } from './Pomo.context'
+import type { LofiAction, LofiContextState } from './types'
 
-export type LofiAction =
-  | { type: 'PAUSE' }
-  | { type: 'NEXT' }
-  | { type: 'PREV' }
-  | { type: 'PLAY' }
-  | { type: 'TOGGLE_MUTE' }
-  | { type: 'VOLUME'; value: number }
-  | { type: 'BUFFER_START' }
-  | { type: 'BUFFER_END' }
-
-interface PomoContextProps extends LofiContextState {
+interface LofiContextValue extends LofiContextState {
   dispatch: Dispatch<LofiAction>
 }
+
+export const LofiContext = createContext<LofiContextValue | null>(null)
 
 const defaultState: LofiContextState = {
   isPlaying: false,
@@ -46,81 +29,51 @@ const defaultState: LofiContextState = {
   isBuffering: false,
 }
 
-export const LofiContext = createContext({} as PomoContextProps)
-
-const getTrack = (
-  trackIndex?: number
-): Pick<LofiContextState, 'trackIndex' | 'trackUrl' | 'trackName'> => {
-  const parsedTrackIndex =
-    trackIndex != null && trackIndex < tracklist.length ? trackIndex : 0
+const getTrack = (trackIndex = 0) => {
+  const validIndex = trackIndex < tracklist.length ? trackIndex : 0
   return {
-    trackIndex: parsedTrackIndex,
-    trackName: tracklist[parsedTrackIndex].title,
-    trackUrl: tracklist[parsedTrackIndex].url,
+    trackIndex: validIndex,
+    trackName: tracklist[validIndex].title,
+    trackUrl: tracklist[validIndex].url,
   }
 }
 
-const reducer = (
-  prevState: LofiContextState,
-  action: LofiAction
-): LofiContextState => {
+const lofiReducer = (state: LofiContextState, action: LofiAction): LofiContextState => {
   switch (action.type) {
     case 'PLAY':
-      return {
-        ...prevState,
-        isPlaying: true,
-      }
+      return { ...state, isPlaying: true }
     case 'PAUSE':
-      return {
-        ...prevState,
-        isPlaying: false,
-      }
+      return { ...state, isPlaying: false }
     case 'NEXT': {
-      const newTrackIndex = (prevState.trackIndex + 1) % tracklist.length
-      return {
-        ...prevState,
-        ...getTrack(newTrackIndex),
-      }
+      const newTrackIndex = (state.trackIndex + 1) % tracklist.length
+      return { ...state, ...getTrack(newTrackIndex) }
     }
     case 'PREV': {
-      let newTrackIndex = prevState.trackIndex - 1
-      if (newTrackIndex < 0) {
-        newTrackIndex = tracklist.length - 1
-      }
-      return {
-        ...prevState,
-        ...getTrack(newTrackIndex),
-      }
+      const newTrackIndex = state.trackIndex - 1 < 0 
+        ? tracklist.length - 1 
+        : state.trackIndex - 1
+      return { ...state, ...getTrack(newTrackIndex) }
     }
     case 'VOLUME':
-      return {
-        ...prevState,
-        volume: action.value,
-      }
+      return { ...state, volume: action.value }
     case 'TOGGLE_MUTE':
-      return {
-        ...prevState,
-        isMuted: !prevState.isMuted,
-      }
+      return { ...state, isMuted: !state.isMuted }
     case 'BUFFER_START':
-      return {
-        ...prevState,
-        isBuffering: true,
-      }
+      return { ...state, isBuffering: true }
     case 'BUFFER_END':
-      return {
-        ...prevState,
-        isBuffering: false,
-      }
+      return { ...state, isBuffering: false }
+    default:
+      return state
   }
 }
 
-export const LofiContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+interface LofiContextProviderProps {
+  children: ReactNode
+}
+
+export const LofiContextProvider = ({ children }: LofiContextProviderProps) => {
   const { prefs, setPrefs } = usePlayerPrefs()
+  const pomoContext = useContext(PomoContext)
 
   const mergedDefaultState: LofiContextState = {
     ...defaultState,
@@ -128,29 +81,22 @@ export const LofiContextProvider = ({
     ...getTrack(prefs?.trackIndex),
   }
 
-  const [state, dispatch] = useReducer(reducer, mergedDefaultState)
+  const [state, dispatch] = useReducer(lofiReducer, mergedDefaultState)
 
-  const { trackIndex, volume } = state
-
+  // Persist preferences
   useEffect(() => {
-    setPrefs({ trackIndex, volume })
-  }, [trackIndex, volume, setPrefs])
+    setPrefs({ trackIndex: state.trackIndex, volume: state.volume })
+  }, [state.trackIndex, state.volume, setPrefs])
 
-  const { state: pomoState } = useContext(PomoContext)
-
+  // Pause music when pomodoro completes
   useEffect(() => {
-    if (pomoState === 'COMPLETED') {
+    if (pomoContext?.state === 'COMPLETED') {
       dispatch({ type: 'PAUSE' })
     }
-  }, [pomoState])
+  }, [pomoContext?.state])
 
   return (
-    <LofiContext.Provider
-      value={{
-        ...state,
-        dispatch,
-      }}
-    >
+    <LofiContext.Provider value={{ ...state, dispatch }}>
       {children}
     </LofiContext.Provider>
   )

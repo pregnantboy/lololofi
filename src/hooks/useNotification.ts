@@ -1,33 +1,35 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import ReactGA from 'react-ga4'
 
-const AUDIO_FILE = '/sounds/complete4.mp3'
+import { AUDIO_FILES, VOLUME_DEFAULTS } from 'constants/index'
+import { createAudioElement, playAudio } from 'utils'
+import type { NotificationOptions } from 'types'
 
 export const useNotification = () => {
-  const sound = useMemo(() => new Audio(AUDIO_FILE), [])
-  sound.volume = 0.5
+  const sound = useMemo(() => 
+    createAudioElement(AUDIO_FILES.NOTIFICATION, VOLUME_DEFAULTS.NOTIFICATION), 
+    []
+  )
 
-  function requestPermission() {
-    if (!('Notification' in window)) {
-      return
+  const requestPermission = useCallback(() => {
+    if ('Notification' in window) {
+      Notification.requestPermission()
     }
-    Notification.requestPermission()
-  }
+  }, [])
 
-  function displayNotification({
-    title,
-    body,
-  }: {
-    title: string
-    body: string
-  }) {
-    sound.play()
-    const options = {
+  const displayNotification = useCallback(async ({ title, body }: NotificationOptions) => {
+    await playAudio(sound)
+    
+    const options: NotificationOptions & { 
+      icon?: string
+      vibrate?: number[]
+    } = {
+      title,
       body,
       icon: '/logo96.png',
       vibrate: [100, 50, 100],
-      // silent: false,
     }
+
     if (!('Notification' in window)) {
       ReactGA.event({
         category: 'Notification',
@@ -35,6 +37,7 @@ export const useNotification = () => {
       })
       return
     }
+
     if (Notification.permission === 'granted') {
       try {
         new Notification(title, options)
@@ -42,8 +45,8 @@ export const useNotification = () => {
           category: 'Notification',
           action: 'displayNotification',
         })
-      } catch {
-        // do nothing
+      } catch (error) {
+        console.warn('Failed to display notification:', error)
       }
     } else {
       ReactGA.event({
@@ -51,10 +54,7 @@ export const useNotification = () => {
         action: 'notGranted',
       })
     }
-  }
+  }, [sound])
 
-  return {
-    requestPermission,
-    displayNotification,
-  }
+  return { requestPermission, displayNotification }
 }

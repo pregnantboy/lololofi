@@ -1,7 +1,6 @@
-import { useContext } from 'react'
 import styled from 'styled-components'
 
-import { PomoContext } from 'contexts/Pomo.context'
+import { usePomoContext } from 'hooks'
 
 import background from 'assets/img/background.gif'
 
@@ -18,12 +17,12 @@ const BackgroundImage = styled.div<{ $shouldBlur: boolean }>`
   background-size: cover;
   background-image: url(${background});
   transition: filter 1s linear;
-  filter: ${props => props.$shouldBlur ? 'blur(10px)' : 'none'};
-  opacity: ${props => props.$shouldBlur ? '0.5' : '1'};
+  filter: ${({ $shouldBlur }) => $shouldBlur ? 'blur(10px)' : 'none'};
+  opacity: ${({ $shouldBlur }) => $shouldBlur ? '0.5' : '1'};
 `
 
 export const PomoBackground = () => {
-  const { state } = useContext(PomoContext)
+  const { state } = usePomoContext()
   const shouldBlur = state === 'STARTING'
 
   return <BackgroundImage $shouldBlur={shouldBlur} />

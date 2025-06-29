@@ -1,8 +1,10 @@
-import { ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, type MouseEvent } from 'react'
 import ReactGA from 'react-ga4'
 import styled, { css } from 'styled-components'
 
-const buttonBase = css<{ $invert?: boolean }>`
+import type { GAEvent } from 'types'
+
+const buttonStyles = css<{ $invert?: boolean }>`
   padding: 0.5rem 2rem;
   margin: 5px;
   min-width: 10rem;
@@ -10,8 +12,8 @@ const buttonBase = css<{ $invert?: boolean }>`
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: ${props => props.$invert ? '#e6e6e6' : 'black'};
-  color: ${props => props.$invert ? 'black' : 'white'};
+  background-color: ${({ $invert }) => $invert ? '#e6e6e6' : 'black'};
+  color: ${({ $invert }) => $invert ? 'black' : 'white'};
   border: 0;
   outline: 0;
   border-radius: 0;
@@ -24,8 +26,8 @@ const buttonBase = css<{ $invert?: boolean }>`
     min-width: 8rem;
   }
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -33,14 +35,14 @@ const buttonBase = css<{ $invert?: boolean }>`
     box-sizing: content-box;
   }
 
-  &:before {
+  &::before {
     top: -5px;
     left: 0;
     border-top: 5px white solid;
     border-bottom: 5px white solid;
   }
 
-  &:after {
+  &::after {
     left: -5px;
     top: 0;
     border-left: 5px white solid;
@@ -48,50 +50,48 @@ const buttonBase = css<{ $invert?: boolean }>`
   }
 
   &:hover {
-    background-color: ${props => props.$invert ? 'black' : 'white'};
-    color: ${props => props.$invert ? '#e6e6e6' : 'black'};
-    box-shadow: inset -6px -6px 0px 0px ${props => props.$invert ? '#4d4d4d' : '#e6e6e6'};
+    background-color: ${({ $invert }) => $invert ? 'black' : 'white'};
+    color: ${({ $invert }) => $invert ? '#e6e6e6' : 'black'};
+    box-shadow: inset -6px -6px 0px 0px ${({ $invert }) => $invert ? '#4d4d4d' : '#e6e6e6'};
     padding: calc(0.5rem - 4px) calc(2rem + 4px) calc(0.5rem + 4px) calc(2rem - 4px);
   }
 
   &:active {
-    box-shadow: inset 4px 4px 0px 0px ${props => props.$invert ? '#4d4d4d' : '#e6e6e6'};
+    box-shadow: inset 4px 4px 0px 0px ${({ $invert }) => $invert ? '#4d4d4d' : '#e6e6e6'};
     padding: calc(0.5rem + 4px) calc(2rem - 4px) calc(0.5rem - 4px) calc(2rem + 4px);
   }
 `
 
 const StyledButton = styled.button<{ $invert?: boolean }>`
-  ${buttonBase}
+  ${buttonStyles}
 `
 
 interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   invert?: boolean
-  ga?: {
-    category: string
-    action: string
-    label?: string
-  }
+  ga?: GAEvent
 }
 
-const Button = (props: ButtonProps) => {
-  const { children, invert, ga, onClick, ...otherProps } = props
-
-  function onTrackedClick(e: React.MouseEvent<HTMLButtonElement>) {
+export const Button = ({ 
+  children, 
+  invert, 
+  ga, 
+  onClick, 
+  ...otherProps 
+}: ButtonProps) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (ga) {
       ReactGA.event(ga)
     }
-    onClick?.(e)
+    onClick?.(event)
   }
 
   return (
     <StyledButton
       {...otherProps}
-      onClick={onTrackedClick}
+      onClick={handleClick}
       $invert={invert}
     >
       {children}
     </StyledButton>
   )
 }
-
-export { Button }

@@ -1,16 +1,16 @@
-import { useCallback, useContext } from 'react'
+import { useCallback } from 'react'
 import ReactPlayer from 'react-player/youtube'
 
-import { LofiAction, LofiContext } from 'contexts/Lofi.context'
+import { useLofiContext } from 'hooks'
 
 export const Player = () => {
-  const { trackUrl, isPlaying, volume, isMuted, dispatch } =
-    useContext(LofiContext)
+  const { trackUrl, isPlaying, volume, isMuted, dispatch } = useLofiContext()
 
-  const changeState = useCallback(
-    (type: Exclude<LofiAction['type'], 'VOLUME'>) => () => dispatch({ type }),
+  const handleStateChange = useCallback(
+    (type: 'PLAY' | 'PAUSE' | 'BUFFER_START' | 'BUFFER_END') => () => dispatch({ type }),
     [dispatch]
   )
+
   return (
     <ReactPlayer
       url={trackUrl}
@@ -18,12 +18,12 @@ export const Player = () => {
       width={0}
       height={0}
       playing={isPlaying}
-      onPlay={changeState('PLAY')}
-      onPause={changeState('PAUSE')}
+      onPlay={handleStateChange('PLAY')}
+      onPause={handleStateChange('PAUSE')}
       volume={volume}
       muted={isMuted}
-      onBuffer={changeState('BUFFER_START')}
-      onBufferEnd={changeState('BUFFER_END')}
+      onBuffer={handleStateChange('BUFFER_START')}
+      onBufferEnd={handleStateChange('BUFFER_END')}
     />
   )
 }

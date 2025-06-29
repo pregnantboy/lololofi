@@ -1,4 +1,4 @@
-import { ChangeEvent, ComponentPropsWithoutRef } from 'react'
+import { type ChangeEvent, type ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
 
 const StyledInput = styled.input`
@@ -13,15 +13,13 @@ const StyledInput = styled.input`
   border-radius: 0;
 `
 
-interface InputProps extends ComponentPropsWithoutRef<'input'> {
-  onValueChange: (val: string) => void
+interface TextInputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'onChange'> {
+  onValueChange: (value: string) => void
 }
 
-const TextInput = (props: InputProps) => {
-  const { onValueChange, ...otherProps } = props
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onValueChange(e.target.value)
+export const TextInput = ({ onValueChange, ...otherProps }: TextInputProps) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onValueChange(event.target.value)
   }
 
   return (
@@ -29,9 +27,7 @@ const TextInput = (props: InputProps) => {
       type="text"
       {...otherProps}
       spellCheck="false"
-      onChange={onChange}
+      onChange={handleChange}
     />
   )
 }
-
-export { TextInput }

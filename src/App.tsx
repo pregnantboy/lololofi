@@ -44,7 +44,7 @@ const LofiSection = styled.div`
   align-items: flex-start;
 `
 
-function App() {
+const App = () => {
   return (
     <AppContextProvider>
       <PomoContextProvider>
