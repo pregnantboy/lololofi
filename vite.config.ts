@@ -26,4 +26,15 @@ export default defineConfig({
     host: true,
     port: 3000,
   },
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress specific warnings
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+          return
+        }
+        warn(warning)
+      },
+    },
+  },
 })
