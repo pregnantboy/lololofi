@@ -22,6 +22,7 @@ const PostItContainer = styled.div<{
   $y: number
   $isCompleting: boolean
   $isCompleted: boolean
+  $isEmpty: boolean
 }>`
   position: absolute;
   left: ${({ $x }) => $x}px;
@@ -45,6 +46,11 @@ const PostItContainer = styled.div<{
   
   ${({ $isCompleted }) => $isCompleted && css`
     display: none;
+  `}
+
+  ${({ $isEmpty }) => $isEmpty && css`
+    border: 2px dashed rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgba(255, 235, 59, 0.8) 0%, rgba(253, 216, 53, 0.8) 100%);
   `}
 
   &:hover {
@@ -78,7 +84,7 @@ const PostItContainer = styled.div<{
   }
 `
 
-const TextArea = styled.textarea<{ $isEditing: boolean }>`
+const TextArea = styled.textarea<{ $isEditing: boolean; $isEmpty: boolean }>`
   width: 100%;
   height: 100%;
   background: transparent;
@@ -95,10 +101,18 @@ const TextArea = styled.textarea<{ $isEditing: boolean }>`
 
   &::placeholder {
     color: rgba(51, 51, 51, 0.5);
+    text-align: center;
+    padding-top: 60px;
   }
+
+  ${({ $isEmpty }) => $isEmpty && css`
+    &::placeholder {
+      content: 'Click to add a note...';
+    }
+  `}
 `
 
-const CompleteButton = styled.button`
+const CompleteButton = styled.button<{ $isEmpty: boolean }>`
   position: absolute;
   top: 5px;
   right: 5px;
@@ -108,7 +122,7 @@ const CompleteButton = styled.button`
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  display: flex;
+  display: ${({ $isEmpty }) => $isEmpty ? 'none' : 'flex'};
   align-items: center;
   justify-content: center;
   font-size: 12px;
@@ -154,15 +168,32 @@ export const PostItNote = ({
   const [isCompleted, setIsCompleted] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  const isEmpty = text.trim() === ''
+
+  // Auto-focus empty notes
+  useEffect(() => {
+    if (isEmpty && textareaRef.current) {
+      setIsEditing(true)
+    }
+  }, [isEmpty])
+
   useEffect(() => {
     if (isEditing && textareaRef.current) {
       textareaRef.current.focus()
-      textareaRef.current.select()
+      if (!isEmpty) {
+        textareaRef.current.select()
+      }
     }
-  }, [isEditing])
+  }, [isEditing, isEmpty])
+
+  const handleClick = () => {
+    if (!isCompleting && isEmpty) {
+      setIsEditing(true)
+    }
+  }
 
   const handleDoubleClick = () => {
-    if (!isCompleting) {
+    if (!isCompleting && !isEmpty) {
       setIsEditing(true)
     }
   }
@@ -182,7 +213,7 @@ export const PostItNote = ({
   }
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (isEditing || isCompleting) return
+    if (isEditing || isCompleting || isEmpty) return
     
     setIsDragging(true)
     setDragOffset({
@@ -240,10 +271,12 @@ export const PostItNote = ({
       $y={position.y}
       $isCompleting={isCompleting}
       $isCompleted={isCompleted}
+      $isEmpty={isEmpty}
       onMouseDown={handleMouseDown}
+      onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
-      <CompleteButton onClick={handleComplete} />
+      <CompleteButton onClick={handleComplete} $isEmpty={isEmpty} />
       <TextArea
         ref={textareaRef}
         value={text}
@@ -251,7 +284,8 @@ export const PostItNote = ({
         onBlur={handleTextBlur}
         onKeyDown={handleKeyDown}
         $isEditing={isEditing}
-        placeholder="Type your note..."
+        $isEmpty={isEmpty}
+        placeholder={isEmpty ? "Click to add a note..." : "Type your note..."}
       />
     </PostItContainer>
   )

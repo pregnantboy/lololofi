@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { PostItNote } from './PostItNote'
@@ -10,36 +10,6 @@ const Container = styled.div`
   overflow: hidden;
 `
 
-const AddButton = styled.button`
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
-  transition: all 0.2s ease;
-  z-index: 1000;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.6);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &::before {
-    content: '+';
-  }
-`
-
 interface Note {
   id: string
   text: string
@@ -49,7 +19,7 @@ interface Note {
 export const PostItNotes = () => {
   const [notes, setNotes] = useState<Note[]>([])
 
-  const addNote = useCallback(() => {
+  const createNote = useCallback((text = '') => {
     const gridSize = 220
     const maxCols = Math.floor(window.innerWidth / gridSize)
     const existingPositions = new Set(
@@ -75,12 +45,20 @@ export const PostItNotes = () => {
 
     const newNote: Note = {
       id: Date.now().toString(),
-      text: '',
+      text,
       position: { x, y }
     }
 
     setNotes(prev => [...prev, newNote])
+    return newNote
   }, [notes])
+
+  // Auto-create an empty note if there are none
+  useEffect(() => {
+    if (notes.length === 0) {
+      createNote()
+    }
+  }, [notes.length, createNote])
 
   const updateNote = useCallback((id: string, text: string) => {
     setNotes(prev => prev.map(note => 
@@ -95,7 +73,11 @@ export const PostItNotes = () => {
   }, [])
 
   const completeNote = useCallback((id: string) => {
-    setNotes(prev => prev.filter(note => note.id !== id))
+    setNotes(prev => {
+      const newNotes = prev.filter(note => note.id !== id)
+      // If this was the last note, a new empty one will be created by the useEffect
+      return newNotes
+    })
   }, [])
 
   return (
@@ -111,7 +93,6 @@ export const PostItNotes = () => {
           onComplete={completeNote}
         />
       ))}
-      <AddButton onClick={addNote} />
     </Container>
   )
 }
