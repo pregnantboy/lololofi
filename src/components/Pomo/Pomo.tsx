@@ -10,7 +10,7 @@ import { Timer } from './Timer'
 const Container = styled.div<{ $shouldCenter: boolean }>`
   max-width: 450px;
   width: 100%;
-  margin: ${({ $shouldCenter }) => $shouldCenter ? 'auto' : '0'};
+  margin: ${({ $shouldCenter }) => ($shouldCenter ? 'auto' : '0')};
 
   @media (max-width: 576px) {
     margin: auto;
@@ -35,9 +35,5 @@ export const Pomo = () => {
     }
   }, [state])
 
-  return (
-    <Container $shouldCenter={shouldCenter}>
-      {component}
-    </Container>
-  )
+  return <Container $shouldCenter={shouldCenter}>{component}</Container>
 }

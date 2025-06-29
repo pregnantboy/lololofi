@@ -1,9 +1,10 @@
-import { type FormEvent, useState, useCallback } from 'react'
+import { type FormEvent, useCallback, useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, TextInput } from 'components/common'
-import { usePomoContext, useNotification } from 'hooks'
 import { TIMER_DEFAULTS } from 'constants/index'
+
+import { Button, TextInput } from 'components/common'
+import { useNotification, usePomoContext } from 'hooks'
 
 const StyledForm = styled.form`
   max-width: 100%;
@@ -39,21 +40,24 @@ const MinutesLabel = styled.span`
 export const Form = () => {
   const { dispatch } = usePomoContext()
   const { requestPermission } = useNotification()
-  
+
   const [task, setTask] = useState('')
   const [minutes, setMinutes] = useState(TIMER_DEFAULTS.DEFAULT_MINUTES)
 
-  const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    
-    if (minutes > 0 && minutes <= TIMER_DEFAULTS.MAX_MINUTES) {
-      requestPermission()
-      dispatch({
-        type: 'STARTING',
-        payload: { task, minutes },
-      })
-    }
-  }, [minutes, task, requestPermission, dispatch])
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+
+      if (minutes > 0 && minutes <= TIMER_DEFAULTS.MAX_MINUTES) {
+        requestPermission()
+        dispatch({
+          type: 'STARTING',
+          payload: { task, minutes },
+        })
+      }
+    },
+    [minutes, task, requestPermission, dispatch],
+  )
 
   const handleMinutesChange = useCallback((newValue: string) => {
     const parsedNumber = Number(newValue)

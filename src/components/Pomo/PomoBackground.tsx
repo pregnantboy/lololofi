@@ -17,8 +17,8 @@ const BackgroundImage = styled.div<{ $shouldBlur: boolean }>`
   background-size: cover;
   background-image: url(${background});
   transition: filter 1s linear;
-  filter: ${({ $shouldBlur }) => $shouldBlur ? 'blur(10px)' : 'none'};
-  opacity: ${({ $shouldBlur }) => $shouldBlur ? '0.5' : '1'};
+  filter: ${({ $shouldBlur }) => ($shouldBlur ? 'blur(10px)' : 'none')};
+  opacity: ${({ $shouldBlur }) => ($shouldBlur ? '0.5' : '1')};
 `
 
 export const PomoBackground = () => {

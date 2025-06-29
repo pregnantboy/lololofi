@@ -1,4 +1,4 @@
-import { useToggle, useFullscreen } from 'react-use'
+import { useFullscreen, useToggle } from 'react-use'
 import styled from 'styled-components'
 
 import { useAppContext } from 'hooks'

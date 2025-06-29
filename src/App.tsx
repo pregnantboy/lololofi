@@ -1,11 +1,11 @@
 import styled from 'styled-components'
+import { GlobalStyles } from 'styles/GlobalStyles'
 
 import { Lofi } from 'components/Lofi'
 import { Pomo, PomoBackground } from 'components/Pomo'
 import { AppContextProvider } from 'contexts/App.context'
 import { LofiContextProvider } from 'contexts/Lofi.context'
 import { PomoContextProvider } from 'contexts/Pomo.context'
-import { GlobalStyles } from 'styles/GlobalStyles'
 
 const Container = styled.div`
   background-color: black;

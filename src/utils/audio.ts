@@ -1,7 +1,11 @@
 /**
  * Creates and configures an audio element
  */
-export const createAudioElement = (src: string, volume = 1, loop = false): HTMLAudioElement => {
+export const createAudioElement = (
+  src: string,
+  volume = 1,
+  loop = false,
+): HTMLAudioElement => {
   const audio = new Audio(src)
   audio.volume = volume
   audio.loop = loop

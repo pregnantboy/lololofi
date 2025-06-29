@@ -1,7 +1,6 @@
 import { type ComponentPropsWithoutRef, type MouseEvent } from 'react'
 import ReactGA from 'react-ga4'
 import styled, { css } from 'styled-components'
-
 import type { GAEvent } from 'types'
 
 const buttonStyles = css<{ $invert?: boolean }>`
@@ -12,14 +11,16 @@ const buttonStyles = css<{ $invert?: boolean }>`
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: ${({ $invert }) => $invert ? '#e6e6e6' : 'black'};
-  color: ${({ $invert }) => $invert ? 'black' : 'white'};
+  background-color: ${({ $invert }) => ($invert ? '#e6e6e6' : 'black')};
+  color: ${({ $invert }) => ($invert ? 'black' : 'white')};
   border: 0;
   outline: 0;
   border-radius: 0;
   cursor: pointer;
   font-size: 2rem;
-  transition: ease-out 0.1s padding, ease-out 0.1s box-shadow;
+  transition:
+    ease-out 0.1s padding,
+    ease-out 0.1s box-shadow;
   user-select: none;
 
   @media (max-width: 768px) {
@@ -50,15 +51,19 @@ const buttonStyles = css<{ $invert?: boolean }>`
   }
 
   &:hover {
-    background-color: ${({ $invert }) => $invert ? 'black' : 'white'};
-    color: ${({ $invert }) => $invert ? '#e6e6e6' : 'black'};
-    box-shadow: inset -6px -6px 0px 0px ${({ $invert }) => $invert ? '#4d4d4d' : '#e6e6e6'};
-    padding: calc(0.5rem - 4px) calc(2rem + 4px) calc(0.5rem + 4px) calc(2rem - 4px);
+    background-color: ${({ $invert }) => ($invert ? 'black' : 'white')};
+    color: ${({ $invert }) => ($invert ? '#e6e6e6' : 'black')};
+    box-shadow: inset -6px -6px 0px 0px
+      ${({ $invert }) => ($invert ? '#4d4d4d' : '#e6e6e6')};
+    padding: calc(0.5rem - 4px) calc(2rem + 4px) calc(0.5rem + 4px)
+      calc(2rem - 4px);
   }
 
   &:active {
-    box-shadow: inset 4px 4px 0px 0px ${({ $invert }) => $invert ? '#4d4d4d' : '#e6e6e6'};
-    padding: calc(0.5rem + 4px) calc(2rem - 4px) calc(0.5rem - 4px) calc(2rem + 4px);
+    box-shadow: inset 4px 4px 0px 0px
+      ${({ $invert }) => ($invert ? '#4d4d4d' : '#e6e6e6')};
+    padding: calc(0.5rem + 4px) calc(2rem - 4px) calc(0.5rem - 4px)
+      calc(2rem + 4px);
   }
 `
 
@@ -71,12 +76,12 @@ interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   ga?: GAEvent
 }
 
-export const Button = ({ 
-  children, 
-  invert, 
-  ga, 
-  onClick, 
-  ...otherProps 
+export const Button = ({
+  children,
+  invert,
+  ga,
+  onClick,
+  ...otherProps
 }: ButtonProps) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (ga) {
@@ -86,11 +91,7 @@ export const Button = ({
   }
 
   return (
-    <StyledButton
-      {...otherProps}
-      onClick={handleClick}
-      $invert={invert}
-    >
+    <StyledButton {...otherProps} onClick={handleClick} $invert={invert}>
       {children}
     </StyledButton>
   )

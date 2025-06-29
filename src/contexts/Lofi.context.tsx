@@ -1,17 +1,18 @@
-import { 
-  createContext, 
-  useContext, 
-  useEffect, 
-  useReducer, 
-  type ReactNode, 
-  type Dispatch 
+import {
+  createContext,
+  type Dispatch,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useReducer,
 } from 'react'
 
 import { usePlayerPrefs } from 'hooks'
-import tracklist from 'assets/data/tracklist.json'
 
 import { PomoContext } from './Pomo.context'
 import type { LofiAction, LofiContextState } from './types'
+
+import tracklist from 'assets/data/tracklist.json'
 
 interface LofiContextValue extends LofiContextState {
   dispatch: Dispatch<LofiAction>
@@ -38,7 +39,10 @@ const getTrack = (trackIndex = 0) => {
   }
 }
 
-const lofiReducer = (state: LofiContextState, action: LofiAction): LofiContextState => {
+const lofiReducer = (
+  state: LofiContextState,
+  action: LofiAction,
+): LofiContextState => {
   switch (action.type) {
     case 'PLAY':
       return { ...state, isPlaying: true }
@@ -49,9 +53,8 @@ const lofiReducer = (state: LofiContextState, action: LofiAction): LofiContextSt
       return { ...state, ...getTrack(newTrackIndex) }
     }
     case 'PREV': {
-      const newTrackIndex = state.trackIndex - 1 < 0 
-        ? tracklist.length - 1 
-        : state.trackIndex - 1
+      const newTrackIndex =
+        state.trackIndex - 1 < 0 ? tracklist.length - 1 : state.trackIndex - 1
       return { ...state, ...getTrack(newTrackIndex) }
     }
     case 'VOLUME':

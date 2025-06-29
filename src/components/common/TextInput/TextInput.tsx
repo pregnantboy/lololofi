@@ -13,7 +13,8 @@ const StyledInput = styled.input`
   border-radius: 0;
 `
 
-interface TextInputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'onChange'> {
+interface TextInputProps
+  extends Omit<ComponentPropsWithoutRef<'input'>, 'onChange'> {
   onValueChange: (value: string) => void
 }
 

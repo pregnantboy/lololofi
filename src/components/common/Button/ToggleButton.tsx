@@ -1,9 +1,9 @@
 import { type ComponentPropsWithoutRef, type MouseEvent } from 'react'
 import ReactGA from 'react-ga4'
 import styled from 'styled-components'
+import type { GAEvent } from 'types'
 
 import circleUrl from 'assets/img/circle.svg?url'
-import type { GAEvent } from 'types'
 
 const StyledToggleButton = styled.button`
   height: 3rem;
@@ -39,13 +39,13 @@ interface ToggleButtonProps extends ComponentPropsWithoutRef<'button'> {
   ga?: GAEvent
 }
 
-export const ToggleButton = ({ 
-  ga, 
-  isActive, 
-  img, 
-  activeImg, 
-  onClick, 
-  ...otherProps 
+export const ToggleButton = ({
+  ga,
+  isActive,
+  img,
+  activeImg,
+  onClick,
+  ...otherProps
 }: ToggleButtonProps) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (ga) {
@@ -56,12 +56,7 @@ export const ToggleButton = ({
 
   return (
     <StyledToggleButton {...otherProps} onClick={handleClick}>
-      <img 
-        src={isActive ? activeImg : img} 
-        height="100%" 
-        width="100%" 
-        alt="" 
-      />
+      <img src={isActive ? activeImg : img} height="100%" width="100%" alt="" />
     </StyledToggleButton>
   )
 }

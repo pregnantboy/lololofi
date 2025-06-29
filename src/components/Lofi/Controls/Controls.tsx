@@ -99,11 +99,12 @@ const MarqueeContainer = styled.div`
 `
 
 export const Controls = () => {
-  const { dispatch, isPlaying, trackName, trackUrl, isBuffering } = useLofiContext()
+  const { dispatch, isPlaying, trackName, trackUrl, isBuffering } =
+    useLofiContext()
 
   const handleControlClick = useCallback(
     (type: 'PREV' | 'NEXT' | 'PLAY' | 'PAUSE') => () => dispatch({ type }),
-    [dispatch]
+    [dispatch],
   )
 
   const handleTrackClick = useCallback(() => {
@@ -122,7 +123,7 @@ export const Controls = () => {
         </Marquee>
       </MarqueeContainer>
     ),
-    [isPlaying, trackName, isBuffering]
+    [isPlaying, trackName, isBuffering],
   )
 
   return (
@@ -132,7 +133,10 @@ export const Controls = () => {
           <Prev />
         </ControlButton>
         {isPlaying ? (
-          <ControlButton className="pause" onClick={handleControlClick('PAUSE')}>
+          <ControlButton
+            className="pause"
+            onClick={handleControlClick('PAUSE')}
+          >
             <Pause />
           </ControlButton>
         ) : (

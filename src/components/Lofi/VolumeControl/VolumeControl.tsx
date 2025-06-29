@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 import { useLofiContext } from 'hooks'
 
-import { ReactComponent as Mute } from 'assets/img/mute.svg'
-import { ReactComponent as Volume } from 'assets/img/volume.svg'
+import Mute from 'assets/img/mute.svg?url'
+import Volume from 'assets/img/volume.svg?url'
 
 const Container = styled.div`
   display: flex;
@@ -92,7 +92,7 @@ export const VolumeControl = () => {
       const newValue = Number(event.target.value) / 100
       dispatch({ type: 'VOLUME', value: newValue })
     },
-    [dispatch]
+    [dispatch],
   )
 
   const handleToggleMute = useCallback(() => {
@@ -102,7 +102,11 @@ export const VolumeControl = () => {
   return (
     <Container>
       <MuteButton onClick={handleToggleMute}>
-        {isMuted ? <Mute /> : <Volume />}
+        {isMuted ? (
+          <img src={Mute} alt="Mute" />
+        ) : (
+          <img src={Volume} alt="Volume" />
+        )}
       </MuteButton>
       <Slider
         type="range"

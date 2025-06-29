@@ -1,17 +1,17 @@
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { ToggleButton } from 'components/common'
-import { useLofiContext, usePomoContext } from 'hooks'
 import { AUDIO_FILES, VOLUME_DEFAULTS } from 'constants/index'
-import { createAudioElement, playAudio, pauseAudio } from 'utils'
+
+import { ToggleButton } from 'components/common'
+import type { RainState } from 'contexts/types'
+import { useLofiContext, usePomoContext } from 'hooks'
+import { createAudioElement, pauseAudio, playAudio } from 'utils'
 
 import rain from 'assets/img/rain.png'
 import rainInvert from 'assets/img/rain-invert.png'
 import umbrella from 'assets/img/umbrella.png'
 import umbrellaInvert from 'assets/img/umbrella-invert.png'
-
-import type { RainState } from 'contexts/types'
 
 const Container = styled.div`
   display: flex;
@@ -30,22 +30,24 @@ export const Rain = () => {
   const { state: pomoState } = usePomoContext()
   const { volume, isMuted } = useLofiContext()
 
-  const rainAudio = useMemo(() => 
-    createAudioElement(
-      AUDIO_FILES.RAIN, 
-      VOLUME_DEFAULTS.RAIN * (volume ?? 0.5), 
-      true
-    ), 
-    [volume]
+  const rainAudio = useMemo(
+    () =>
+      createAudioElement(
+        AUDIO_FILES.RAIN,
+        VOLUME_DEFAULTS.RAIN * (volume ?? 0.5),
+        true,
+      ),
+    [volume],
   )
-  
-  const umbrellaAudio = useMemo(() => 
-    createAudioElement(
-      AUDIO_FILES.UMBRELLA, 
-      VOLUME_DEFAULTS.UMBRELLA * (volume ?? 0.5), 
-      true
-    ), 
-    [volume]
+
+  const umbrellaAudio = useMemo(
+    () =>
+      createAudioElement(
+        AUDIO_FILES.UMBRELLA,
+        VOLUME_DEFAULTS.UMBRELLA * (volume ?? 0.5),
+        true,
+      ),
+    [volume],
   )
 
   // Update audio volumes when volume or mute state changes
@@ -64,24 +66,27 @@ export const Rain = () => {
     }
   }, [pomoState, rainAudio, umbrellaAudio])
 
-  const handleButtonClick = useCallback(async (newState: RainState) => {
-    if (rainState === newState) {
-      // Turn off current state
-      pauseAudio(rainAudio)
-      pauseAudio(umbrellaAudio)
-      setRainState('OFF')
-    } else {
-      // Switch to new state
-      if (newState === 'RAIN') {
-        pauseAudio(umbrellaAudio)
-        await playAudio(rainAudio)
-      } else if (newState === 'UMBRELLA') {
+  const handleButtonClick = useCallback(
+    async (newState: RainState) => {
+      if (rainState === newState) {
+        // Turn off current state
         pauseAudio(rainAudio)
-        await playAudio(umbrellaAudio)
+        pauseAudio(umbrellaAudio)
+        setRainState('OFF')
+      } else {
+        // Switch to new state
+        if (newState === 'RAIN') {
+          pauseAudio(umbrellaAudio)
+          await playAudio(rainAudio)
+        } else if (newState === 'UMBRELLA') {
+          pauseAudio(rainAudio)
+          await playAudio(umbrellaAudio)
+        }
+        setRainState(newState)
       }
-      setRainState(newState)
-    }
-  }, [rainState, rainAudio, umbrellaAudio])
+    },
+    [rainState, rainAudio, umbrellaAudio],
+  )
 
   return (
     <Container>

@@ -1,4 +1,9 @@
-import { createContext, useRef, type ReactNode, type MutableRefObject } from 'react'
+import {
+  createContext,
+  type MutableRefObject,
+  type ReactNode,
+  useRef,
+} from 'react'
 
 interface AppContextValue {
   appRef: MutableRefObject<HTMLDivElement | null>

@@ -4,7 +4,7 @@ import { useBeforeUnload } from 'react-use'
 import styled from 'styled-components'
 
 import { Button } from 'components/common'
-import { usePomoContext, useCountdown, useNotification } from 'hooks'
+import { useCountdown, useNotification, usePomoContext } from 'hooks'
 import { formatTime } from 'utils'
 
 const Container = styled.div`
@@ -44,7 +44,7 @@ export const Timer = () => {
   const { remainingSecs, task, dispatch } = usePomoContext()
   const { seconds, paused, togglePause, stop } = useCountdown(remainingSecs)
   const { displayNotification } = useNotification()
-  
+
   useBeforeUnload(true, 'Do you want to quit?')
 
   const handleStop = useCallback(
@@ -52,7 +52,7 @@ export const Timer = () => {
       stop()
       dispatch({ type: completed ? 'COMPLETED' : 'READY' })
     },
-    [dispatch, stop]
+    [dispatch, stop],
   )
 
   const handlePauseToggle = useCallback(() => {

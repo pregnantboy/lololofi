@@ -13,7 +13,7 @@ export const useCountdown = (initialSeconds: number): UseCountdownReturn => {
   const intervalRef = useRef<NodeJS.Timeout>()
 
   const decreaseSeconds = useCallback(() => {
-    setSeconds(prev => Math.max(0, prev - 1))
+    setSeconds((prev) => Math.max(0, prev - 1))
   }, [])
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const useCountdown = (initialSeconds: number): UseCountdownReturn => {
   }, [paused, decreaseSeconds])
 
   const togglePause = useCallback(() => {
-    setPaused(prev => !prev)
+    setPaused((prev) => !prev)
   }, [])
 
   const stop = useCallback(() => {

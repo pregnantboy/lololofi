@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import ReactGA from 'react-ga4'
 import styled from 'styled-components'
 
+import { TIMER_DEFAULTS } from 'constants/index'
+
 import { Button } from 'components/common'
 import { usePomoContext } from 'hooks'
-import { TIMER_DEFAULTS } from 'constants/index'
 
 import circleUrl from 'assets/img/circle.svg?url'
 
@@ -17,7 +18,9 @@ const Container = styled.div`
   position: relative;
   opacity: 0;
   height: 450px;
-  animation: fadeIn 1s ease-out forwards, fadeOut 1s ease-in forwards 9s;
+  animation:
+    fadeIn 1s ease-out forwards,
+    fadeOut 1s ease-in forwards 9s;
 `
 
 const CircleExpand = styled.img`
@@ -44,22 +47,31 @@ export const Breathe = () => {
   const { dispatch } = usePomoContext()
   const [isBreatheOut, setIsBreatheOut] = useState(false)
 
-  const handleNext = useCallback((skip = false) => {
-    ReactGA.event({
-      category: 'Breathe',
-      action: skip ? 'skipBreathe' : 'completeBreathe',
-    })
-    dispatch({ type: 'STARTED' })
-  }, [dispatch])
+  const handleNext = useCallback(
+    (skip = false) => {
+      ReactGA.event({
+        category: 'Breathe',
+        action: skip ? 'skipBreathe' : 'completeBreathe',
+      })
+      dispatch({ type: 'STARTED' })
+    },
+    [dispatch],
+  )
 
   const handleBreatheOut = useCallback(() => {
     setIsBreatheOut(true)
-    timerRef.current = setTimeout(() => handleNext(), TIMER_DEFAULTS.BREATHE_DURATION)
+    timerRef.current = setTimeout(
+      () => handleNext(),
+      TIMER_DEFAULTS.BREATHE_DURATION,
+    )
   }, [handleNext])
 
   useEffect(() => {
-    timerRef.current = setTimeout(handleBreatheOut, TIMER_DEFAULTS.BREATHE_DURATION)
-    
+    timerRef.current = setTimeout(
+      handleBreatheOut,
+      TIMER_DEFAULTS.BREATHE_DURATION,
+    )
+
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current)
@@ -76,9 +88,7 @@ export const Breathe = () => {
         width={350}
         alt="Breathing circle"
       />
-      <SkipButton onClick={() => handleNext(true)}>
-        Skip
-      </SkipButton>
+      <SkipButton onClick={() => handleNext(true)}>Skip</SkipButton>
     </Container>
   )
 }

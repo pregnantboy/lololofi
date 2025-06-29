@@ -1,14 +1,19 @@
-import { useMemo, useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga4'
-
-import { AUDIO_FILES, VOLUME_DEFAULTS } from 'constants/index'
-import { createAudioElement, playAudio } from 'utils'
 import type { NotificationOptions } from 'types'
 
+import { AUDIO_FILES, VOLUME_DEFAULTS } from 'constants/index'
+
+import { createAudioElement, playAudio } from 'utils'
+
 export const useNotification = () => {
-  const sound = useMemo(() => 
-    createAudioElement(AUDIO_FILES.NOTIFICATION, VOLUME_DEFAULTS.NOTIFICATION), 
-    []
+  const sound = useMemo(
+    () =>
+      createAudioElement(
+        AUDIO_FILES.NOTIFICATION,
+        VOLUME_DEFAULTS.NOTIFICATION,
+      ),
+    [],
   )
 
   const requestPermission = useCallback(() => {
@@ -17,44 +22,47 @@ export const useNotification = () => {
     }
   }, [])
 
-  const displayNotification = useCallback(async ({ title, body }: NotificationOptions) => {
-    await playAudio(sound)
-    
-    const options: NotificationOptions & { 
-      icon?: string
-      vibrate?: number[]
-    } = {
-      title,
-      body,
-      icon: '/logo96.png',
-      vibrate: [100, 50, 100],
-    }
+  const displayNotification = useCallback(
+    async ({ title, body }: NotificationOptions) => {
+      await playAudio(sound)
 
-    if (!('Notification' in window)) {
-      ReactGA.event({
-        category: 'Notification',
-        action: 'notSupported',
-      })
-      return
-    }
+      const options: NotificationOptions & {
+        icon?: string
+        vibrate?: number[]
+      } = {
+        title,
+        body,
+        icon: '/logo96.png',
+        vibrate: [100, 50, 100],
+      }
 
-    if (Notification.permission === 'granted') {
-      try {
-        new Notification(title, options)
+      if (!('Notification' in window)) {
         ReactGA.event({
           category: 'Notification',
-          action: 'displayNotification',
+          action: 'notSupported',
         })
-      } catch (error) {
-        console.warn('Failed to display notification:', error)
+        return
       }
-    } else {
-      ReactGA.event({
-        category: 'Notification',
-        action: 'notGranted',
-      })
-    }
-  }, [sound])
+
+      if (Notification.permission === 'granted') {
+        try {
+          new Notification(title, options)
+          ReactGA.event({
+            category: 'Notification',
+            action: 'displayNotification',
+          })
+        } catch (error) {
+          console.warn('Failed to display notification:', error)
+        }
+      } else {
+        ReactGA.event({
+          category: 'Notification',
+          action: 'notGranted',
+        })
+      }
+    },
+    [sound],
+  )
 
   return { requestPermission, displayNotification }
 }

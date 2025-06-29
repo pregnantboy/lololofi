@@ -1,7 +1,8 @@
-import { createContext, useReducer, type ReactNode, type Dispatch } from 'react'
+import { createContext, type Dispatch, type ReactNode, useReducer } from 'react'
+
+import { TIMER_DEFAULTS } from 'constants/index'
 
 import { minutesToSeconds } from 'utils'
-import { TIMER_DEFAULTS } from 'constants/index'
 
 import type { PomoAction, PomoContextState } from './types'
 
@@ -18,7 +19,10 @@ const defaultState: PomoContextState = {
   state: 'READY',
 }
 
-const pomoReducer = (state: PomoContextState, action: PomoAction): PomoContextState => {
+const pomoReducer = (
+  state: PomoContextState,
+  action: PomoAction,
+): PomoContextState => {
   switch (action.type) {
     case 'READY':
       return defaultState

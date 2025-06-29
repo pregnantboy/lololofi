@@ -7,8 +7,9 @@ export const Player = () => {
   const { trackUrl, isPlaying, volume, isMuted, dispatch } = useLofiContext()
 
   const handleStateChange = useCallback(
-    (type: 'PLAY' | 'PAUSE' | 'BUFFER_START' | 'BUFFER_END') => () => dispatch({ type }),
-    [dispatch]
+    (type: 'PLAY' | 'PAUSE' | 'BUFFER_START' | 'BUFFER_END') => () =>
+      dispatch({ type }),
+    [dispatch],
   )
 
   return (
