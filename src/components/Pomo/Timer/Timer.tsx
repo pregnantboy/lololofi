@@ -17,7 +17,7 @@ const Container = styled.div`
   animation: fadeIn 1s ease-in-out forwards;
 `
 
-const Timer = styled.p`
+const StyledTimerText = styled.p`
   font-size: 8rem;
   margin: 3rem 0;
 `
@@ -74,7 +74,7 @@ export const Timer = () => {
   return (
     <Container>
       <h2>{task}</h2>
-      <Timer>{formattedTime()}</Timer>
+      <StyledTimerText>{formattedTime()}</StyledTimerText>
       <ButtonRow>
         <Button
           ga={{
