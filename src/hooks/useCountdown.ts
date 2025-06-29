@@ -4,7 +4,7 @@ export function useCountdown(initialSeconds: number) {
   const [seconds, setSeconds] = useState(initialSeconds)
   const [paused, setPaused] = useState(false)
 
-  const intervalRef = useRef<number>()
+  const intervalRef = useRef<NodeJS.Timeout>()
 
   const decreaseNum = () => setSeconds((prev) => prev - 1)
 

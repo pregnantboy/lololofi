@@ -26,16 +26,17 @@ export const Rain = () => {
 
   const rainAudio = useMemo(() => {
     const audio = new Audio(rainBg)
-    audio.volume = DEFAULT_RAIN_VOLUME * volume ?? DEFAULT_RAIN_VOLUME
+    audio.volume = DEFAULT_RAIN_VOLUME * (volume ?? 0.5)
     audio.loop = true
     return audio
-  }, [])
+  }, [volume])
+  
   const umbrellaAudio = useMemo(() => {
     const audio = new Audio(umbrellaBg)
-    audio.volume = DEFAULT_UMBRELLA_VOLUME * volume ?? DEFAULT_UMBRELLA_VOLUME
+    audio.volume = DEFAULT_UMBRELLA_VOLUME * (volume ?? 0.5)
     audio.loop = true
     return audio
-  }, [])
+  }, [volume])
 
   useEffect(() => {
     if (isMuted) {
@@ -45,7 +46,7 @@ export const Rain = () => {
       rainAudio.volume = DEFAULT_RAIN_VOLUME * volume
       umbrellaAudio.volume = DEFAULT_UMBRELLA_VOLUME * volume
     }
-  }, [volume, isMuted])
+  }, [volume, isMuted, rainAudio, umbrellaAudio])
 
   useEffect(() => {
     if (state === 'COMPLETED') {

@@ -10,13 +10,17 @@ import styles from './Breathe.module.scss'
 
 export const Breathe = () => {
   const BREATHE_IN_DURATION = 5000
-  const timerRef = useRef(0)
+  const timerRef = useRef<NodeJS.Timeout>()
   const { dispatch } = useContext(PomoContext)
   const [isBreatheOut, setIsBreatheOut] = useState(false)
 
   useEffect(() => {
     timerRef.current = setTimeout(onBreatheOut, BREATHE_IN_DURATION)
-    return () => clearTimeout(timerRef.current)
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
   }, [])
 
   function onBreatheOut() {
@@ -42,6 +46,7 @@ export const Breathe = () => {
         src={circle}
         height={350}
         width={350}
+        alt="Breathing circle"
       />
       <Button className={styles.skipButton} onClick={() => onNext(true)}>
         Skip

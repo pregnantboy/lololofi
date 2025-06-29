@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useState } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 import ReactGA from 'react-ga4'
 import cx from 'classnames'
 
@@ -36,7 +36,7 @@ export const ToggleButton = (props: ButtonProps) => {
         backgroundImage: `url(${circle})`,
       }}
     >
-      <img src={isActive ? activeImg : img} height="100%" width="100%" />
+      <img src={isActive ? activeImg : img} height="100%" width="100%" alt="" />
     </button>
   )
 }

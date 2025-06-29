@@ -8,9 +8,9 @@ interface PlayerPrefs {
 const PLAYER_PREFS_STORAGE_KEY = 'LOLOLOFI_PLAYER_PREFS'
 
 export function usePlayerPrefs() {
-  const [value, setValue] = useLocalStorage(
+  const [value, setValue] = useLocalStorage<PlayerPrefs>(
     PLAYER_PREFS_STORAGE_KEY,
-    {} as PlayerPrefs
+    { trackIndex: 0, volume: 0.5 }
   )
   return {
     prefs: value,
