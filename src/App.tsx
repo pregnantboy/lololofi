@@ -3,6 +3,7 @@ import { GlobalStyles } from 'styles/GlobalStyles'
 
 import { Lofi } from 'components/Lofi'
 import { Pomo, PomoBackground } from 'components/Pomo'
+import { PostItNotes } from 'components/PostItNotes'
 import { AppContextProvider } from 'contexts/App.context'
 import { LofiContextProvider } from 'contexts/Lofi.context'
 import { PomoContextProvider } from 'contexts/Pomo.context'
@@ -33,6 +34,15 @@ const PomoSection = styled.div`
   margin: auto;
 `
 
+const PostItSection = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+`
+
 const LofiSection = styled.div`
   max-width: 1200px;
   margin: auto;
@@ -42,6 +52,8 @@ const LofiSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  z-index: 3;
+  position: relative;
 `
 
 const App = () => {
@@ -56,6 +68,9 @@ const App = () => {
               <PomoSection>
                 <Pomo />
               </PomoSection>
+              <PostItSection>
+                <PostItNotes />
+              </PostItSection>
             </Background>
             <LofiSection>
               <Lofi />

@@ -7,10 +7,11 @@ import { Breathe } from './Breathe'
 import { Form } from './Form'
 import { Timer } from './Timer'
 
-const Container = styled.div<{ $shouldCenter: boolean }>`
+const Container = styled.div<{ $shouldCenter: boolean; $isHidden: boolean }>`
   max-width: 450px;
   width: 100%;
   margin: ${({ $shouldCenter }) => ($shouldCenter ? 'auto' : '0')};
+  display: ${({ $isHidden }) => ($isHidden ? 'none' : 'block')};
 
   @media (max-width: 576px) {
     margin: auto;
@@ -20,6 +21,7 @@ const Container = styled.div<{ $shouldCenter: boolean }>`
 export const Pomo = () => {
   const { state } = usePomoContext()
   const shouldCenter = state === 'STARTING'
+  const isHidden = true // Hide the pomo UI for now
 
   const component = useMemo(() => {
     switch (state) {
@@ -35,5 +37,5 @@ export const Pomo = () => {
     }
   }, [state])
 
-  return <Container $shouldCenter={shouldCenter}>{component}</Container>
+  return <Container $shouldCenter={shouldCenter} $isHidden={isHidden}>{component}</Container>
 }
