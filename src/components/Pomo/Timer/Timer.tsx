@@ -1,12 +1,38 @@
 import { useCallback, useContext, useEffect } from 'react'
 import ReactGA from 'react-ga4'
 import { useBeforeUnload } from 'react-use'
+import styled from 'styled-components'
 
 import { Button } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
 import { useCountdown, useNotification } from 'hooks'
 
-import styles from './Timer.module.scss'
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+`
+
+const Timer = styled.p`
+  font-size: 8rem;
+  margin: 3rem 0;
+`
+
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+
+  button {
+    margin: 0 1rem 3rem;
+  }
+`
 
 export const Timer = () => {
   const { remainingSecs, task, dispatch } = useContext(PomoContext)
@@ -28,7 +54,7 @@ export const Timer = () => {
       stop()
       dispatch({ type: completed ? 'COMPLETED' : 'READY' })
     },
-    [paused, dispatch, stop]
+    [dispatch, stop]
   )
 
   useEffect(() => {
@@ -46,10 +72,10 @@ export const Timer = () => {
   }, [displayNotification, onStop, seconds])
 
   return (
-    <div className={styles.container}>
+    <Container>
       <h2>{task}</h2>
-      <p className={styles.timer}>{formattedTime()}</p>
-      <div className={styles.buttonRow}>
+      <Timer>{formattedTime()}</Timer>
+      <ButtonRow>
         <Button
           ga={{
             category: 'Session',
@@ -69,7 +95,7 @@ export const Timer = () => {
         >
           Stop
         </Button>
-      </div>
-    </div>
+      </ButtonRow>
+    </Container>
   )
 }

@@ -26,25 +26,4 @@ export default defineConfig({
     host: true,
     port: 3000,
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-        silenceDeprecations: ['legacy-js-api'],
-        quietDeps: true,
-        charset: false,
-      },
-    },
-  },
-  build: {
-    rollupOptions: {
-      onwarn(warning, warn) {
-        // Suppress specific warnings
-        if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
-          return
-        }
-        warn(warning)
-      },
-    },
-  },
 })

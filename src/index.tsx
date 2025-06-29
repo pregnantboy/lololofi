@@ -5,8 +5,6 @@ import ReactGA from 'react-ga4'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
-import './styles/main.scss'
-
 ReactGA.initialize('G-0R72LHG5L9')
 
 const container = document.getElementById('root')!

@@ -10,6 +10,7 @@
     "react-ga4": "^2.1.0",
     "react-player": "^2.16.0",
     "react-use": "^17.5.1",
+    "styled-components": "^6.1.13",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
@@ -36,6 +37,7 @@
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
+    "@types/styled-components": "^5.1.34",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
     "@vitejs/plugin-react": "^4.3.4",
@@ -46,8 +48,6 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^15.13.0",
     "prettier": "^3.4.2",
-    "sass": "^1.83.0",
-    "sass-embedded": "^1.83.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.3",

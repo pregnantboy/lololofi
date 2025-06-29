@@ -1,10 +1,29 @@
 import { ChangeEvent, useContext, useState } from 'react'
+import styled from 'styled-components'
 
 import { Button, TextInput } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
 import { useNotification } from 'hooks'
 
-import styles from './Form.module.scss'
+const StyledForm = styled.form`
+  max-width: 100%;
+  padding: 2rem 0;
+
+  input {
+    margin-top: 0.5rem;
+    margin-bottom: 5vh;
+  }
+`
+
+const TimeInput = styled(TextInput)`
+  max-width: 5rem;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+`
+
+const TextInputStyled = styled(TextInput)`
+  width: 100%;
+`
 
 const Form = () => {
   const { dispatch } = useContext(PomoContext)
@@ -35,21 +54,19 @@ const Form = () => {
   }
 
   return (
-    <form className={styles.form} onSubmit={onFormSubmit}>
+    <StyledForm onSubmit={onFormSubmit}>
       <h3>What do you want to focus on?</h3>
-      <TextInput
-        className={styles.textInput}
+      <TextInputStyled
         autoFocus={true}
         value={task}
         onValueChange={setTask}
         maxLength={42}
-      ></TextInput>
+      />
       <h3>For how long?</h3>
-      <TextInput
-        className={styles.timeInput}
+      <TimeInput
         value={minutes}
         onValueChange={onMinutesChange}
-      ></TextInput>
+      />
       <span>mins</span>
       <Button
         ga={{
@@ -59,7 +76,7 @@ const Form = () => {
       >
         Start
       </Button>
-    </form>
+    </StyledForm>
   )
 }
 

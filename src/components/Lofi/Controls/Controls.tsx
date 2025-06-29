@@ -1,6 +1,6 @@
 import { useCallback, useContext, useMemo } from 'react'
 import Marquee from 'react-double-marquee'
-import cx from 'classnames'
+import styled from 'styled-components'
 
 import { LofiAction, LofiContext } from 'contexts/Lofi.context'
 
@@ -11,7 +11,86 @@ import { ReactComponent as Pause } from 'assets/img/pause_button.svg'
 import { ReactComponent as Play } from 'assets/img/play_button.svg'
 import { ReactComponent as Prev } from 'assets/img/previous.svg'
 
-import styles from './Control.module.scss'
+const Container = styled.div`
+  width: 100%;
+  max-width: 50vw;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`
+
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const ControlButton = styled.div`
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+  transition: ease-out 0.1s transform;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+  }
+
+  &.play,
+  &.pause {
+    margin: 0 1rem;
+  }
+`
+
+const TrackName = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 1rem 2rem;
+`
+
+const BufferingIcon = styled(Buffering)`
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  animation: spin 5s infinite linear;
+`
+
+const MusicIcon = styled(Music)`
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: ease-out 0.1s transform;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+  }
+`
+
+const MarqueeContainer = styled.div`
+  width: 100%;
+  max-width: 400px;
+  white-space: nowrap;
+
+  span {
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+  }
+`
 
 export const Controls = () => {
   const { dispatch, isPlaying, trackName, trackUrl, isBuffering } =
@@ -24,7 +103,7 @@ export const Controls = () => {
 
   const trackMarquee = useMemo(
     () => (
-      <div className={styles.marquee}>
+      <MarqueeContainer>
         <Marquee
           direction="left"
           scrollWhen="always"
@@ -32,45 +111,38 @@ export const Controls = () => {
         >
           <span>{trackName}</span>
         </Marquee>
-      </div>
+      </MarqueeContainer>
     ),
     [isPlaying, trackName, isBuffering]
   )
 
   return (
-    <div className={styles.container}>
-      <div className={styles.buttonRow}>
-        <Prev
-          className={cx(styles.controlBtn, styles.prev)}
-          onClick={changeState('PREV')}
-        />
+    <Container>
+      <ButtonRow>
+        <ControlButton onClick={changeState('PREV')}>
+          <Prev />
+        </ControlButton>
         {isPlaying ? (
-          <Pause
-            className={cx(styles.controlBtn, styles.pause)}
-            onClick={changeState('PAUSE')}
-          />
+          <ControlButton className="pause" onClick={changeState('PAUSE')}>
+            <Pause />
+          </ControlButton>
         ) : (
-          <Play
-            className={cx(styles.controlBtn, styles.play)}
-            onClick={changeState('PLAY')}
-          />
+          <ControlButton className="play" onClick={changeState('PLAY')}>
+            <Play />
+          </ControlButton>
         )}
-        <Next
-          className={cx(styles.controlBtn, styles.next)}
-          onClick={changeState('NEXT')}
-        />
-      </div>
-      <div className={styles.trackName}>
+        <ControlButton onClick={changeState('NEXT')}>
+          <Next />
+        </ControlButton>
+      </ButtonRow>
+      <TrackName>
         {isBuffering ? (
-          <Buffering className={styles.bufferingIcon} />
+          <BufferingIcon />
         ) : (
-          <Music
-            className={styles.musicIcon}
-            onClick={() => window.open(trackUrl)}
-          />
+          <MusicIcon onClick={() => window.open(trackUrl)} />
         )}
         {trackMarquee}
-      </div>
-    </div>
+      </TrackName>
+    </Container>
   )
 }

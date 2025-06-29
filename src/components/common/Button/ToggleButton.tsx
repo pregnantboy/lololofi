@@ -1,10 +1,35 @@
 import { ComponentPropsWithoutRef } from 'react'
 import ReactGA from 'react-ga4'
-import cx from 'classnames'
+import styled from 'styled-components'
 
 import circleUrl from 'assets/img/circle.svg?url'
 
-import styles from './ToggleButton.module.scss'
+const StyledToggleButton = styled.button`
+  height: 3rem;
+  width: 3rem;
+  margin: 2px;
+  padding: 0.5rem;
+  background: transparent;
+  background-size: cover;
+  overflow: visible;
+  cursor: pointer;
+  user-select: none;
+  transition: ease-out 0.1s transform;
+  background-image: url(${circleUrl});
+
+  &:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+`
 
 interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   isActive: boolean
@@ -28,15 +53,11 @@ export const ToggleButton = (props: ButtonProps) => {
   }
 
   return (
-    <button
+    <StyledToggleButton
       {...otherProps}
       onClick={onTrackedClick}
-      className={cx(styles.toggleButton)}
-      style={{
-        backgroundImage: `url(${circleUrl})`,
-      }}
     >
       <img src={isActive ? activeImg : img} height="100%" width="100%" alt="" />
-    </button>
+    </StyledToggleButton>
   )
 }

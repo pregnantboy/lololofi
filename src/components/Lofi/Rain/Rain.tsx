@@ -1,4 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
+import styled from 'styled-components'
 
 import { ToggleButton } from 'components/common'
 import { LofiContext } from 'contexts/Lofi.context'
@@ -9,7 +10,17 @@ import rainInvert from 'assets/img/rain-invert.png'
 import umbrella from 'assets/img/umbrella.png'
 import umbrellaInvert from 'assets/img/umbrella-invert.png'
 
-import styles from './Rain.module.scss'
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+
+  button {
+    margin-right: 1rem;
+  }
+`
 
 const rainBg = '/sounds/rain.mp3'
 const umbrellaBg = '/sounds/umbrella.mp3'
@@ -72,7 +83,7 @@ export const Rain = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <Container>
       <ToggleButton
         onClick={() => onButtonClick('RAIN')}
         isActive={rainState === 'RAIN'}
@@ -85,6 +96,6 @@ export const Rain = () => {
         img={umbrella}
         activeImg={umbrellaInvert}
       />
-    </div>
+    </Container>
   )
 }

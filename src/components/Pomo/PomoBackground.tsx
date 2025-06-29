@@ -1,21 +1,30 @@
 import { useContext } from 'react'
-import cx from 'classnames'
+import styled from 'styled-components'
 
 import { PomoContext } from 'contexts/Pomo.context'
 
 import background from 'assets/img/background.gif'
 
-import styles from './Pomo.module.scss'
+const BackgroundImage = styled.div<{ $shouldBlur: boolean }>`
+  height: 100%;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(${background});
+  transition: filter 1s linear;
+  filter: ${props => props.$shouldBlur ? 'blur(10px)' : 'none'};
+  opacity: ${props => props.$shouldBlur ? '0.5' : '1'};
+`
 
 export const PomoBackground = () => {
   const { state } = useContext(PomoContext)
-
   const shouldBlur = state === 'STARTING'
 
-  return (
-    <div
-      className={cx(styles.backgroundImg, { [styles.blur]: shouldBlur })}
-      style={{ backgroundImage: `url(${background})` }}
-    />
-  )
+  return <BackgroundImage $shouldBlur={shouldBlur} />
 }

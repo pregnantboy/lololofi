@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import cx from 'classnames'
+import styled from 'styled-components'
 
 import { PomoContext } from 'contexts/Pomo.context'
 
@@ -7,7 +7,15 @@ import { Breathe } from './Breathe'
 import { Form } from './Form'
 import { Timer } from './Timer'
 
-import styles from './Pomo.module.scss'
+const Container = styled.div<{ $shouldCenter: boolean }>`
+  max-width: 450px;
+  width: 100%;
+  margin: ${props => props.$shouldCenter ? 'auto' : '0'};
+
+  @media (max-width: 576px) {
+    margin: auto;
+  }
+`
 
 const Pomo = () => {
   const { state } = useContext(PomoContext)
@@ -28,9 +36,9 @@ const Pomo = () => {
   }, [state])
 
   return (
-    <div className={cx(styles.container, { [styles.center]: shouldCenter })}>
+    <Container $shouldCenter={shouldCenter}>
       {component}
-    </div>
+    </Container>
   )
 }
 
