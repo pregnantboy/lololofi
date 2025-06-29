@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef } from 'react'
 import ReactGA from 'react-ga4'
 import cx from 'classnames'
 
-import circle from 'assets/img/circle.svg'
+import circleUrl from 'assets/img/circle.svg?url'
 
 import styles from './ToggleButton.module.scss'
 
@@ -33,7 +33,7 @@ export const ToggleButton = (props: ButtonProps) => {
       onClick={onTrackedClick}
       className={cx(styles.toggleButton)}
       style={{
-        backgroundImage: `url(${circle})`,
+        backgroundImage: `url(${circleUrl})`,
       }}
     >
       <img src={isActive ? activeImg : img} height="100%" width="100%" alt="" />

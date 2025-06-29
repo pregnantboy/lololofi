@@ -4,7 +4,7 @@ import ReactGA from 'react-ga4'
 import { Button } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
 
-import circle from 'assets/img/circle.svg'
+import circleUrl from 'assets/img/circle.svg?url'
 
 import styles from './Breathe.module.scss'
 
@@ -43,7 +43,7 @@ export const Breathe = () => {
       <h2>Breathe {isBreatheOut ? 'out' : 'in'}</h2>
       <img
         className={styles.circleExpand}
-        src={circle}
+        src={circleUrl}
         height={350}
         width={350}
         alt="Breathing circle"
