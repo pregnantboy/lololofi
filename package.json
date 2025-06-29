@@ -47,6 +47,7 @@
     "globals": "^15.13.0",
     "prettier": "^3.4.2",
     "sass": "^1.83.0",
+    "sass-embedded": "^1.83.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.3",
