@@ -24,6 +24,7 @@ export const Player = () => {
       muted={isMuted}
       onBuffer={changeState('BUFFER_START')}
       onBufferEnd={changeState('BUFFER_END')}
+      onError={() => dispatch({ type: 'NEXT' })}
     />
   )
 }
