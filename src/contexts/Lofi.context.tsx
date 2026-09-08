@@ -34,6 +34,7 @@ export type LofiAction =
 
 interface PomoContextProps extends LofiContextState {
   dispatch: Dispatch<LofiAction>
+  trackCount: number
 }
 
 const defaultState: LofiContextState = {
@@ -149,6 +150,7 @@ export const LofiContextProvider = ({
       value={{
         ...state,
         dispatch,
+        trackCount: tracklist.length,
       }}
     >
       {children}

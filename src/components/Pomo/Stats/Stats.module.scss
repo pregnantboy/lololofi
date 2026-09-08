@@ -1,0 +1,31 @@
+@import '../../../styles/base';
+
+.container {
+  margin-top: 3vh;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+
+  p {
+    font-size: 1.5rem;
+    opacity: 0.7;
+  }
+}
+
+.streak {
+  margin-top: 0.25rem;
+}
+
+.recent {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+
+  li {
+    font-size: 1.5rem;
+    opacity: 0.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
