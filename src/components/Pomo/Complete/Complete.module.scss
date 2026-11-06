@@ -1,0 +1,37 @@
+@import '../../../styles/base';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.task {
+  margin-top: 1rem;
+  opacity: 0.8;
+}
+
+.count {
+  margin-top: 0.5rem;
+  opacity: 0.6;
+}
+
+.prompt {
+  margin: 2.5rem 0 1rem;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+
+  button {
+    margin: 0 1rem 1rem;
+  }
+}

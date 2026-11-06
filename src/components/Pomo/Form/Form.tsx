@@ -4,6 +4,8 @@ import { Button, TextInput } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
 import { useNotification } from 'hooks'
 
+import { Stats } from '../Stats'
+
 import styles from './Form.module.scss'
 
 const Form = () => {
@@ -35,31 +37,34 @@ const Form = () => {
   }
 
   return (
-    <form className={styles.form} onSubmit={onFormSubmit}>
-      <h3>What do you want to focus on?</h3>
-      <TextInput
-        className={styles.textInput}
-        autoFocus={true}
-        value={task}
-        onValueChange={setTask}
-        maxLength={42}
-      ></TextInput>
-      <h3>For how long?</h3>
-      <TextInput
-        className={styles.timeInput}
-        value={minutes}
-        onValueChange={onMinutesChange}
-      ></TextInput>
-      <span>mins</span>
-      <Button
-        ga={{
-          category: 'Session',
-          action: 'startSession',
-        }}
-      >
-        Start
-      </Button>
-    </form>
+    <>
+      <form className={styles.form} onSubmit={onFormSubmit}>
+        <h3>What do you want to focus on?</h3>
+        <TextInput
+          className={styles.textInput}
+          autoFocus={true}
+          value={task}
+          onValueChange={setTask}
+          maxLength={42}
+        ></TextInput>
+        <h3>For how long?</h3>
+        <TextInput
+          className={styles.timeInput}
+          value={minutes}
+          onValueChange={onMinutesChange}
+        ></TextInput>
+        <span>mins</span>
+        <Button
+          ga={{
+            category: 'Session',
+            action: 'startSession',
+          }}
+        >
+          Start
+        </Button>
+      </form>
+      <Stats />
+    </>
   )
 }
 

@@ -3,7 +3,9 @@ import cx from 'classnames'
 
 import { PomoContext } from 'contexts/Pomo.context'
 
+import { Break } from './Break'
 import { Breathe } from './Breathe'
+import { Complete } from './Complete'
 import { Form } from './Form'
 import { Timer } from './Timer'
 
@@ -16,12 +18,15 @@ const Pomo = () => {
   const component = useMemo(() => {
     switch (state) {
       case 'READY':
-      case 'COMPLETED':
         return <Form />
       case 'STARTING':
         return <Breathe />
       case 'STARTED':
         return <Timer />
+      case 'COMPLETED':
+        return <Complete />
+      case 'BREAK':
+        return <Break />
       default:
         return null
     }
