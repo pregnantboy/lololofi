@@ -10,12 +10,10 @@ export default defineConfig({
     tsconfigPaths(),
     svgr({
       svgrOptions: {
-        exportType: 'named',
         ref: true,
         svgo: false,
         titleProp: true,
       },
-      include: '**/*.svg',
     }),
   ],
   server: {

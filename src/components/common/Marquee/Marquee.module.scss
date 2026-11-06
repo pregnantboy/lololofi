@@ -1,0 +1,23 @@
+.container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.track {
+  display: inline-flex;
+  animation: marquee linear infinite;
+}
+
+.item {
+  flex-shrink: 0;
+  padding-right: 3rem;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

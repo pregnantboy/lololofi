@@ -10,7 +10,7 @@ import styles from './Breathe.module.scss'
 
 export const Breathe = () => {
   const BREATHE_IN_DURATION = 5000
-  const timerRef = useRef<NodeJS.Timeout>()
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
   const { dispatch } = useContext(PomoContext)
   const [isBreatheOut, setIsBreatheOut] = useState(false)
 

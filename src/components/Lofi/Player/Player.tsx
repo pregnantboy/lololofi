@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
-import ReactPlayer from 'react-player/youtube'
+import ReactPlayer from 'react-player'
 
 import { LofiAction, LofiContext } from 'contexts/Lofi.context'
 
@@ -23,9 +23,11 @@ export const Player = () => {
   // YouTube unreachable) stop rather than cycling the list forever.
   const consecutiveErrors = useRef(0)
 
-  const onPlay = useCallback(() => {
+  // `onPlay` fires when playback is requested, so only `onPlaying` (media is
+  // actually advancing) proves a stream works.
+  const onPlaying = useCallback(() => {
     consecutiveErrors.current = 0
-    dispatch({ type: 'PLAY' })
+    dispatch({ type: 'BUFFER_END' })
   }, [dispatch])
 
   const onError = useCallback(() => {
@@ -96,17 +98,17 @@ export const Player = () => {
 
   return (
     <ReactPlayer
-      url={trackUrl}
+      src={trackUrl}
       controls={false}
       width={0}
       height={0}
       playing={isPlaying}
-      onPlay={onPlay}
+      onPlay={changeState('PLAY')}
       onPause={changeState('PAUSE')}
       volume={volume}
       muted={isMuted}
-      onBuffer={changeState('BUFFER_START')}
-      onBufferEnd={changeState('BUFFER_END')}
+      onWaiting={changeState('BUFFER_START')}
+      onPlaying={onPlaying}
       onError={onError}
     />
   )
