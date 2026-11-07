@@ -1,96 +1,82 @@
-$thumb-width: 0.5rem;
-$thumb-height: 1.5rem;
-$track-height: 0.8rem;
-$track-max-width: 200px;
-$border-width: 2px;
+$thumb: 0.85rem;
+$track-height: 4px;
 
 .container {
   display: flex;
   align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
 }
 
 .muteBtn {
-  width: 2rem;
-  height: 2rem;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+
+  svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  &:hover {
+    color: var(--text);
+    background-color: var(--field);
+  }
 }
 
 .slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 6.5rem;
+  max-width: 100%;
   height: 1.5rem;
-  padding: 0 1rem;
-  &[type='range'] {
-    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-    width: 100%; /* Specific width is required for Firefox. */
-    max-width: $track-max-width;
-    background: transparent; /* Otherwise white in Chrome */
-  }
-
-  &[type='range']::-webkit-slider-thumb {
-    -webkit-appearance: none;
-  }
-
-  &[type='range']:focus {
-    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
-  }
-
-  &[type='range']::-ms-track {
-    width: 100%;
-    max-width: $track-max-width;
-    cursor: pointer;
-
-    /* Hides the slider so custom styles can be added */
-    background: transparent;
-    border-color: transparent;
-    color: transparent;
-  }
-
-  /* Special styling for WebKit/Blink */
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: $thumb-width;
-    height: $thumb-height;
-    background: #ffffff;
-    cursor: pointer;
-    margin-top: -0.5rem;
-  }
-
-  /* All the same stuff for Firefox */
-  &::-moz-range-thumb {
-    width: $thumb-width;
-    height: $thumb-height;
-    background: #ffffff;
-    cursor: pointer;
-  }
-
-  /* All the same stuff for IE */
-  &::-ms-thumb {
-    height: $thumb-height;
-    width: $thumb-width;
-    background: #ffffff;
-    cursor: pointer;
-  }
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
 
   &::-webkit-slider-runnable-track {
-    width: 100%;
-    max-width: $track-max-width;
     height: $track-height;
-    cursor: pointer;
-    border: 2px solid white;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.22);
   }
 
   &::-moz-range-track {
-    width: 100%;
-    max-width: $track-max-width;
     height: $track-height;
-    cursor: pointer;
-    border: 2px solid white;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.22);
   }
 
-  &::-ms-fill-lower {
-    border: 2px solid white;
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: $thumb;
+    height: $thumb;
+    margin-top: calc((#{$track-height} - #{$thumb}) / 2);
+    border: 0;
+    border-radius: 50%;
+    background: var(--text);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
   }
 
-  &::-ms-fill-upper {
-    border: 2px solid white;
+  &::-moz-range-thumb {
+    width: $thumb;
+    height: $thumb;
+    border: 0;
+    border-radius: 50%;
+    background: var(--text);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  &:hover::-webkit-slider-thumb {
+    background: var(--accent);
+  }
+
+  &:hover::-moz-range-thumb {
+    background: var(--accent);
   }
 }

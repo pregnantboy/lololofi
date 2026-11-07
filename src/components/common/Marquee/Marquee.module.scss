@@ -1,16 +1,30 @@
 .container {
   overflow: hidden;
   white-space: nowrap;
+  text-align: center;
+}
+
+.fade {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
 }
 
 .track {
   display: inline-flex;
+  gap: 3rem;
+}
+
+.scrolling {
   animation: marquee linear infinite;
 }
 
 .item {
   flex-shrink: 0;
-  padding-right: 3rem;
 }
 
 @keyframes marquee {
@@ -18,6 +32,16 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-1 * var(--marquee-distance)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolling {
+    animation: none;
+  }
+
+  .item:nth-child(2) {
+    display: none;
   }
 }

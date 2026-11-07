@@ -1,17 +1,26 @@
-@import '../../../styles/base';
-
 .container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 1.5rem 1rem;
-
-  @include tablet {
-    padding: 0;
-  }
 }
+
 .fullscreenBtn {
-  cursor: pointer;
-  height: 1.5rem;
-  width: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &:hover {
+    color: var(--text);
+    background-color: var(--field);
+  }
 }

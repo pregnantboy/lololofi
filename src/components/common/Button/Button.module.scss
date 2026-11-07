@@ -1,70 +1,46 @@
-@import '../../../styles/base';
-
-@mixin buttonBase($base-color, $focus-color) {
-  padding: 0.5rem 2rem;
-  margin: $border-width;
-  min-width: 10rem;
-  display: flex;
+@mixin base {
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  background-color: $base-color;
-  color: invert($base-color);
-  border: 0;
-  outline: 0;
-  border-radius: 0;
-  cursor: pointer;
-  font-size: 2rem;
-  transition: ease-out 0.1s padding, ease-out 0.1s box-shadow;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.6rem;
+  border-radius: var(--radius-pill);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.005em;
   user-select: none;
-
-  @include tablet {
-    min-width: 8rem;
-  }
-
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    box-sizing: content-box;
-  }
-
-  &:before {
-    top: -$border-width;
-    left: 0;
-    border-top: $border-width white solid;
-    border-bottom: $border-width white solid;
-  }
-
-  &:after {
-    left: -$border-width;
-    top: 0;
-    border-left: $border-width white solid;
-    border-right: $border-width white solid;
-  }
-
-  &:hover {
-    background-color: invert($base-color);
-    color: $base-color;
-    box-shadow: inset (-$shadow-width * 1.5) (-$shadow-width * 1.5) 0px 0px
-      $focus-color;
-    padding: calc(0.5rem - #{$shadow-width}) calc(2rem + #{$shadow-width})
-      calc(0.5rem + #{$shadow-width}) calc(2rem - #{$shadow-width});
-  }
+  transition: background-color 0.2s var(--ease), transform 0.2s var(--ease),
+    opacity 0.2s var(--ease);
 
   &:active {
-    box-shadow: inset $shadow-width $shadow-width 0px 0px $focus-color;
-    padding: calc(0.5rem + #{$shadow-width}) calc(2rem - #{$shadow-width})
-      calc(0.5rem - #{$shadow-width}) calc(2rem + #{$shadow-width});
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.button {
+  @include base;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+
+  &:hover {
+    background-color: var(--accent-hover);
   }
 }
 
 .invertButton {
-  @include buttonBase(darken(white, 10%), lighten(black, 30%));
-}
+  @include base;
+  background-color: var(--field);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--border);
 
-.button {
-  @include buttonBase(black, darken(white, 10%));
+  &:hover {
+    background-color: var(--field-hover);
+  }
 }

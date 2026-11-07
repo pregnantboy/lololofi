@@ -4,34 +4,37 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   text-align: center;
   opacity: 0;
-  animation: fadeIn 1s ease-in-out forwards;
+  animation: fadeIn 0.6s var(--ease) forwards;
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 300;
+  }
 }
 
 .task {
-  margin-top: 1rem;
-  opacity: 0.8;
+  margin-top: 0.75rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .count {
-  margin-top: 0.5rem;
-  opacity: 0.6;
+  margin-top: 0.25rem;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
 }
 
 .prompt {
-  margin: 2.5rem 0 1rem;
+  margin: 2rem 0 1.25rem;
+  color: var(--text-muted);
 }
 
 .buttonRow {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  align-items: center;
+  gap: 0.75rem;
   width: 100%;
-
-  button {
-    margin: 0 1rem 1rem;
-  }
 }

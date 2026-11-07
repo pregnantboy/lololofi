@@ -1,33 +1,57 @@
 @import '../../styles/base';
 
 .container {
-  max-width: 450px;
   width: 100%;
+  max-width: 28rem;
+  display: flex;
+  justify-content: center;
+}
 
-  &.center {
-    margin: auto;
-  }
+.inner {
+  width: 100%;
+}
+
+.panel {
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  box-shadow: inset 0 0 0 1px var(--border), var(--shadow);
 
   @include mobile {
-    margin: auto;
+    padding: 2rem 1.25rem;
   }
 }
 
+// Fixed full-screen pixel art, kept crisp when scaled up.
 .backgroundImg {
-  height: 100%;
-  position: absolute;
+  position: fixed;
+  inset: 0;
   z-index: 0;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  transition: filter 1s linear;
+  image-rendering: pixelated;
+  transform: scale(1);
+  transition: filter 1s linear, opacity 1s linear, transform 1s linear;
+
+  // Soft scrim so text stays readable on top of the busy scene.
+  &:after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(8, 6, 12, 0.1) 0%,
+        rgba(8, 6, 12, 0.45) 100%
+      ),
+      linear-gradient(to top, rgba(8, 6, 12, 0.6), transparent 40%);
+  }
 
   &.blur {
     filter: blur(10px);
     opacity: 0.5;
+    transform: scale(1.04);
   }
 }

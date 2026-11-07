@@ -13,7 +13,8 @@ import styles from './Pomo.module.scss'
 
 const Pomo = () => {
   const { state } = useContext(PomoContext)
-  const shouldCenter = state === 'STARTING'
+  // The breathing exercise floats on the scene; every other state gets a panel.
+  const hasPanel = state !== 'STARTING'
 
   const component = useMemo(() => {
     switch (state) {
@@ -33,8 +34,10 @@ const Pomo = () => {
   }, [state])
 
   return (
-    <div className={cx(styles.container, { [styles.center]: shouldCenter })}>
-      {component}
+    <div className={styles.container}>
+      <div className={cx(styles.inner, { [styles.panel]: hasPanel })}>
+        {component}
+      </div>
     </div>
   )
 }

@@ -39,22 +39,32 @@ const Form = () => {
   return (
     <>
       <form className={styles.form} onSubmit={onFormSubmit}>
-        <h3>What do you want to focus on?</h3>
-        <TextInput
-          className={styles.textInput}
-          autoFocus={true}
-          value={task}
-          onValueChange={setTask}
-          maxLength={42}
-        ></TextInput>
-        <h3>For how long?</h3>
-        <TextInput
-          className={styles.timeInput}
-          value={minutes}
-          onValueChange={onMinutesChange}
-        ></TextInput>
-        <span>mins</span>
+        <div className={styles.field}>
+          <label htmlFor="task">What do you want to focus on?</label>
+          <TextInput
+            id="task"
+            autoFocus={true}
+            value={task}
+            onValueChange={setTask}
+            maxLength={42}
+            placeholder="Deep work, reading, writing..."
+          ></TextInput>
+        </div>
+        <div className={styles.field}>
+          <label htmlFor="minutes">For how long?</label>
+          <div className={styles.durationRow}>
+            <TextInput
+              id="minutes"
+              className={styles.timeInput}
+              inputMode="numeric"
+              value={minutes}
+              onValueChange={onMinutesChange}
+            ></TextInput>
+            <span>mins</span>
+          </div>
+        </div>
         <Button
+          className={styles.submit}
           ga={{
             category: 'Session',
             action: 'startSession',

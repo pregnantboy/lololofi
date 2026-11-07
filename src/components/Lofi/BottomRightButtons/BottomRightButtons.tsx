@@ -1,10 +1,8 @@
 import { RefObject, useContext } from 'react'
 import { useFullscreen, useToggle } from 'react-use'
 
+import { ExitFullscreenIcon, FullscreenIcon } from 'components/common'
 import { AppContext } from 'contexts/App.context'
-
-import ExitFullscreen from 'assets/img/exit_fullscreen.svg?react'
-import Fullscreen from 'assets/img/fullscreen.svg?react'
 
 import styles from './BottomRightButtons.module.scss'
 
@@ -17,14 +15,14 @@ export const BottomRightButtons = () => {
 
   return (
     <div className={styles.container}>
-      {isFullscreen ? (
-        <ExitFullscreen
-          className={styles.fullscreenBtn}
-          onClick={() => toggle()}
-        />
-      ) : (
-        <Fullscreen className={styles.fullscreenBtn} onClick={() => toggle()} />
-      )}
+      <button
+        type="button"
+        className={styles.fullscreenBtn}
+        aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+        onClick={() => toggle()}
+      >
+        {isFullscreen ? <ExitFullscreenIcon /> : <FullscreenIcon />}
+      </button>
     </div>
   )
 }

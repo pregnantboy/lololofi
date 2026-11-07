@@ -1,22 +1,31 @@
-@import '../../../styles/base';
-
 .toggleButton {
-  height: $btn-size;
-  width: $btn-size;
-  margin: $btn-indent;
-  padding: 0.5rem;
-  background: transparent;
-  background-size: cover;
-  overflow: visible;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
   user-select: none;
-  transition: ease-out 0.1s transform;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+
+  svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
 
   &:hover {
-    transform: translate(-$btn-indent, -$btn-indent);
+    color: var(--text);
+    background-color: var(--field);
   }
 
   &:active {
-    transform: translate($btn-indent, $btn-indent);
+    transform: scale(0.94);
+  }
+
+  &[aria-pressed='true'] {
+    color: var(--accent-ink);
+    background-color: var(--accent);
   }
 }
