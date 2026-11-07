@@ -16,10 +16,41 @@ export const Player = () => {
     trackCount,
   } = useContext(LofiContext)
 
+  const playerRef = useRef<HTMLVideoElement>(null)
+
   const changeState = useCallback(
     (type: Exclude<LofiAction['type'], 'VOLUME'>) => () => dispatch({ type }),
     [dispatch]
   )
+
+  // Swapping `src` tears down the old media (which fires a stray `pause`) and
+  // loads a new one that starts paused. While switching, ignore that pause and
+  // resume the new media ourselves once it can play.
+  const isPlayingRef = useRef(isPlaying)
+  isPlayingRef.current = isPlaying
+  const isSwitching = useRef(false)
+  const lastUrl = useRef(trackUrl)
+
+  if (lastUrl.current !== trackUrl) {
+    lastUrl.current = trackUrl
+    isSwitching.current = true
+  }
+
+  const resumeIfSwitching = useCallback(() => {
+    if (!isSwitching.current || !isPlayingRef.current) {
+      return
+    }
+    playerRef.current?.play()?.catch(() => {
+      // Autoplay was blocked, the user can press play again.
+    })
+  }, [])
+
+  const onPause = useCallback(() => {
+    if (isSwitching.current) {
+      return
+    }
+    dispatch({ type: 'PAUSE' })
+  }, [dispatch])
 
   // A dead stream skips to the next one, but if every track fails (offline, or
   // YouTube unreachable) stop rather than cycling the list forever.
@@ -29,12 +60,14 @@ export const Player = () => {
   // actually advancing) proves a stream works.
   const onPlaying = useCallback(() => {
     consecutiveErrors.current = 0
+    isSwitching.current = false
     dispatch({ type: 'BUFFER_END' })
   }, [dispatch])
 
   const onError = useCallback(() => {
     consecutiveErrors.current += 1
     if (consecutiveErrors.current >= trackCount) {
+      isSwitching.current = false
       dispatch({ type: 'PAUSE' })
       return
     }
@@ -104,13 +137,17 @@ export const Player = () => {
   return (
     <div className={styles.hidden} aria-hidden="true">
       <ReactPlayer
+        ref={playerRef}
         src={trackUrl}
         controls={false}
         width={0}
         height={0}
         playing={isPlaying}
         onPlay={changeState('PLAY')}
-        onPause={changeState('PAUSE')}
+        onPause={onPause}
+        onLoadStart={resumeIfSwitching}
+        onLoadedData={resumeIfSwitching}
+        onCanPlay={resumeIfSwitching}
         volume={volume}
         muted={isMuted}
         onWaiting={changeState('BUFFER_START')}
