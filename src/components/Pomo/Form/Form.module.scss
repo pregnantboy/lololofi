@@ -1,19 +1,40 @@
 .form {
-  max-width: 100%;
-  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
 
-  .timeInput {
-    max-width: 5rem;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.7);
-  }
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 
-  .textInput {
-    width: 100%;
+  label {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
   }
+}
 
-  input {
-    margin-top: 0.5rem;
-    margin-bottom: 5vh;
+.durationRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  span {
+    font-size: 1rem;
+    color: var(--text-muted);
   }
+}
+
+.timeInput {
+  width: 5.5rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.submit {
+  width: 100%;
+  min-height: 3rem;
+  margin-top: 0.5rem;
 }

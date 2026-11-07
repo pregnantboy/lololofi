@@ -1,13 +1,8 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
 
-import { ToggleButton } from 'components/common'
+import { RainIcon, ToggleButton, UmbrellaIcon } from 'components/common'
 import { LofiContext } from 'contexts/Lofi.context'
 import { PomoContext } from 'contexts/Pomo.context'
-
-import rain from 'assets/img/rain.png'
-import rainInvert from 'assets/img/rain-invert.png'
-import umbrella from 'assets/img/umbrella.png'
-import umbrellaInvert from 'assets/img/umbrella-invert.png'
 
 import styles from './Rain.module.scss'
 
@@ -76,14 +71,14 @@ export const Rain = () => {
       <ToggleButton
         onClick={() => onButtonClick('RAIN')}
         isActive={rainState === 'RAIN'}
-        img={rain}
-        activeImg={rainInvert}
+        icon={<RainIcon />}
+        label="Rain sounds"
       />
       <ToggleButton
         onClick={() => onButtonClick('UMBRELLA')}
         isActive={rainState === 'UMBRELLA'}
-        img={umbrella}
-        activeImg={umbrellaInvert}
+        icon={<UmbrellaIcon />}
+        label="Umbrella rain sounds"
       />
     </div>
   )

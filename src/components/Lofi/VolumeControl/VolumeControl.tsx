@@ -1,9 +1,7 @@
 import { ChangeEvent, useCallback, useContext } from 'react'
 
+import { MuteIcon, VolumeIcon } from 'components/common'
 import { LofiContext } from 'contexts/Lofi.context'
-
-import Mute from 'assets/img/mute.svg?react'
-import Volume from 'assets/img/volume.svg?react'
 
 import styles from './VolumeControl.module.scss'
 
@@ -26,13 +24,18 @@ export const VolumeControl = () => {
 
   return (
     <div className={styles.container}>
-      {isMuted ? (
-        <Mute className={styles.muteBtn} onClick={onToggleMute} />
-      ) : (
-        <Volume className={styles.muteBtn} onClick={onToggleMute} />
-      )}
+      <button
+        type="button"
+        className={styles.muteBtn}
+        aria-label={isMuted ? 'Unmute' : 'Mute'}
+        aria-pressed={isMuted}
+        onClick={onToggleMute}
+      >
+        {isMuted ? <MuteIcon /> : <VolumeIcon />}
+      </button>
       <input
         type="range"
+        aria-label="Volume"
         defaultValue={volume * 100}
         className={styles.slider}
         onChange={onVolumeChange}

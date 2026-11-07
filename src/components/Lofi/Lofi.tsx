@@ -11,12 +11,15 @@ import styles from './Lofi.module.scss'
 export const Lofi = () => {
   return (
     <div className={styles.wrapper}>
+      <div className={styles.nowPlaying}>
+        <Controls.NowPlaying />
+      </div>
       <div className={styles.container}>
         <div className={styles.left}>
           <Rain />
         </div>
         <div className={styles.center}>
-          <Controls />
+          <Controls.Transport />
         </div>
         {!isIphone && (
           <div className={styles.right}>

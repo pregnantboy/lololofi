@@ -3,6 +3,8 @@ import ReactPlayer from 'react-player'
 
 import { LofiAction, LofiContext } from 'contexts/Lofi.context'
 
+import styles from './Player.module.scss'
+
 export const Player = () => {
   const {
     trackUrl,
@@ -96,20 +98,25 @@ export const Player = () => {
     }
   }, [dispatch])
 
+  // The YouTube embed is a custom element that ignores the width/height props
+  // and renders its own 300x150 iframe, so it is clipped off-screen instead of
+  // `display: none`, which browsers may throttle or refuse to play.
   return (
-    <ReactPlayer
-      src={trackUrl}
-      controls={false}
-      width={0}
-      height={0}
-      playing={isPlaying}
-      onPlay={changeState('PLAY')}
-      onPause={changeState('PAUSE')}
-      volume={volume}
-      muted={isMuted}
-      onWaiting={changeState('BUFFER_START')}
-      onPlaying={onPlaying}
-      onError={onError}
-    />
+    <div className={styles.hidden} aria-hidden="true">
+      <ReactPlayer
+        src={trackUrl}
+        controls={false}
+        width={0}
+        height={0}
+        playing={isPlaying}
+        onPlay={changeState('PLAY')}
+        onPause={changeState('PAUSE')}
+        volume={volume}
+        muted={isMuted}
+        onWaiting={changeState('BUFFER_START')}
+        onPlaying={onPlaying}
+        onError={onError}
+      />
+    </div>
   )
 }

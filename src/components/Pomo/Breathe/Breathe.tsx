@@ -4,8 +4,6 @@ import ReactGA from 'react-ga4'
 import { Button } from 'components/common'
 import { PomoContext } from 'contexts/Pomo.context'
 
-import circleUrl from 'assets/img/circle.svg?url'
-
 import styles from './Breathe.module.scss'
 
 export const Breathe = () => {
@@ -40,15 +38,9 @@ export const Breathe = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Breathe {isBreatheOut ? 'out' : 'in'}</h2>
-      <img
-        className={styles.circleExpand}
-        src={circleUrl}
-        height={350}
-        width={350}
-        alt="Breathing circle"
-      />
-      <Button className={styles.skipButton} onClick={() => onNext(true)}>
+      <h2 aria-live="polite">Breathe {isBreatheOut ? 'out' : 'in'}</h2>
+      <div className={styles.circle} aria-hidden="true" />
+      <Button invert className={styles.skipButton} onClick={() => onNext(true)}>
         Skip
       </Button>
     </div>
