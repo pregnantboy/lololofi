@@ -1,3 +1,5 @@
+@import '../../../styles/base';
+
 @mixin base {
   display: inline-flex;
   justify-content: center;
@@ -11,11 +13,16 @@
   line-height: 1;
   letter-spacing: 0.005em;
   user-select: none;
-  transition: background-color 0.2s var(--ease), transform 0.2s var(--ease),
+  transition: transform 0.35s var(--spring), filter 0.2s var(--ease),
     opacity 0.2s var(--ease);
 
+  &:hover {
+    transform: scale(1.04);
+  }
+
   &:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
+    transition-duration: 0.12s;
   }
 
   &:disabled {
@@ -26,21 +33,23 @@
 
 .button {
   @include base;
-  background-color: var(--accent);
-  color: var(--accent-ink);
+  @include glass-accent;
 
   &:hover {
-    background-color: var(--accent-hover);
+    filter: brightness(1.08) saturate(1.1);
   }
 }
 
 .invertButton {
   @include base;
-  background-color: var(--field);
+  @include glass(10px);
   color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--border);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.12),
+    0 4px 14px rgba(0, 0, 0, 0.3);
 
   &:hover {
-    background-color: var(--field-hover);
+    filter: brightness(1.15);
   }
 }

@@ -5,10 +5,7 @@
   max-width: 44rem;
   padding: 0.9rem 1.25rem 0.75rem;
   border-radius: var(--radius-lg);
-  background: var(--surface-strong);
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  box-shadow: inset 0 0 0 1px var(--border), var(--shadow);
+  @include glass(20px);
 }
 
 .nowPlaying {

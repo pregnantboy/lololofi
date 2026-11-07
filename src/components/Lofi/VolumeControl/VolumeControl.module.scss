@@ -17,7 +17,8 @@ $track-height: 4px;
   height: 2.5rem;
   border-radius: var(--radius-pill);
   color: var(--text-muted);
-  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease),
+    box-shadow 0.2s var(--ease), transform 0.35s var(--spring);
 
   svg {
     width: 1.35rem;
@@ -27,6 +28,8 @@ $track-height: 4px;
   &:hover {
     color: var(--text);
     background-color: var(--field);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    transform: scale(1.08);
   }
 }
 
@@ -44,12 +47,14 @@ $track-height: 4px;
     height: $track-height;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.22);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
   }
 
   &::-moz-range-track {
     height: $track-height;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.22);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
   }
 
   &::-webkit-slider-thumb {
@@ -59,8 +64,8 @@ $track-height: 4px;
     margin-top: calc((#{$track-height} - #{$thumb}) / 2);
     border: 0;
     border-radius: 50%;
-    background: var(--text);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(180deg, #fff, #d9d3dc);
+    box-shadow: inset 0 1px 1px #fff, 0 2px 8px rgba(0, 0, 0, 0.45);
   }
 
   &::-moz-range-thumb {
@@ -68,8 +73,8 @@ $track-height: 4px;
     height: $thumb;
     border: 0;
     border-radius: 50%;
-    background: var(--text);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(180deg, #fff, #d9d3dc);
+    box-shadow: inset 0 1px 1px #fff, 0 2px 8px rgba(0, 0, 0, 0.45);
   }
 
   &:hover::-webkit-slider-thumb {

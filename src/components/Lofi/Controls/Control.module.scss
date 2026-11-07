@@ -13,11 +13,17 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-pill);
-  transition: background-color 0.2s var(--ease), transform 0.2s var(--ease),
-    color 0.2s var(--ease);
+  transition: background-color 0.2s var(--ease), box-shadow 0.2s var(--ease),
+    color 0.2s var(--ease), filter 0.2s var(--ease),
+    transform 0.35s var(--spring);
+
+  &:hover {
+    transform: scale(1.08);
+  }
 
   &:active {
-    transform: scale(0.94);
+    transform: scale(0.93);
+    transition-duration: 0.12s;
   }
 }
 
@@ -34,14 +40,14 @@
   &:hover {
     color: var(--text);
     background-color: var(--field);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
   }
 }
 
 .playBtn {
+  @include glass-accent;
   width: 3.5rem;
   height: 3.5rem;
-  background-color: var(--accent);
-  color: var(--accent-ink);
 
   svg {
     width: 1.75rem;
@@ -49,7 +55,7 @@
   }
 
   &:hover {
-    background-color: var(--accent-hover);
+    filter: brightness(1.08) saturate(1.1);
   }
 }
 

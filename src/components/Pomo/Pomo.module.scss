@@ -14,10 +14,7 @@
 .panel {
   padding: 2.5rem 2rem;
   border-radius: var(--radius-lg);
-  background: var(--surface);
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  box-shadow: inset 0 0 0 1px var(--border), var(--shadow);
+  @include glass(22px);
 
   @include mobile {
     padding: 2rem 1.25rem;

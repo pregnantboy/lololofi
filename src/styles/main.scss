@@ -13,10 +13,9 @@
   --accent-hover: #f8b57a;
   --accent-ink: #1a1007;
 
-  --surface: rgba(16, 13, 20, 0.58);
-  --surface-strong: rgba(16, 13, 20, 0.78);
-  --field: rgba(255, 255, 255, 0.07);
-  --field-hover: rgba(255, 255, 255, 0.12);
+  --glass-tint: rgba(20, 15, 28, 0.34);
+  --field: rgba(255, 255, 255, 0.09);
+  --field-hover: rgba(255, 255, 255, 0.16);
   --border: rgba(255, 255, 255, 0.12);
 
   --radius-lg: 28px;
@@ -26,6 +25,8 @@
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  // Slight overshoot gives presses and hovers a liquid, springy feel.
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 html,
