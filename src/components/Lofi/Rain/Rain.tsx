@@ -30,7 +30,7 @@ export const Rain = () => {
     audio.loop = true
     return audio
   }, [volume])
-  
+
   const umbrellaAudio = useMemo(() => {
     const audio = new Audio(umbrellaBg)
     audio.volume = DEFAULT_UMBRELLA_VOLUME * (volume ?? 0.5)

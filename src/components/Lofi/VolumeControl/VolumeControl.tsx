@@ -2,8 +2,8 @@ import { ChangeEvent, useCallback, useContext } from 'react'
 
 import { LofiContext } from 'contexts/Lofi.context'
 
-import { ReactComponent as Mute } from 'assets/img/mute.svg'
-import { ReactComponent as Volume } from 'assets/img/volume.svg'
+import Mute from 'assets/img/mute.svg?react'
+import Volume from 'assets/img/volume.svg?react'
 
 import styles from './VolumeControl.module.scss'
 
@@ -35,7 +35,7 @@ export const VolumeControl = () => {
         type="range"
         defaultValue={volume * 100}
         className={styles.slider}
-        onInput={onVolumeChange}
+        onChange={onVolumeChange}
       />
     </div>
   )

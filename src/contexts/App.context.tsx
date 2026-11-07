@@ -1,7 +1,7 @@
 import { createContext, useRef } from 'react'
 
 interface AppContextState {
-  appRef: React.MutableRefObject<null>
+  appRef: React.RefObject<HTMLDivElement | null>
 }
 
 export const AppContext = createContext({} as AppContextState)
@@ -11,7 +11,7 @@ export const AppContextProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const appRef = useRef(null)
+  const appRef = useRef<HTMLDivElement>(null)
 
   return (
     <AppContext.Provider value={{ appRef }}>

@@ -1,15 +1,15 @@
 import { useCallback, useContext, useMemo } from 'react'
-import Marquee from 'react-double-marquee'
 import cx from 'classnames'
 
+import { Marquee } from 'components/common'
 import { LofiAction, LofiContext } from 'contexts/Lofi.context'
 
-import { ReactComponent as Buffering } from 'assets/img/loading.svg'
-import { ReactComponent as Music } from 'assets/img/music.svg'
-import { ReactComponent as Next } from 'assets/img/next.svg'
-import { ReactComponent as Pause } from 'assets/img/pause_button.svg'
-import { ReactComponent as Play } from 'assets/img/play_button.svg'
-import { ReactComponent as Prev } from 'assets/img/previous.svg'
+import Buffering from 'assets/img/loading.svg?react'
+import Music from 'assets/img/music.svg?react'
+import Next from 'assets/img/next.svg?react'
+import Pause from 'assets/img/pause_button.svg?react'
+import Play from 'assets/img/play_button.svg?react'
+import Prev from 'assets/img/previous.svg?react'
 
 import styles from './Control.module.scss'
 
@@ -25,13 +25,7 @@ export const Controls = () => {
   const trackMarquee = useMemo(
     () => (
       <div className={styles.marquee}>
-        <Marquee
-          direction="left"
-          scrollWhen="always"
-          speed={isPlaying && !isBuffering ? 0.03 : 0}
-        >
-          <span>{trackName}</span>
-        </Marquee>
+        <Marquee paused={!isPlaying || isBuffering}>{trackName}</Marquee>
       </div>
     ),
     [isPlaying, trackName, isBuffering]
