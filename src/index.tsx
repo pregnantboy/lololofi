@@ -9,6 +9,20 @@ import './styles/main.scss'
 
 ReactGA.initialize('G-0R72LHG5L9')
 
+// iOS Safari ignores user-scalable=no, so cancel its pinch gestures directly.
+;['gesturestart', 'gesturechange', 'gestureend'].forEach((type) =>
+  document.addEventListener(type, (e) => e.preventDefault())
+)
+document.addEventListener(
+  'touchmove',
+  (e) => {
+    if (e.touches.length > 1) {
+      e.preventDefault()
+    }
+  },
+  { passive: false }
+)
+
 const container = document.getElementById('root')!
 const root = createRoot(container)
 
