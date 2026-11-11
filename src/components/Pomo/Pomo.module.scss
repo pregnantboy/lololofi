@@ -11,13 +11,34 @@
   width: 100%;
 }
 
+// No box: content sits straight on the scene, with a soft edgeless pool of
+// shade behind it so text stays readable over the busy art.
 .panel {
+  position: relative;
+  isolation: isolate;
   padding: 2.5rem 2rem;
-  border-radius: var(--radius-lg);
-  @include glass(22px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 2px 18px rgba(0, 0, 0, 0.45);
+
+  &:before {
+    content: '';
+    position: absolute;
+    inset: -3rem -4rem;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      closest-side,
+      rgba(10, 7, 14, 0.62),
+      rgba(10, 7, 14, 0.38) 55%,
+      rgba(10, 7, 14, 0) 100%
+    );
+  }
 
   @include mobile {
-    padding: 2rem 1.25rem;
+    padding: 2rem 0.5rem;
+
+    &:before {
+      inset: -2rem -1.5rem;
+    }
   }
 }
 

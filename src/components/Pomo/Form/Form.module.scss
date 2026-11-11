@@ -11,7 +11,7 @@
   gap: 0.6rem;
 
   label {
-    font-size: 0.9375rem;
+    font-size: 1rem;
     color: var(--text-muted);
   }
 }
@@ -22,6 +22,7 @@
   gap: 0.75rem;
 
   span {
+    font-family: var(--font-pixel);
     font-size: 1rem;
     color: var(--text-muted);
   }
@@ -30,6 +31,8 @@
 .timeInput {
   width: 5.5rem;
   text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 1.25rem;
   font-variant-numeric: tabular-nums;
 }
 
