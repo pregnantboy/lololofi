@@ -1,8 +1,10 @@
 @import './base';
 
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto,
+  --font-sans: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', sans-serif;
+  // Pixel face for headings, labels, buttons and the clock, to match the scene.
+  --font-pixel: 'Pixelify Sans', var(--font-sans);
 
   --bg: #0d0b10;
   --text: #f6f1ea;
@@ -77,6 +79,13 @@ h3,
 p {
   margin: 0;
   font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+label {
+  font-family: var(--font-pixel);
 }
 
 h2 {

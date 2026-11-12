@@ -31,9 +31,16 @@ export const Player = () => {
   const isSwitching = useRef(false)
   const lastUrl = useRef(trackUrl)
 
+  // The YouTube element rebuilds its iframe whenever `src` or `autoplay`
+  // changes, so `autoplay` is only updated together with `src`. A new track
+  // then starts by itself if the user was playing, and play/pause never
+  // reloads the stream.
+  const autoPlay = useRef(false)
+
   if (lastUrl.current !== trackUrl) {
     lastUrl.current = trackUrl
     isSwitching.current = true
+    autoPlay.current = isPlaying
   }
 
   const resumeIfSwitching = useCallback(() => {
@@ -139,6 +146,7 @@ export const Player = () => {
       <ReactPlayer
         ref={playerRef}
         src={trackUrl}
+        autoPlay={autoPlay.current}
         controls={false}
         width={0}
         height={0}
