@@ -67,7 +67,8 @@
   max-width: 100%;
   min-height: 1.75rem;
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-family: var(--font-pixel);
+  font-size: 1.125rem;
 
   .bufferingIcon {
     width: 1rem;
@@ -83,7 +84,8 @@
     white-space: nowrap;
 
     span {
-      font-size: 0.875rem;
+      font-family: var(--font-pixel);
+      font-size: 1.125rem;
     }
   }
 
