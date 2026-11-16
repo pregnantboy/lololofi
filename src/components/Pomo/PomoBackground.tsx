@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 import { PomoContext } from 'contexts/Pomo.context'
 
-import background from 'assets/img/background.gif'
+import background from 'assets/img/background.webp'
 
 import styles from './Pomo.module.scss'
 
