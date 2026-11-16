@@ -1,4 +1,5 @@
 import { useCallback, useContext } from 'react'
+import cx from 'classnames'
 
 import {
   ExternalLinkIcon,
@@ -33,7 +34,7 @@ const Transport = () => {
       </button>
       <button
         type="button"
-        className={styles.playBtn}
+        className={cx(styles.playBtn, { [styles.pulse]: isPlaying })}
         aria-label={isPlaying ? 'Pause' : 'Play'}
         onClick={changeState(isPlaying ? 'PAUSE' : 'PLAY')}
       >
@@ -57,8 +58,17 @@ const NowPlaying = () => {
 
   return (
     <div className={styles.trackName}>
-      {isBuffering && (
+      {isBuffering ? (
         <SpinnerIcon className={styles.bufferingIcon} aria-label="Buffering" />
+      ) : (
+        <span
+          className={cx(styles.equalizer, { [styles.playing]: isPlaying })}
+          aria-hidden="true"
+        >
+          <i />
+          <i />
+          <i />
+        </span>
       )}
       <div className={styles.marquee} aria-live="polite">
         <Marquee paused={!isPlaying || isBuffering}>{trackName}</Marquee>
