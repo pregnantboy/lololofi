@@ -99,3 +99,11 @@ export const SpinnerIcon = (props: IconProps) => (
     <path d="M12 3a9 9 0 1 0 9 9" />
   </Svg>
 )
+
+export const ImageIcon = (props: IconProps) => (
+  <Svg {...props}>
+    <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" />
+    <circle cx="9" cy="10" r="1.5" />
+    <path d="M4 17l5-4.5 3.5 3 3-2.5 4.5 4" />
+  </Svg>
+)
