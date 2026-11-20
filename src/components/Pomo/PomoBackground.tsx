@@ -4,8 +4,9 @@ import cx from 'classnames'
 import { AppContext } from 'contexts/App.context'
 import { PomoContext } from 'contexts/Pomo.context'
 
-import city from 'assets/img/background.webp'
+import city from 'assets/img/background.gif'
 import classic from 'assets/img/background-classic.gif'
+import cityPoster from 'assets/img/background-poster.webp'
 
 import styles from './Pomo.module.scss'
 
@@ -19,7 +20,12 @@ export const PomoBackground = () => {
     <div
       className={cx(styles.backgroundImg, { [styles.blur]: shouldBlur })}
       style={{
-        backgroundImage: `url(${background === 'city' ? city : classic})`,
+        // The small still frame sits underneath and shows instantly while the
+        // larger animated GIF downloads on top of it.
+        backgroundImage:
+          background === 'city'
+            ? `url(${city}), url(${cityPoster})`
+            : `url(${classic})`,
       }}
     />
   )
