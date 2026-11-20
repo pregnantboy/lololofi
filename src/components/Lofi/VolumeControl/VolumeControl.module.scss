@@ -1,6 +1,6 @@
 @import '../../../styles/base';
 
-$thumb: 0.85rem;
+$thumb: 1rem;
 $track-height: 6px;
 
 .container {
@@ -38,15 +38,15 @@ $track-height: 6px;
 
   &::-webkit-slider-runnable-track {
     height: $track-height;
-    border-radius: 0;
-    background: rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
   }
 
   &::-moz-range-track {
     height: $track-height;
-    border-radius: 0;
-    background: rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
   }
 
@@ -56,18 +56,18 @@ $track-height: 6px;
     height: $thumb;
     margin-top: calc((#{$track-height} - #{$thumb}) / 2);
     border: 0;
-    border-radius: 0;
+    border-radius: 999px;
     background: var(--text);
-    box-shadow: 0 0 0 2px #1a1420, 0 3px 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 3px #0c0910, 0 3px 0 3px rgba(0, 0, 0, 0.45);
   }
 
   &::-moz-range-thumb {
     width: $thumb;
     height: $thumb;
     border: 0;
-    border-radius: 0;
+    border-radius: 999px;
     background: var(--text);
-    box-shadow: 0 0 0 2px #1a1420, 0 3px 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 3px #0c0910, 0 3px 0 3px rgba(0, 0, 0, 0.45);
   }
 
   &:hover::-webkit-slider-thumb {

@@ -1,6 +1,6 @@
 @import '../../../styles/base';
 
-// Dark pixel fields with a notched outline that lights up amber on focus.
+// Soft rounded dark fields with a thick outline that turns amber on focus.
 .input {
   width: 100%;
   min-height: 3rem;
@@ -9,10 +9,12 @@
   border: 0;
   @include pixel-box(
     rgba(10, 7, 14, 0.78),
-    rgba(246, 241, 234, 0.55),
-    $drop: rgba(0, 0, 0, 0.45),
-    $highlight: rgba(0, 0, 0, 0.35),
-    $shade: rgba(255, 255, 255, 0.06)
+    #0c0910,
+    $drop: rgba(0, 0, 0, 0.3),
+    $lift: 0,
+    $highlight: rgba(0, 0, 0, 0.4),
+    $shade: rgba(255, 255, 255, 0.08),
+    $radius: 12px
   );
   color: var(--text);
   font-family: var(--font-pixel);
@@ -35,9 +37,11 @@
     @include pixel-box(
       rgba(10, 7, 14, 0.88),
       var(--accent),
-      $drop: rgba(0, 0, 0, 0.45),
-      $highlight: rgba(0, 0, 0, 0.35),
-      $shade: rgba(255, 255, 255, 0.06)
+      $drop: rgba(0, 0, 0, 0.3),
+      $lift: 0,
+      $highlight: rgba(0, 0, 0, 0.4),
+      $shade: rgba(255, 255, 255, 0.08),
+      $radius: 12px
     );
   }
 }

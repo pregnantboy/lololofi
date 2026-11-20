@@ -17,5 +17,6 @@
 
   &[aria-pressed='true'] {
     @include pixel-accent;
+    filter: none;
   }
 }
