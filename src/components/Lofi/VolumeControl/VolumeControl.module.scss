@@ -1,5 +1,7 @@
+@import '../../../styles/base';
+
 $thumb: 0.85rem;
-$track-height: 4px;
+$track-height: 6px;
 
 .container {
   display: flex;
@@ -15,21 +17,12 @@ $track-height: 4px;
   flex-shrink: 0;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: var(--radius-pill);
-  color: var(--text-muted);
-  transition: background-color 0.2s var(--ease), color 0.2s var(--ease),
-    box-shadow 0.2s var(--ease), transform 0.35s var(--spring);
+  margin: $px;
+  @include pixel-icon-btn;
 
   svg {
     width: 1.35rem;
     height: 1.35rem;
-  }
-
-  &:hover {
-    color: var(--text);
-    background-color: var(--field);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
-    transform: scale(1.08);
   }
 }
 
@@ -45,16 +38,16 @@ $track-height: 4px;
 
   &::-webkit-slider-runnable-track {
     height: $track-height;
-    border-radius: 999px;
+    border-radius: 0;
     background: rgba(255, 255, 255, 0.22);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
   }
 
   &::-moz-range-track {
     height: $track-height;
-    border-radius: 999px;
+    border-radius: 0;
     background: rgba(255, 255, 255, 0.22);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
   }
 
   &::-webkit-slider-thumb {
@@ -63,18 +56,18 @@ $track-height: 4px;
     height: $thumb;
     margin-top: calc((#{$track-height} - #{$thumb}) / 2);
     border: 0;
-    border-radius: 50%;
-    background: linear-gradient(180deg, #fff, #d9d3dc);
-    box-shadow: inset 0 1px 1px #fff, 0 2px 8px rgba(0, 0, 0, 0.45);
+    border-radius: 0;
+    background: var(--text);
+    box-shadow: 0 0 0 2px #1a1420, 0 3px 0 2px rgba(0, 0, 0, 0.5);
   }
 
   &::-moz-range-thumb {
     width: $thumb;
     height: $thumb;
     border: 0;
-    border-radius: 50%;
-    background: linear-gradient(180deg, #fff, #d9d3dc);
-    box-shadow: inset 0 1px 1px #fff, 0 2px 8px rgba(0, 0, 0, 0.45);
+    border-radius: 0;
+    background: var(--text);
+    box-shadow: 0 0 0 2px #1a1420, 0 3px 0 2px rgba(0, 0, 0, 0.5);
   }
 
   &:hover::-webkit-slider-thumb {

@@ -1,6 +1,6 @@
 @import '../../../styles/base';
 
-// Flat, chunky buttons with a solid drop edge, like a key in a pixel game.
+// Chunky pixel keys: notched corners, hard outline, solid drop edge.
 // Pressing pushes the face down onto that edge.
 @mixin base {
   display: inline-flex;
@@ -8,24 +8,23 @@
   align-items: center;
   gap: 0.5rem;
   min-height: 2.75rem;
-  padding: 0.7rem 1.6rem;
-  border-radius: 10px;
+  margin: $px;
+  padding: 0.6rem 1.6rem;
   font-family: var(--font-pixel);
-  font-size: 1.0625rem;
-  font-weight: 500;
+  font-size: 1.375rem;
+  font-weight: 400;
   line-height: 1;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   text-shadow: none;
   user-select: none;
-  transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease),
-    background-color 0.2s var(--ease), opacity 0.2s var(--ease);
+  transition: transform 0.1s $pixel-steps, background-color 0.1s $pixel-steps;
 
   &:hover {
     transform: translateY(-1px);
   }
 
   &:active {
-    transform: translateY(2px);
+    @include pixel-pressed;
   }
 
   &:disabled {
@@ -37,36 +36,36 @@
 .button {
   @include base;
   color: var(--accent-ink);
-  background-color: var(--accent);
-  box-shadow: 0 3px 0 #b8662a, 0 8px 18px rgba(0, 0, 0, 0.35);
+  @include pixel-box(var(--accent), #2a1708, $drop: #8a4a1c);
 
   &:hover {
     background-color: var(--accent-hover);
-    box-shadow: 0 4px 0 #b8662a, 0 10px 20px rgba(0, 0, 0, 0.35);
   }
 
   &:active {
-    box-shadow: 0 1px 0 #b8662a, 0 4px 10px rgba(0, 0, 0, 0.35);
+    @include pixel-box(var(--accent), #2a1708, $drop: #8a4a1c, $lift: 0);
   }
 }
 
 .invertButton {
   @include base;
   color: var(--text);
-  background-color: rgba(10, 7, 14, 0.5);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 3px 0 rgba(0, 0, 0, 0.45);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  @include pixel-box(
+    rgba(14, 11, 24, 0.82),
+    rgba(246, 241, 234, 0.75),
+    $highlight: rgba(255, 255, 255, 0.1)
+  );
 
   &:hover {
-    background-color: rgba(10, 7, 14, 0.65);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.26),
-      0 4px 0 rgba(0, 0, 0, 0.45);
+    background-color: rgba(30, 24, 48, 0.9);
   }
 
   &:active {
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.26),
-      0 1px 0 rgba(0, 0, 0, 0.45);
+    @include pixel-box(
+      rgba(14, 11, 24, 0.82),
+      rgba(246, 241, 234, 0.75),
+      $lift: 0,
+      $highlight: rgba(255, 255, 255, 0.1)
+    );
   }
 }

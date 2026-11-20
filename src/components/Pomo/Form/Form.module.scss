@@ -1,3 +1,5 @@
+@import '../../../styles/base';
+
 .form {
   display: flex;
   flex-direction: column;
@@ -11,7 +13,7 @@
   gap: 0.6rem;
 
   label {
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: var(--text-muted);
   }
 }
@@ -23,7 +25,7 @@
 
   span {
     font-family: var(--font-pixel);
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: var(--text-muted);
   }
 }
@@ -31,8 +33,9 @@
 .timeInput {
   width: 5.5rem;
   text-align: center;
+  margin-left: $px;
   font-family: var(--font-pixel);
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-variant-numeric: tabular-nums;
 }
 

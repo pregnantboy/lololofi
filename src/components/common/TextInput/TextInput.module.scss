@@ -1,30 +1,43 @@
-// Quiet, dark fields that sit in the scene rather than on a card.
+@import '../../../styles/base';
+
+// Dark pixel fields with a notched outline that lights up amber on focus.
 .input {
   width: 100%;
   min-height: 3rem;
-  padding: 0.7rem 1rem;
+  margin: $px 0;
+  padding: 0.55rem 1rem;
   border: 0;
-  border-radius: 10px;
-  background-color: rgba(10, 7, 14, 0.5);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  @include pixel-box(
+    rgba(10, 7, 14, 0.78),
+    rgba(246, 241, 234, 0.55),
+    $drop: rgba(0, 0, 0, 0.45),
+    $highlight: rgba(0, 0, 0, 0.35),
+    $shade: rgba(255, 255, 255, 0.06)
+  );
   color: var(--text);
-  font-size: 1.0625rem;
+  font-family: var(--font-pixel);
+  font-size: 1.375rem;
+  line-height: 1;
   text-shadow: none;
-  transition: background-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
 
   &::placeholder {
     color: var(--text-faint);
+    font-family: var(--font-pixel);
+    opacity: 1;
   }
 
   &:hover {
-    background-color: rgba(10, 7, 14, 0.62);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+    background-color: rgba(10, 7, 14, 0.88);
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow: inset 0 0 0 2px var(--accent);
+    @include pixel-box(
+      rgba(10, 7, 14, 0.88),
+      var(--accent),
+      $drop: rgba(0, 0, 0, 0.45),
+      $highlight: rgba(0, 0, 0, 0.35),
+      $shade: rgba(255, 255, 255, 0.06)
+    );
   }
 }

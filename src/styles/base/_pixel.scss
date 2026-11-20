@@ -1,0 +1,68 @@
+// Pixel art surfaces: square corners notched by one "pixel", a hard outline,
+// a light/dark bevel inside and a solid drop edge below. No blur, no curves,
+// so controls look like they belong in the scene.
+$px: 3px;
+
+@mixin pixel-box(
+  $fill,
+  $edge,
+  $drop: rgba(0, 0, 0, 0.55),
+  $lift: 1,
+  $highlight: rgba(255, 255, 255, 0.22),
+  $shade: rgba(0, 0, 0, 0.28)
+) {
+  border-radius: 0;
+  background: $fill;
+  // The four offset shadows draw the outline and leave the corners empty,
+  // which gives the stepped pixel corner.
+  box-shadow:
+    inset $px $px 0 0 $highlight,
+    inset (-$px) (-$px) 0 0 $shade,
+    0 (-$px) 0 0 $edge,
+    0 $px 0 0 $edge,
+    (-$px) 0 0 0 $edge,
+    $px 0 0 0 $edge,
+    0 ($px * (1 + $lift)) 0 0 $drop;
+}
+
+// Press state: the face drops onto its edge.
+@mixin pixel-pressed {
+  transform: translateY($px);
+}
+
+// Snappy, frame-like motion instead of smooth easing.
+$pixel-steps: steps(2, end);
+
+// Square icon button: bare until hovered, then a dark pixel tile appears.
+@mixin pixel-icon-btn {
+  border-radius: 0;
+  color: var(--text-muted);
+  transition: color 0.1s $pixel-steps, transform 0.1s $pixel-steps;
+
+  &:hover {
+    color: var(--text);
+    @include pixel-box(
+      rgba(255, 255, 255, 0.1),
+      rgba(246, 241, 234, 0.45),
+      $drop: rgba(0, 0, 0, 0.45),
+      $lift: 0,
+      $highlight: rgba(255, 255, 255, 0.12)
+    );
+  }
+
+  &:active {
+    @include pixel-pressed;
+  }
+}
+
+// Amber pixel tile for primary or active controls.
+@mixin pixel-accent {
+  color: var(--accent-ink);
+  @include pixel-box(
+    var(--accent),
+    #2a1708,
+    $drop: #8a4a1c,
+    $highlight: rgba(255, 255, 255, 0.4),
+    $shade: rgba(120, 50, 0, 0.35)
+  );
+}

@@ -4,8 +4,14 @@
   width: 100%;
   max-width: 44rem;
   padding: 0.9rem 1.25rem 0.75rem;
-  border-radius: var(--radius-lg);
-  @include glass(20px, $rim: false);
+  margin-bottom: $px * 2;
+  @include pixel-box(
+    rgba(14, 11, 24, 0.86),
+    rgba(246, 241, 234, 0.7),
+    $drop: rgba(0, 0, 0, 0.6),
+    $highlight: rgba(255, 255, 255, 0.08),
+    $shade: rgba(0, 0, 0, 0.3)
+  );
 }
 
 .nowPlaying {
